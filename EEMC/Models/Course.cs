@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EEMC.Models
 {
-    class Course
+    public class Course
     {
         public string name = "";
     }

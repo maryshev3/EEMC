@@ -3,6 +3,7 @@ D:\netLessons\EEMC\EEMC\bin\Debug\net6.0-windows\EEMC.deps.json
 D:\netLessons\EEMC\EEMC\bin\Debug\net6.0-windows\EEMC.runtimeconfig.json
 D:\netLessons\EEMC\EEMC\bin\Debug\net6.0-windows\EEMC.dll
 D:\netLessons\EEMC\EEMC\bin\Debug\net6.0-windows\EEMC.pdb
+D:\netLessons\EEMC\EEMC\bin\Debug\net6.0-windows\Newtonsoft.Json.dll
 D:\netLessons\EEMC\EEMC\obj\Debug\net6.0-windows\EEMC.csproj.AssemblyReference.cache
 D:\netLessons\EEMC\EEMC\obj\Debug\net6.0-windows\Views\MainWindow.g.cs
 D:\netLessons\EEMC\EEMC\obj\Debug\net6.0-windows\App.g.cs
@@ -14,6 +15,7 @@ D:\netLessons\EEMC\EEMC\obj\Debug\net6.0-windows\EEMC.GeneratedMSBuildEditorConf
 D:\netLessons\EEMC\EEMC\obj\Debug\net6.0-windows\EEMC.AssemblyInfoInputs.cache
 D:\netLessons\EEMC\EEMC\obj\Debug\net6.0-windows\EEMC.AssemblyInfo.cs
 D:\netLessons\EEMC\EEMC\obj\Debug\net6.0-windows\EEMC.csproj.CoreCompileInputs.cache
+D:\netLessons\EEMC\EEMC\obj\Debug\net6.0-windows\EEMC.csproj.CopyComplete
 D:\netLessons\EEMC\EEMC\obj\Debug\net6.0-windows\EEMC.dll
 D:\netLessons\EEMC\EEMC\obj\Debug\net6.0-windows\refint\EEMC.dll
 D:\netLessons\EEMC\EEMC\obj\Debug\net6.0-windows\EEMC.pdb
