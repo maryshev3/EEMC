@@ -8,6 +8,7 @@ namespace EEMC.Models
 {
     public class Course
     {
-        public string name = "";
+        [Newtonsoft.Json.JsonProperty("name")]
+        public string Name = "";
     }
 }
