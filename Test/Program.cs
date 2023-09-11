@@ -1,51 +1,28 @@
 ﻿using EEMC.Models;
 using Xunit;
 
-void JSONCoursesManagerParseTest() 
+void ExplorerBuilderTest() 
 {
-    JSONCoursesManager parser = new JSONCoursesManager(Path.Combine(Environment.CurrentDirectory, "../../..", "Courses.json"));
+    //Arrange
+    Explorer exp;
+    
+    //Act
+    exp = ExplorerBuilder.Build(Path.Combine(Environment.CurrentDirectory, "Курсы"));
 
-    List<Course> result = parser.Parse();
+    //Assert
+    Assert.Equal("Курсы", exp.Name);
+    Assert.Equal(ContentType.Folder, exp.Type);
 
-    Assert.Equal("Математический анализ", result[0].Name);
-    Assert.Equal("Дифференциальные уравнения", result[1].Name);
-    Assert.Equal("Комплексный анализ", result[2].Name);
-    Assert.Equal("Уравнения математической физики", result[3].Name);
+    Assert.Equal("Комп анализ", exp.Content[0].Name);
+    Assert.Equal(ContentType.Folder, exp.Content[0].Type);
+    Assert.Equal("Мат анализ", exp.Content[1].Name);
+    Assert.Equal(ContentType.Folder, exp.Content[1].Type);
+    Assert.Equal("Положение.txt", exp.Content[2].Name);
+    Assert.Equal(ContentType.File, exp.Content[2].Type);
+
+    Assert.Empty(exp.Content[0].Content);
+    Assert.Equal("Лекция.txt", exp.Content[1].Content[0].Name);
+    Assert.Equal(ContentType.File, exp.Content[1].Content[0].Type);
 }
 
-void JSONCoursesManagerUpdateTest() 
-{
-    JSONCoursesManager saver = new JSONCoursesManager(Path.Combine(Environment.CurrentDirectory, "../../..", "CoursesSave.json"));
-    List<Course> courses = new List<Course>() 
-        { 
-            new Course() { Name = "Математический анализ" },
-            new Course() { Name = "Дифференциальные уравнения" } 
-        };
-
-    saver.Save(courses);
-
-    List<Course> result = saver.Parse();
-    Assert.Equal("Математический анализ", result[0].Name);
-    Assert.Equal("Дифференциальные уравнения", result[1].Name);
-}
-
-void t() 
-{
-    string FoundedFolderCourses = Array.Find(Directory.GetDirectories(Environment.CurrentDirectory), (x) =>
-    {
-        return x == Path.Combine(Environment.CurrentDirectory, "Курсы");
-    });
-    Console.WriteLine(FoundedFolderCourses);
-}
-
-JSONCoursesManagerParseTest();
-JSONCoursesManagerUpdateTest();
-t();
-
-string[] str1 = { "0", "1" }, str2 = { "2", "3" };
-
-str1 = str2;
-
-str2[1] = "sa";
-
-Console.WriteLine(str1[0] + "" + str1[1]);
+ExplorerBuilderTest();
