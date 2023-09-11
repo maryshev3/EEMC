@@ -29,5 +29,23 @@ void JSONCoursesManagerUpdateTest()
     Assert.Equal("Дифференциальные уравнения", result[1].Name);
 }
 
+void t() 
+{
+    string FoundedFolderCourses = Array.Find(Directory.GetDirectories(Environment.CurrentDirectory), (x) =>
+    {
+        return x == Path.Combine(Environment.CurrentDirectory, "Курсы");
+    });
+    Console.WriteLine(FoundedFolderCourses);
+}
+
 JSONCoursesManagerParseTest();
 JSONCoursesManagerUpdateTest();
+t();
+
+string[] str1 = { "0", "1" }, str2 = { "2", "3" };
+
+str1 = str2;
+
+str2[1] = "sa";
+
+Console.WriteLine(str1[0] + "" + str1[1]);

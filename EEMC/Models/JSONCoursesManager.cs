@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EEMC.Models
 {
-    public class JSONCoursesManager
+    public class JSONCoursesManager : IManager
     {
         private string _JSONPath;
 

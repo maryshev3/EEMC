@@ -10,19 +10,19 @@ namespace EEMC.Models
     internal class CourseController
     {
 
-        private JSONCoursesManager _JSONCoursesManager;
+        private IManager _manager;
 
         private List<Course> _courses;
 
         public List<Course> Courses => _courses;
 
-        public CourseController(JSONCoursesManager JSONCoursesManager) 
+        public CourseController(IManager Manager) 
         {
-            _JSONCoursesManager = JSONCoursesManager;
+            _manager = Manager;
 
             try
             {
-                _courses = JSONCoursesManager.Parse();
+                _courses = _manager.Parse();
             }
             catch (Exception) 
             {
@@ -45,7 +45,7 @@ namespace EEMC.Models
 
             _courses.Add(new Course() { Name = CourseName });
 
-            _JSONCoursesManager.Save(_courses);
+            _manager.Save(_courses);
         }
 
         public void RemoveCourse(string CourseName)
@@ -57,7 +57,7 @@ namespace EEMC.Models
 
             _courses.Remove(FindedCourse);
 
-            _JSONCoursesManager.Save(_courses);
+            _manager.Save(_courses);
         }
     }
 }
