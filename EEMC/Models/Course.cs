@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -8,8 +9,14 @@ using System.Threading.Tasks;
 
 namespace EEMC.Models
 {
-    public class Course
+    public class Course : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
         private ObservableCollection<Explorer>? _courses;
 
         public Course(ObservableCollection<Explorer>? Courses) 
@@ -19,7 +26,7 @@ namespace EEMC.Models
             var watcher = new FileSystemWatcher(Path.Combine(Environment.CurrentDirectory, "Курсы"))
             {
                 EnableRaisingEvents = true,
-                IncludeSubdirectories = true,
+                IncludeSubdirectories = true
             };
 
             watcher.Changed += OnDirectoryChanged;
@@ -31,6 +38,7 @@ namespace EEMC.Models
         private void OnDirectoryChanged(object sender, FileSystemEventArgs e) 
         {
             _courses = CourseBuilder.Build(new ExplorerBuilder())._courses;
+            OnPropertyChanged("Courses");
         }
 
         public IEnumerable<Explorer> Courses 

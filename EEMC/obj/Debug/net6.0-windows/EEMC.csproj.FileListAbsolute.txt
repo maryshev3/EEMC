@@ -21,3 +21,6 @@ D:\netLessons\EEMC\EEMC\obj\Debug\net6.0-windows\refint\EEMC.dll
 D:\netLessons\EEMC\EEMC\obj\Debug\net6.0-windows\EEMC.pdb
 D:\netLessons\EEMC\EEMC\obj\Debug\net6.0-windows\EEMC.genruntimeconfig.cache
 D:\netLessons\EEMC\EEMC\obj\Debug\net6.0-windows\ref\EEMC.dll
+D:\netLessons\EEMC\EEMC\bin\Debug\net6.0-windows\DevExpress.Mvvm.UI.dll
+D:\netLessons\EEMC\EEMC\bin\Debug\net6.0-windows\DevExpress.Mvvm.dll
+D:\netLessons\EEMC\EEMC\obj\Debug\net6.0-windows\GeneratedInternalTypeHelper.g.cs

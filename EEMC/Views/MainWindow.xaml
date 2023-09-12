@@ -4,9 +4,22 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EEMC.Views"
+        xmlns:viewmodels="clr-namespace:EEMC.ViewModels"
+        d:DataContext="{d:DesignInstance Type=viewmodels:MainWindowVM}"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
+    
+    <Window.DataContext>
+        <viewmodels:MainWindowVM />
+    </Window.DataContext>
 
+    <Grid>
+        <ListBox Name="phonesList" ItemsSource="{Binding Path=Courses.Courses}">
+            <ListBox.ItemTemplate >
+                <HierarchicalDataTemplate>
+                    <TextBlock Text="{Binding Path=Name}" />
+                </HierarchicalDataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
     </Grid>
 </Window>

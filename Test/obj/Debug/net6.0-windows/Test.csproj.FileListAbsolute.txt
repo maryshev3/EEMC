@@ -24,3 +24,5 @@ D:\netLessons\EEMC\Test\bin\Debug\net6.0-windows\xunit.abstractions.dll
 D:\netLessons\EEMC\Test\bin\Debug\net6.0-windows\xunit.assert.dll
 D:\netLessons\EEMC\Test\bin\Debug\net6.0-windows\xunit.core.dll
 D:\netLessons\EEMC\Test\bin\Debug\net6.0-windows\xunit.execution.dotnet.dll
+D:\netLessons\EEMC\Test\bin\Debug\net6.0-windows\DevExpress.Mvvm.UI.dll
+D:\netLessons\EEMC\Test\bin\Debug\net6.0-windows\DevExpress.Mvvm.dll
