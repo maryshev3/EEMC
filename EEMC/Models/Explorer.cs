@@ -13,12 +13,6 @@ namespace EEMC.Models
         Folder
     }
 
-    //public struct Content 
-    //{
-    //    public string Name;
-    //    public ContentType Type;
-    //} 
-
     public class Explorer
     {
         private string _name;
@@ -28,8 +22,18 @@ namespace EEMC.Models
             set => _name = value;
         }
 
+        public string NameWithPath;
+
         public ContentType Type;
 
         public ObservableCollection<Explorer>? Content;
+
+        public Explorer(string Name, string NameWithPath, ContentType Type, ObservableCollection<Explorer>? Content) 
+        {
+            this._name = Name;
+            this.NameWithPath = NameWithPath;
+            this.Type = Type;
+            this.Content = Content;
+        }
     }
 }

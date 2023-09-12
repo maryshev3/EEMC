@@ -3,21 +3,24 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace EEMC.Models
 {
-    public static class ExplorerBuilder
+    public class ExplorerBuilder
     {
         public static Explorer Build(string ExplorerPath) 
         {
-            Explorer explorer = new Explorer();
-
-            explorer.Name = ExplorerPath.Split(Path.DirectorySeparatorChar).Last();
-            explorer.Type = explorer.Name.Contains('.') ? ContentType.File : ContentType.Folder;
-
-            explorer.Content = new ObservableCollection<Explorer>();
+            string ExpName = ExplorerPath.Split(Path.DirectorySeparatorChar).Last();
+            Explorer explorer = new Explorer
+                (
+                    ExplorerPath.Split(Path.DirectorySeparatorChar).Last(),
+                    ExplorerPath.Remove(0, Environment.CurrentDirectory.Length),
+                    ExpName.Contains('.') ? ContentType.File : ContentType.Folder,
+                    new ObservableCollection<Explorer>()
+                );
 
             //Заполняем папки
             string[] directories = Directory.GetDirectories(ExplorerPath);
@@ -26,8 +29,17 @@ namespace EEMC.Models
 
             //Заполняем файлы
             string[] content = Directory.GetFiles(ExplorerPath);
-            foreach (string file in content) 
-                explorer.Content.Add(new Explorer() { Name = Path.GetFileName(file) });
+            foreach (string file in content)
+                explorer.Content.Add
+                    (
+                        new Explorer
+                        (
+                            Path.GetFileName(file),
+                            file.Remove(0, Environment.CurrentDirectory.Length),
+                            ContentType.File,
+                            null
+                        )
+                    );
 
             return explorer;
         }
