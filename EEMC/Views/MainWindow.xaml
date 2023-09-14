@@ -7,19 +7,65 @@
         xmlns:viewmodels="clr-namespace:EEMC.ViewModels"
         d:DataContext="{d:DesignInstance Type=viewmodels:MainWindowVM}"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    
+        Title="MainWindow" Height="540" Width="960" x:Name="MNWindow">
+
     <Window.DataContext>
         <viewmodels:MainWindowVM />
     </Window.DataContext>
 
+    <Window.Resources>
+        <Style TargetType="Button" x:Key="RoundButton">
+            <Style.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="10" />
+                </Style>
+            </Style.Resources>
+        </Style>
+    </Window.Resources>
+
     <Grid>
-        <ListBox Name="phonesList" ItemsSource="{Binding Path=Courses.Courses}">
-            <ListBox.ItemTemplate >
-                <HierarchicalDataTemplate>
-                    <TextBlock Text="{Binding Path=Name}" />
-                </HierarchicalDataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" x:Name="CoursesListWidth"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" Name="he"/>
+        </Grid.RowDefinitions>
+
+        <Grid>
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <ItemsControl
+                    Name="CoursesList"
+                    ItemsSource="{Binding Path=Courses.Courses, Mode=OneWay}"
+                    Grid.ColumnSpan="2"
+                    Padding="0"
+                    HorizontalContentAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    Background="#EE5648">
+
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button
+                                Style="{DynamicResource RoundButton}"
+                                Content="{Binding Path=Name}"
+                                Background="#FFFFFF"
+                                Foreground="#EE5648"
+                                Height="auto"
+                                Width="auto"
+                                HorizontalAlignment="Stretch"
+                                Margin="10"
+                                HorizontalContentAlignment="Center"
+                                Padding="5"
+                                BorderBrush="Red"
+                                />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </Grid>
+
+        <Frame
+             Grid.Column="1"/>
     </Grid>
 </Window>

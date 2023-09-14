@@ -30,9 +30,14 @@ namespace EEMC.ViewModels
             }
         }
 
-        public MainWindowVM() 
+        public MainWindowVM()
         {
-            _courses = CourseBuilder.Build(new ExplorerBuilder());
+            Courses = CourseBuilder.Build(new ExplorerBuilder());
+        }
+
+        private void OnDirectoryChanged(object sender, FileSystemEventArgs e)
+        {
+            Courses = CourseBuilder.Build(new ExplorerBuilder());
         }
     }
 }

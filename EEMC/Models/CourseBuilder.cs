@@ -20,8 +20,6 @@ namespace EEMC.Models
                             .Where(x => x.Type == ContentType.Folder)
                     )
                 );
-
-            
         }
     }
 }
