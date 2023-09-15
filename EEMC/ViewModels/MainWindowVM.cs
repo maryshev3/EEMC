@@ -1,5 +1,6 @@
-﻿using DevExpress.Mvvm;
+﻿
 using EEMC.Models;
+using EEMC.Views;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -7,6 +8,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace EEMC.ViewModels
 {
@@ -30,14 +33,25 @@ namespace EEMC.ViewModels
             }
         }
 
-        public MainWindowVM()
+        private Page _currentPage;
+        public Page CurrentPage 
         {
-            Courses = CourseBuilder.Build(new ExplorerBuilder());
+            get => _currentPage;
+            set 
+            {
+                _currentPage = value;
+                OnPropertyChanged("CurrentPage");
+            }
         }
 
-        private void OnDirectoryChanged(object sender, FileSystemEventArgs e)
+        public MainWindowVM()
         {
-            Courses = CourseBuilder.Build(new ExplorerBuilder());
+            Courses = new Course();
+        }
+
+        public ICommand bMenu_Click 
+        {
+            get => new DelegateCommand((obj) => CurrentPage = new CourseWindow());
         }
     }
 }

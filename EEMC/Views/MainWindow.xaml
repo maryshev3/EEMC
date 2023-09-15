@@ -10,7 +10,7 @@
         Title="MainWindow" Height="540" Width="960" x:Name="MNWindow">
 
     <Window.DataContext>
-        <viewmodels:MainWindowVM />
+        <viewmodels:MainWindowVM/>
     </Window.DataContext>
 
     <Window.Resources>
@@ -49,6 +49,7 @@
                             <Button
                                 Style="{DynamicResource RoundButton}"
                                 Content="{Binding Path=Name}"
+                                Command="{Binding ElementName=CoursesList, Path=DataContext.bMenu_Click}"
                                 Background="#FFFFFF"
                                 Foreground="#EE5648"
                                 Height="auto"
@@ -66,6 +67,7 @@
         </Grid>
 
         <Frame
-             Grid.Column="1"/>
+            Content="{Binding CurrentPage}"
+            Grid.Column="1"/>
     </Grid>
 </Window>
