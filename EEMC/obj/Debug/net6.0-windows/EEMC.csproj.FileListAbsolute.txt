@@ -28,3 +28,4 @@ D:\netLessons\EEMC\EEMC\obj\Debug\net6.0-windows\Views\CourseWindow.g.cs
 D:\netLessons\EEMC\EEMC\obj\Debug\net6.0-windows\Views\CourseWindow.baml
 D:\netLessons\EEMC\EEMC\bin\Debug\net6.0-windows\Microsoft.Extensions.DependencyInjection.dll
 D:\netLessons\EEMC\EEMC\bin\Debug\net6.0-windows\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+D:\netLessons\EEMC\EEMC\obj\Debug\net6.0-windows\App.baml

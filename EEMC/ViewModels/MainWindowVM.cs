@@ -1,26 +1,25 @@
 ﻿
+using DevExpress.Mvvm;
+using EEMC.Messages;
 using EEMC.Models;
+using EEMC.Services;
 using EEMC.Views;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace EEMC.ViewModels
 {
-    internal class MainWindowVM : INotifyPropertyChanged
+    public class MainWindowVM : ViewModelBase
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
         private Course _courses;
         public Course Courses
         {
@@ -29,7 +28,7 @@ namespace EEMC.ViewModels
             set
             {
                 _courses = value;
-                OnPropertyChanged("Courses");
+                RaisePropertyChanged(() => Courses);
             }
         }
 
@@ -40,18 +39,26 @@ namespace EEMC.ViewModels
             set 
             {
                 _currentPage = value;
-                OnPropertyChanged("CurrentPage");
+                RaisePropertyChanged(() => CurrentPage);
             }
         }
 
-        public MainWindowVM()
+        private readonly MessageBus _messageBus;
+
+        public MainWindowVM(Course courses, MessageBus messageBus)
         {
-            Courses = new Course();
+            _courses = courses;
+            _messageBus = messageBus;
         }
 
         public ICommand bMenu_Click 
         {
-            get => new DelegateCommand((obj) => CurrentPage = new CourseWindow());
+            get => new DelegateCommand(async (ChosenCourse) => 
+            {
+                CurrentPage = new CourseWindow();
+
+                await _messageBus.SendTo<CourseWindowVM>(new CourseMessage(ChosenCourse as Explorer));
+            });
         }
     }
 }

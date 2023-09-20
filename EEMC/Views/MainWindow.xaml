@@ -7,11 +7,11 @@
         xmlns:viewmodels="clr-namespace:EEMC.ViewModels"
         d:DataContext="{d:DesignInstance Type=viewmodels:MainWindowVM}"
         mc:Ignorable="d"
-        Title="MainWindow" Height="540" Width="960" x:Name="MNWindow">
-
-    <Window.DataContext>
-        <viewmodels:MainWindowVM/>
-    </Window.DataContext>
+        Title="MainWindow"
+        Height="540"
+        Width="960"
+        DataContext="{Binding MainWindowVM, Source={StaticResource ViewModelLocator}}"
+        x:Name="MNWindow">
 
     <Window.Resources>
         <Style TargetType="Button" x:Key="RoundButton">
@@ -44,12 +44,14 @@
                     VerticalAlignment="Stretch"
                     Background="#EE5648">
 
+
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Button
                                 Style="{DynamicResource RoundButton}"
                                 Content="{Binding Path=Name}"
                                 Command="{Binding ElementName=CoursesList, Path=DataContext.bMenu_Click}"
+                                CommandParameter="{Binding}"
                                 Background="#FFFFFF"
                                 Foreground="#EE5648"
                                 Height="auto"

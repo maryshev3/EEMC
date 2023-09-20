@@ -6,9 +6,10 @@
       xmlns:local="clr-namespace:EEMC.Views"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="CourseWindow">
+      Title="CourseWindow"
+      DataContext="{Binding CourseWindowVM, Source={StaticResource ViewModelLocator}}">
 
     <Grid>
-        <TextBlock>Fasfsa</TextBlock>
+        <TextBox Text="{Binding Path=CurrentCourse.Name}"/>
     </Grid>
 </Page>
