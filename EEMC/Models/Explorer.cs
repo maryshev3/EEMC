@@ -26,7 +26,7 @@ namespace EEMC.Models
 
         public ContentType Type;
 
-        public ObservableCollection<Explorer>? Content;
+        public ObservableCollection<Explorer>? Content { get; set; }
 
         public Explorer(string Name, string NameWithPath, ContentType Type, ObservableCollection<Explorer>? Content) 
         {

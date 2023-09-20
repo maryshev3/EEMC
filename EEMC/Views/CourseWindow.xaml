@@ -10,6 +10,27 @@
       DataContext="{Binding CourseWindowVM, Source={StaticResource ViewModelLocator}}">
 
     <Grid>
-        <TextBox Text="{Binding Path=CurrentCourse.Name}"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid>
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <TreeView x:Name="treeView1" ItemsSource="{Binding Path=CurrentCourse.Content}">
+                    <TreeView.ItemTemplate>
+                        <HierarchicalDataTemplate ItemsSource="{Binding Content}">
+                            <TextBlock Text="{Binding Name}" />
+                        </HierarchicalDataTemplate>
+                    </TreeView.ItemTemplate>
+                </TreeView>
+            </ScrollViewer>
+        </Grid>
+        
+        
     </Grid>
 </Page>

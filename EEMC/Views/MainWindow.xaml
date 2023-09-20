@@ -25,12 +25,12 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200" x:Name="CoursesListWidth"/>
+            <ColumnDefinition Width="200"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="*" Name="he"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <Grid>
@@ -70,6 +70,8 @@
 
         <Frame
             Content="{Binding CurrentPage}"
-            Grid.Column="1"/>
+            Grid.Column="1"
+            NavigationUIVisibility="Hidden"
+            Background="#F5E7E3"/>
     </Grid>
 </Window>
