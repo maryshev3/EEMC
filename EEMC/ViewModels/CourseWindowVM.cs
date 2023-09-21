@@ -67,7 +67,6 @@ namespace EEMC.ViewModels
                     string str = Path.Combine(Environment.CurrentDirectory, Path.GetFileNameWithoutExtension((ChosenFile as Explorer).Name) + ".xps");
 
                     Document = new WordConverter().ToXpsConvert(OrigibDocumentName, Path.Combine(Environment.CurrentDirectory, Path.GetFileNameWithoutExtension((ChosenFile as Explorer).Name) + ".xps")).GetFixedDocumentSequence();
-                    //Document = new WordConverter().ToXpsConvert("D:\\netLessons\\EEMC\\EEMC\\bin\\Debug\\net6.0-windows\\Курсы\\Мат анализ\\Новая папка\\wr.docx", "D:\\netLessons\\EEMC\\EEMC\\bin\\Debug\\net6.0-windows\\Курсы\\Мат анализ\\Новая папка\\wr.xps");
                     
                     //MessageBox.Show(newXPSDocumentName);
                 }
