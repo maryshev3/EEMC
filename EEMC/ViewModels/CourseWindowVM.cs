@@ -31,6 +31,10 @@ namespace EEMC.ViewModels
             }
         }
 
+        private XpsDocument _xpsDocument;
+
+        private string _chosenFileWithoutExtension = "";
+
         private Explorer _currentCourse;
 
         public Explorer CurrentCourse
@@ -55,20 +59,24 @@ namespace EEMC.ViewModels
                 });
         }
 
+        static WordConverter _wordConverter = new WordConverter();
+
         public ICommand ShowDocument 
         {
             get => new DelegateCommand((ChosenFile) =>
             {
-                if (Path.GetExtension((ChosenFile as Explorer).NameWithPath) == ".docx") 
+                if (Path.GetExtension((ChosenFile as Explorer).NameWithPath) == ".docx" && Path.GetFileNameWithoutExtension((ChosenFile as Explorer).Name) != _chosenFileWithoutExtension) 
                 {
-                    //string newXPSDocumentName = String.Concat(System.IO.Path.GetDirectoryName(dlg.FileName), "\\",  System.IO.Path.GetFileNameWithoutExtension(dlg.FileName), ".xps");
+                    XpsDocument oldXpsPackage = _xpsDocument;
                     string OrigibDocumentName = Environment.CurrentDirectory + "\\" + (ChosenFile as Explorer).NameWithPath;
-
+                    _chosenFileWithoutExtension = Path.GetFileNameWithoutExtension(OrigibDocumentName);
                     string str = Path.Combine(Environment.CurrentDirectory, Path.GetFileNameWithoutExtension((ChosenFile as Explorer).Name) + ".xps");
 
-                    Document = new WordConverter().ToXpsConvert(OrigibDocumentName, Path.Combine(Environment.CurrentDirectory, Path.GetFileNameWithoutExtension((ChosenFile as Explorer).Name) + ".xps")).GetFixedDocumentSequence();
-                    
-                    //MessageBox.Show(newXPSDocumentName);
+                    _xpsDocument = _wordConverter.ToXpsConvert(OrigibDocumentName, Path.Combine(Environment.CurrentDirectory, Path.GetFileNameWithoutExtension((ChosenFile as Explorer).Name) + ".xps"));
+                    Document = _xpsDocument.GetFixedDocumentSequence();
+
+                    if (oldXpsPackage != null)
+                        oldXpsPackage.Close();
                 }
             });
         }

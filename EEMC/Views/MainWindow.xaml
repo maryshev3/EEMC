@@ -71,7 +71,7 @@
         <Frame
             Content="{Binding CurrentPage}"
             Grid.Column="1"
-            NavigationUIVisibility="Hidden"
+            
             Background="#F5E7E3"/>
     </Grid>
 </Window>

@@ -21,14 +21,18 @@ namespace EEMC.ToXPSConverteres
             try
             {
                 doc.SaveAs(XPSFileName, WdSaveFormat.wdFormatXPS);
+                //doc.Close();
 
                 wordApplication.Quit();
 
-                return new XpsDocument(XPSFileName, System.IO.FileAccess.Read);
+                XpsDocument xpsDoc = new XpsDocument(XPSFileName, System.IO.FileAccess.Read);
+
+                return xpsDoc;
             }
             catch (Exception exp)
             {
                 string str = exp.Message;
+                ;
             }
 
             return null;
