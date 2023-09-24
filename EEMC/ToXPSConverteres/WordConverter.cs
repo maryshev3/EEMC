@@ -10,7 +10,7 @@ namespace EEMC.ToXPSConverteres
 {
     public class WordConverter : IXPSConvert
     {
-        public async Task<XpsDocument> ToXpsConvert(string OriginFileName, string XPSFileName)
+        public async Task<XpsDocument> ToXpsConvertAsync(string OriginFileName, string XPSFileName)
         {
             return await Task<XpsDocument>.Run(() =>
             {

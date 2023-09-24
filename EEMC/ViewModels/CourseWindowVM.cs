@@ -3,16 +3,9 @@ using EEMC.Messages;
 using EEMC.Models;
 using EEMC.Services;
 using EEMC.ToXPSConverteres;
-using EEMC.Views;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Xps.Packaging;
 
 namespace EEMC.ViewModels
@@ -32,8 +25,6 @@ namespace EEMC.ViewModels
         }
 
         private XpsDocument _xpsDocument;
-
-        private string _chosenFileWithoutExtension = "";
 
         private Explorer _currentCourse;
 
@@ -57,39 +48,21 @@ namespace EEMC.ViewModels
                 {
                     CurrentCourse = message.Course;
                 });
-
-            //ShowDocument = new AsyncCommand(async (ChosenFile) =>
-            //{
-            //    if (Path.GetExtension((ChosenFile as Explorer).NameWithPath) == ".docx" && Path.GetFileNameWithoutExtension((ChosenFile as Explorer).Name) != _chosenFileWithoutExtension)
-            //    {
-            //        XpsDocument oldXpsPackage = _xpsDocument;
-            //        string OrigibDocumentName = Environment.CurrentDirectory + "\\" + (ChosenFile as Explorer).NameWithPath;
-            //        _chosenFileWithoutExtension = Path.GetFileNameWithoutExtension(OrigibDocumentName);
-            //        string str = Path.Combine(Environment.CurrentDirectory, Path.GetFileNameWithoutExtension((ChosenFile as Explorer).Name) + ".xps");
-
-            //        _xpsDocument = await _wordConverter.ToXpsConvert(OrigibDocumentName, Path.Combine(Environment.CurrentDirectory, Path.GetFileNameWithoutExtension((ChosenFile as Explorer).Name) + ".xps"));
-            //        Document = _xpsDocument.GetFixedDocumentSequence();
-
-            //        if (oldXpsPackage != null)
-            //            oldXpsPackage.Close();
-            //    }
-            //});
         }
 
         static WordConverter _wordConverter = new WordConverter();
 
-        public IAsyncCommand ShowDocument
+        public Commands.IAsyncCommand ShowDocument
         {
-            get => new AsyncCommand(async (ChosenFile) =>
+            get => new Commands.AsyncCommand(async (ChosenFile) =>
             {
-                if (Path.GetExtension((ChosenFile as Explorer).NameWithPath) == ".docx" && Path.GetFileNameWithoutExtension((ChosenFile as Explorer).Name) != _chosenFileWithoutExtension)
+                if (Path.GetExtension((ChosenFile as Explorer).NameWithPath) == ".docx")
                 {
                     XpsDocument oldXpsPackage = _xpsDocument;
-                    string OrigibDocumentName = Environment.CurrentDirectory + "\\" + (ChosenFile as Explorer).NameWithPath;
-                    _chosenFileWithoutExtension = Path.GetFileNameWithoutExtension(OrigibDocumentName);
-                    string str = Path.Combine(Environment.CurrentDirectory, Path.GetFileNameWithoutExtension((ChosenFile as Explorer).Name) + ".xps");
 
-                    _xpsDocument = await _wordConverter.ToXpsConvert(OrigibDocumentName, Path.Combine(Environment.CurrentDirectory, Path.GetFileNameWithoutExtension((ChosenFile as Explorer).Name) + ".xps"));
+                    string OriginDocumentName = Environment.CurrentDirectory + "\\" + (ChosenFile as Explorer).NameWithPath;
+
+                    _xpsDocument = await _wordConverter.ToXpsConvertAsync(OriginDocumentName, Path.Combine(Environment.CurrentDirectory, Path.GetFileNameWithoutExtension((ChosenFile as Explorer).Name) + ".xps"));
                     Document = _xpsDocument.GetFixedDocumentSequence();
 
                     if (oldXpsPackage != null)

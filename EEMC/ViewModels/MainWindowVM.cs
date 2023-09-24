@@ -1,18 +1,8 @@
-﻿
-using DevExpress.Mvvm;
+﻿using DevExpress.Mvvm;
 using EEMC.Messages;
 using EEMC.Models;
 using EEMC.Services;
 using EEMC.Views;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -53,7 +43,7 @@ namespace EEMC.ViewModels
 
         public ICommand bMenu_Click 
         {
-            get => new DelegateCommand(async (ChosenCourse) => 
+            get => new Commands.DelegateCommand(async (ChosenCourse) => 
             {
                 CurrentPage = new CourseWindow();
 

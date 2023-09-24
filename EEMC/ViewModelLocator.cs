@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using EEMC.ViewModels;
+﻿using EEMC.ViewModels;
 using EEMC.Models;
 using Microsoft.Extensions.DependencyInjection;
 using EEMC.Services;
@@ -29,6 +24,7 @@ namespace EEMC
             services.AddSingleton<MessageBus>();
 
             _provider = services.BuildServiceProvider();
+
             foreach (var service in services) 
             {
                 _provider.GetRequiredService(service.ServiceType);
