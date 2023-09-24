@@ -9,6 +9,6 @@ namespace EEMC.ToXPSConverteres
 {
     interface IXPSConvert
     {
-        XpsDocument ToXpsConvert(string OriginFileName, string XPSFileName);
+        Task<XpsDocument> ToXpsConvert(string OriginFileName, string XPSFileName);
     }
 }

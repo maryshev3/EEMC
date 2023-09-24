@@ -10,32 +10,34 @@ namespace EEMC.ToXPSConverteres
 {
     public class WordConverter : IXPSConvert
     {
-        public XpsDocument ToXpsConvert(string OriginFileName, string XPSFileName)
+        public async Task<XpsDocument> ToXpsConvert(string OriginFileName, string XPSFileName)
         {
-            Microsoft.Office.Interop.Word.Application wordApplication = new Microsoft.Office.Interop.Word.Application();
-
-            wordApplication.Documents.Add(OriginFileName);
-
-            Document doc = wordApplication.ActiveDocument;
-
-            try
+            return await Task<XpsDocument>.Run(() =>
             {
-                doc.SaveAs(XPSFileName, WdSaveFormat.wdFormatXPS);
-                //doc.Close();
+                Microsoft.Office.Interop.Word.Application wordApplication = new Microsoft.Office.Interop.Word.Application();
 
-                wordApplication.Quit();
+                wordApplication.Documents.Add(OriginFileName);
 
-                XpsDocument xpsDoc = new XpsDocument(XPSFileName, System.IO.FileAccess.Read);
+                Document doc = wordApplication.ActiveDocument;
 
-                return xpsDoc;
+                try
+                {
+                    doc.SaveAs(XPSFileName, WdSaveFormat.wdFormatXPS);
+
+                    wordApplication.Quit();
+
+                    XpsDocument xpsDoc = new XpsDocument(XPSFileName, System.IO.FileAccess.Read);
+
+                    return xpsDoc;
+                }
+                catch (Exception exp)
+                {
+                    string str = exp.Message;
+                }
+
+                return null;
             }
-            catch (Exception exp)
-            {
-                string str = exp.Message;
-                ;
-            }
-
-            return null;
+            );
         }
     }
 }

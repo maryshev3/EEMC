@@ -57,22 +57,39 @@ namespace EEMC.ViewModels
                 {
                     CurrentCourse = message.Course;
                 });
+
+            //ShowDocument = new AsyncCommand(async (ChosenFile) =>
+            //{
+            //    if (Path.GetExtension((ChosenFile as Explorer).NameWithPath) == ".docx" && Path.GetFileNameWithoutExtension((ChosenFile as Explorer).Name) != _chosenFileWithoutExtension)
+            //    {
+            //        XpsDocument oldXpsPackage = _xpsDocument;
+            //        string OrigibDocumentName = Environment.CurrentDirectory + "\\" + (ChosenFile as Explorer).NameWithPath;
+            //        _chosenFileWithoutExtension = Path.GetFileNameWithoutExtension(OrigibDocumentName);
+            //        string str = Path.Combine(Environment.CurrentDirectory, Path.GetFileNameWithoutExtension((ChosenFile as Explorer).Name) + ".xps");
+
+            //        _xpsDocument = await _wordConverter.ToXpsConvert(OrigibDocumentName, Path.Combine(Environment.CurrentDirectory, Path.GetFileNameWithoutExtension((ChosenFile as Explorer).Name) + ".xps"));
+            //        Document = _xpsDocument.GetFixedDocumentSequence();
+
+            //        if (oldXpsPackage != null)
+            //            oldXpsPackage.Close();
+            //    }
+            //});
         }
 
         static WordConverter _wordConverter = new WordConverter();
 
-        public ICommand ShowDocument 
+        public IAsyncCommand ShowDocument
         {
-            get => new DelegateCommand((ChosenFile) =>
+            get => new AsyncCommand(async (ChosenFile) =>
             {
-                if (Path.GetExtension((ChosenFile as Explorer).NameWithPath) == ".docx" && Path.GetFileNameWithoutExtension((ChosenFile as Explorer).Name) != _chosenFileWithoutExtension) 
+                if (Path.GetExtension((ChosenFile as Explorer).NameWithPath) == ".docx" && Path.GetFileNameWithoutExtension((ChosenFile as Explorer).Name) != _chosenFileWithoutExtension)
                 {
                     XpsDocument oldXpsPackage = _xpsDocument;
                     string OrigibDocumentName = Environment.CurrentDirectory + "\\" + (ChosenFile as Explorer).NameWithPath;
                     _chosenFileWithoutExtension = Path.GetFileNameWithoutExtension(OrigibDocumentName);
                     string str = Path.Combine(Environment.CurrentDirectory, Path.GetFileNameWithoutExtension((ChosenFile as Explorer).Name) + ".xps");
 
-                    _xpsDocument = _wordConverter.ToXpsConvert(OrigibDocumentName, Path.Combine(Environment.CurrentDirectory, Path.GetFileNameWithoutExtension((ChosenFile as Explorer).Name) + ".xps"));
+                    _xpsDocument = await _wordConverter.ToXpsConvert(OrigibDocumentName, Path.Combine(Environment.CurrentDirectory, Path.GetFileNameWithoutExtension((ChosenFile as Explorer).Name) + ".xps"));
                     Document = _xpsDocument.GetFixedDocumentSequence();
 
                     if (oldXpsPackage != null)
@@ -80,6 +97,6 @@ namespace EEMC.ViewModels
                 }
             });
         }
-            
+
     }
 }
