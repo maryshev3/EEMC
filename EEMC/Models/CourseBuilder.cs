@@ -9,14 +9,24 @@ namespace EEMC.Models
     {
         public static Course Build(ExplorerBuilder ExplorerBuilder) 
         {
-            return new Course
-                (
-                    new ObservableCollection<Explorer>
+            try
+            {
+                return new Course
                     (
-                        ExplorerBuilder.Build(Path.Combine(Environment.CurrentDirectory, "Курсы")).Content
-                            .Where(x => x.Type == ContentType.Folder)
-                    )
-                );
+                        new ObservableCollection<Explorer>
+                        (
+                            ExplorerBuilder.Build(Path.Combine(Environment.CurrentDirectory, "Курсы")).Content
+                                .Where(x => x.Type == ContentType.Folder)
+                        )
+                    );
+            }
+            catch (System.IO.DirectoryNotFoundException) 
+            {
+                return new Course
+                    (
+                        new ObservableCollection<Explorer>()
+                    );
+            }
         }
     }
 }

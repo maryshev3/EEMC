@@ -10,6 +10,8 @@
         Title="MainWindow"
         Height="540"
         Width="960"
+        MinWidth="600"
+        MinHeight="340"
         DataContext="{Binding MainWindowVM, Source={StaticResource ViewModelLocator}}"
         x:Name="MNWindow">
 
@@ -43,8 +45,6 @@
                     HorizontalContentAlignment="Stretch"
                     VerticalAlignment="Stretch"
                     Background="#EE5648">
-
-
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Button
@@ -64,6 +64,49 @@
                                 />
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
+                    <ItemsControl.Style>
+                        <Style TargetType="ItemsControl">
+                            <Style.Triggers>
+                                <Trigger Property="HasItems" Value="false">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate>
+                                                <Grid
+                                                    Background="#EE5648">
+                                                    <Border
+                                                        Background="White" 
+                                                        BorderBrush="White"
+                                                        BorderThickness ="1" 
+                                                        CornerRadius="10, 0, 10, 10"
+                                                        Height="100"
+                                                        VerticalAlignment="Center"
+                                                        Margin="10">
+                                                        <Grid>
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition Height="3*"/>
+                                                                <RowDefinition Height="4*"/>
+                                                            </Grid.RowDefinitions>
+                                                            <TextBlock
+                                                                    TextAlignment="Center"
+                                                                    Foreground="#EE5648"
+                                                                    Grid.Row="0"
+                                                                    Margin="5">
+                                                                    Пока-что отсутствуют курсы. <LineBreak/>
+                                                                    Добавить?
+                                                            </TextBlock>
+                                                            <Button Background="White" BorderThickness="0" Grid.Row="1" Margin="10" Width="30">
+                                                                <Image Source="/Resources/AddImage.png"/>
+                                                            </Button>
+                                                        </Grid>
+                                                    </Border>
+                                                </Grid>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ItemsControl.Style>
                 </ItemsControl>
             </ScrollViewer>
         </Grid>
@@ -71,7 +114,7 @@
         <Frame
             Content="{Binding CurrentPage}"
             Grid.Column="1"
-            
+            NavigationUIVisibility="Hidden"
             Background="#F5E7E3"/>
     </Grid>
 </Window>

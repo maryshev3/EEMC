@@ -33,3 +33,5 @@ D:\netLessons\EEMC\EEMC\bin\Debug\net6.0-windows\Microsoft.Office.Interop.Word.d
 D:\netLessons\EEMC\EEMC\bin\Debug\net6.0-windows\Microsoft.Expression.Interactions.dll
 D:\netLessons\EEMC\EEMC\bin\Debug\net6.0-windows\System.Windows.Interactivity.dll
 D:\netLessons\EEMC\EEMC\bin\Debug\net6.0-windows\OFFICE.DLL
+D:\netLessons\EEMC\EEMC\obj\Debug\net6.0-windows\EEMC.Properties.Resources.resources
+D:\netLessons\EEMC\EEMC\obj\Debug\net6.0-windows\EEMC.csproj.GenerateResource.cache
