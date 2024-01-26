@@ -1,10 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Xps.Packaging;
 
 namespace EEMC.ToXPSConverteres
 {
     interface IXPSConvert
     {
-        Task<XpsDocument> ToXpsConvertAsync(string OriginFileName, string XPSFileName);
+        Task<XpsDocument> ToXpsConvertAsync(string OriginFileName, string XPSFileName, CancellationToken cancellationToken);
     }
 }

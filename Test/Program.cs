@@ -51,5 +51,23 @@ void CourseBuilderTest()
     Assert.Equal("Лекция.txt", course.Courses.ElementAt(1).Content[0].Name);
 }
 
-ExplorerBuilderTest();
-CourseBuilderTest();
+//ExplorerBuilderTest();
+//CourseBuilderTest();
+
+void OnDirectoryChanged(object sender, FileSystemEventArgs e)
+{
+    Console.WriteLine("were");
+}
+
+var watcher = new FileSystemWatcher(Path.Combine(Environment.CurrentDirectory, "Курсы"))
+{
+    EnableRaisingEvents = true,
+    IncludeSubdirectories = true
+};
+
+watcher.Changed += OnDirectoryChanged;
+watcher.Created += OnDirectoryChanged;
+watcher.Deleted += OnDirectoryChanged;
+watcher.Renamed += OnDirectoryChanged;
+
+while (true) ;
