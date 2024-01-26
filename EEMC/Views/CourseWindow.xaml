@@ -22,7 +22,7 @@
 
         <Grid>
             <ScrollViewer VerticalScrollBarVisibility="Auto">
-                <TreeView x:Name="treeView1" ItemsSource="{Binding Path=CurrentCourse.Content}">
+                <TreeView x:Name="treeView1" ItemsSource="{Binding Path=CurrentCourse.Content, Mode=OneWay}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SelectedItemChanged">
                             <i:InvokeCommandAction Command="{Binding ShowDocument}" CommandParameter="{Binding ElementName=treeView1, Path=SelectedItem}"/>
