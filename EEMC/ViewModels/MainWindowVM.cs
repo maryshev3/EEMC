@@ -1,4 +1,5 @@
 ﻿using DevExpress.Mvvm;
+using DevExpress.Mvvm.UI;
 using EEMC.Messages;
 using EEMC.Models;
 using EEMC.Services;
@@ -80,7 +81,10 @@ namespace EEMC.ViewModels
             }
         }
 
-        public MainWindowVM(Course courses, MessageBus messageBus)
+        public MainWindowVM(
+            Course courses,
+            MessageBus messageBus
+        )
         {
             _courses = courses;
             _messageBus = messageBus;
@@ -88,16 +92,37 @@ namespace EEMC.ViewModels
             _courses.AddWatcherHandler(OnDirectoryChanged);
         }
 
+        public ICommand AddCourse_Click
+        {
+            get => new Commands.DelegateCommand(async (obj) =>
+                {
+
+                    Window window = new Window
+                    {
+                        SizeToContent = SizeToContent.WidthAndHeight,
+                        ResizeMode = ResizeMode.NoResize,
+                        Title = "Добавление курса",
+                        Content = new AddCourse()
+                    };
+
+                    await _messageBus.SendTo<AddCourseVM>(new WindowMessage(window));
+
+                    window.ShowDialog();
+                }
+            );
+        }
+
         public ICommand bMenu_Click 
         {
             get => new Commands.DelegateCommand(async (ChosenCourse) => 
-            {
-                CurrentPage = new CourseWindow();
+                {
+                    CurrentPage = new CourseWindow();
 
-                _chosenCourse = ChosenCourse as Explorer;
+                    _chosenCourse = ChosenCourse as Explorer;
 
-                await _messageBus.SendTo<CourseWindowVM>(new CourseMessage(_chosenCourse));
-            });
+                    await _messageBus.SendTo<CourseWindowVM>(new CourseMessage(_chosenCourse));
+                }
+            );
         }
     }
 }

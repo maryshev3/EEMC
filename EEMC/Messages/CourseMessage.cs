@@ -1,4 +1,5 @@
 ﻿using EEMC.Models;
+using System.Windows;
 
 namespace EEMC.Messages
 {

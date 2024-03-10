@@ -36,6 +36,14 @@
         </Grid.RowDefinitions>
 
         <Grid>
+            <Grid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem 
+                        Header="Добавить курс"
+                        Command="{Binding Path=AddCourse_Click}"
+                        CommandParameter="{Binding}"/>
+                </ContextMenu>
+            </Grid.ContextMenu>
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <ItemsControl
                     Name="CoursesList"
@@ -94,7 +102,14 @@
                                                                     Пока-что отсутствуют курсы. <LineBreak/>
                                                                     Добавить?
                                                             </TextBlock>
-                                                            <Button Background="White" BorderThickness="0" Grid.Row="1" Margin="10" Width="30">
+                                                            <Button
+                                                                Command="{Binding Path=AddCourse_Click}"
+                                                                CommandParameter="{Binding}"
+                                                                Background="White"
+                                                                BorderThickness="0"
+                                                                Grid.Row="1"
+                                                                Margin="10"
+                                                                Width="30">
                                                                 <Image Source="/Resources/AddImage.png"/>
                                                             </Button>
                                                         </Grid>
