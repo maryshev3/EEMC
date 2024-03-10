@@ -14,6 +14,8 @@ namespace EEMC
         public MainWindowVM MainWindowVM => _provider.GetRequiredService<MainWindowVM>();
         public CourseWindowVM CourseWindowVM => _provider.GetRequiredService<CourseWindowVM>();
         public AddCourseVM AddCourseVM => _provider.GetRequiredService<AddCourseVM>();
+        public RenameCourseVM RenameCourseVM => _provider.GetRequiredService<RenameCourseVM>();
+        public RemoveCourseVM RemoveCourseVM => _provider.GetRequiredService<RemoveCourseVM>();
 
         public static void Init() 
         {
@@ -22,6 +24,8 @@ namespace EEMC
             services.AddTransient<CourseWindowVM>();
             services.AddSingleton<MainWindowVM>();
             services.AddSingleton<AddCourseVM>();
+            services.AddTransient<RenameCourseVM>();
+            services.AddTransient<RemoveCourseVM>();
 
             services.AddSingleton<Course>();
 

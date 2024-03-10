@@ -52,7 +52,7 @@ namespace EEMC.ViewModels
         {
             string fileExt = Path.GetExtension(e.Name);
 
-            if (fileExt == "" && e.ChangeType == WatcherChangeTypes.Deleted && e.Name == _chosenCourse.Name)
+            if (_chosenCourse == null || fileExt == "" && e.ChangeType == WatcherChangeTypes.Deleted && e.Name == _chosenCourse.Name)
             {
                 _chosenCourse = null;
                 await _messageBus.SendTo<CourseWindowVM>(new CourseMessage(_chosenCourse));
@@ -109,6 +109,44 @@ namespace EEMC.ViewModels
 
                     window.ShowDialog();
                 }
+            );
+        }
+
+        public ICommand RenameCourse_Click
+        {
+            get => new Commands.DelegateCommand(async (chosenCourse) =>
+            {
+                Window window = new Window
+                {
+                    SizeToContent = SizeToContent.WidthAndHeight,
+                    ResizeMode = ResizeMode.NoResize,
+                    Title = "Переименование курса",
+                    Content = new RenameCourse()
+                };
+
+                await _messageBus.SendTo<RenameCourseVM>(new ExplorerWindowMessage(window, chosenCourse as Explorer));
+
+                window.ShowDialog();
+            }
+            );
+        }
+
+        public ICommand RemoveCourse_Click
+        {
+            get => new Commands.DelegateCommand(async (chosenCourse) =>
+            {
+                Window window = new Window
+                {
+                    SizeToContent = SizeToContent.WidthAndHeight,
+                    ResizeMode = ResizeMode.NoResize,
+                    Title = "Удаление курса",
+                    Content = new RemoveCourse()
+                };
+
+                await _messageBus.SendTo<RemoveCourseVM>(new ExplorerWindowMessage(window, chosenCourse as Explorer));
+
+                window.ShowDialog();
+            }
             );
         }
 
