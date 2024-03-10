@@ -36,6 +36,14 @@
         </Grid.RowDefinitions>
 
         <Grid>
+            <Grid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem 
+                        Header="Добавить курс"
+                        Command="{Binding Path=AddCourse_Click}"
+                        CommandParameter="{Binding}"/>
+                </ContextMenu>
+            </Grid.ContextMenu>
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <ItemsControl
                     Name="CoursesList"
@@ -61,7 +69,24 @@
                                 HorizontalContentAlignment="Center"
                                 Padding="5"
                                 BorderBrush="Red"
-                                />
+                                >
+                                <Button.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem 
+                                            Header="Добавить курс"
+                                            Command="{Binding Path=DataContext.AddCourse_Click, Source={x:Reference Name=CoursesList}}"
+                                            CommandParameter="{Binding}"/>
+                                        <MenuItem 
+                                            Header="Переименовать курс"
+                                            Command="{Binding Path=DataContext.RenameCourse_Click, Source={x:Reference Name=CoursesList}}"
+                                            CommandParameter="{Binding}"/>
+                                        <MenuItem 
+                                            Header="Удалить курс"
+                                            Command="{Binding Path=DataContext.RemoveCourse_Click, Source={x:Reference Name=CoursesList}}"
+                                            CommandParameter="{Binding}"/>
+                                    </ContextMenu>
+                                </Button.ContextMenu>
+                            </Button>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                     <ItemsControl.Style>
@@ -91,10 +116,17 @@
                                                                     Foreground="#EE5648"
                                                                     Grid.Row="0"
                                                                     Margin="5">
-                                                                    Пока-что отсутствуют курсы. <LineBreak/>
+                                                                    Курсы отсутствуют. <LineBreak/>
                                                                     Добавить?
                                                             </TextBlock>
-                                                            <Button Background="White" BorderThickness="0" Grid.Row="1" Margin="10" Width="30">
+                                                            <Button
+                                                                Command="{Binding Path=AddCourse_Click}"
+                                                                CommandParameter="{Binding}"
+                                                                Background="White"
+                                                                BorderThickness="0"
+                                                                Grid.Row="1"
+                                                                Margin="10"
+                                                                Width="30">
                                                                 <Image Source="/Resources/AddImage.png"/>
                                                             </Button>
                                                         </Grid>

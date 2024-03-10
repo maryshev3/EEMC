@@ -7,15 +7,33 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="Views\AddCourse.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\CourseWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\RemoveCourse.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\RenameCourse.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="Views\AddCourse.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Views\CourseWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\MainWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\RemoveCourse.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\RenameCourse.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

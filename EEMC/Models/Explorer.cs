@@ -1,4 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.IO;
 
 namespace EEMC.Models
 {
@@ -29,6 +31,35 @@ namespace EEMC.Models
             this.NameWithPath = NameWithPath;
             this.Type = Type;
             this.Content = Content;
+        }
+
+        public void RenameCourse(string NewCourseName)
+        {
+            //Проверка на имя курса
+            if (String.IsNullOrWhiteSpace(NewCourseName))
+                throw new Exception("Название курса не содержит символов");
+
+            string courseDirectory = Path.Combine(Environment.CurrentDirectory, "Курсы", NewCourseName);
+            string oldCourseDirectory = Environment.CurrentDirectory + NameWithPath;
+
+            if (Directory.Exists(courseDirectory))
+                throw new Exception("Курс уже существует");
+
+            Directory.Move(oldCourseDirectory, courseDirectory);
+
+            //Будет автоматически вызван пересбор класса Course
+        }
+
+        public void RemoveCourse()
+        {
+            string courseDirectory = Environment.CurrentDirectory + NameWithPath;
+
+            if (!Directory.Exists(courseDirectory))
+                throw new Exception("Курс не существует");
+
+            Directory.Delete(courseDirectory, true);
+
+            //Будет автоматически вызван пересбор класса Course
         }
     }
 }

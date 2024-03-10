@@ -24,7 +24,13 @@ namespace EEMC.Models
 
             if (_watcher == null)
             {
-                _watcher = new FileSystemWatcher(Path.Combine(Environment.CurrentDirectory, "Курсы"))
+                string courseDirectory = Path.Combine(Environment.CurrentDirectory, "Курсы");
+
+                //Если директории курсов не существует - создаём
+                if (!Directory.Exists(courseDirectory))
+                    Directory.CreateDirectory(courseDirectory);
+
+                _watcher = new FileSystemWatcher(courseDirectory)
                 {
                     EnableRaisingEvents = true,
                     IncludeSubdirectories = true,
@@ -74,6 +80,21 @@ namespace EEMC.Models
         public ObservableCollection<Explorer>? GetCourseContent(string CourseName) 
         {
             return Courses.First(x => x.Name == CourseName).Content;
+        }
+
+        public void CreateCourse(string CourseName)
+        {
+            //Проверка на имя курса
+            if (String.IsNullOrWhiteSpace(CourseName))
+                throw new Exception("Название курса не содержит символов");
+
+            string courseDirectory = Path.Combine(Environment.CurrentDirectory, "Курсы", CourseName);
+
+            //Если директории курсов не существует - создаём
+            if (!Directory.Exists(courseDirectory))
+                Directory.CreateDirectory(courseDirectory);
+            else
+                throw new Exception("Курс уже существует");
         }
     }
 }
