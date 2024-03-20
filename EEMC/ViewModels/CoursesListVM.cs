@@ -4,6 +4,7 @@ using EEMC.Messages;
 using EEMC.Models;
 using EEMC.Services;
 using EEMC.Views;
+using System;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
@@ -12,7 +13,7 @@ using System.Windows.Input;
 
 namespace EEMC.ViewModels
 {
-    public class MainWindowVM : ViewModelBase
+    public class CoursesListVM : ViewModelBase
     {
         private Course _courses;
         public Course Courses
@@ -23,25 +24,7 @@ namespace EEMC.ViewModels
             {
                 _courses = value;
 
-                if (_chosenCourse != null)
-                {
-                    CurrentPage = new CourseWindow();
-
-                    _messageBus.SendTo<CourseWindowVM>(new CourseMessage(_chosenCourse));
-                }
-
                 RaisePropertyChanged(() => Courses);
-            }
-        }
-
-        private Page _currentPage = null;
-        public Page CurrentPage 
-        {
-            get => _currentPage;
-            set 
-            {
-                _currentPage = value;
-                RaisePropertyChanged(() => CurrentPage);
             }
         }
 
@@ -52,23 +35,12 @@ namespace EEMC.ViewModels
         {
             string fileExt = Path.GetExtension(e.Name);
 
-            if (_chosenCourse == null || fileExt == "" && e.ChangeType == WatcherChangeTypes.Deleted && e.Name == _chosenCourse.Name)
-            {
-                _chosenCourse = null;
-                await _messageBus.SendTo<CourseWindowVM>(new CourseMessage(_chosenCourse));
-            }
-
             if (e.Name.Contains("~$") || fileExt == "")
                 return;
 
             if (_chosenCourse != null)
             {
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    CurrentPage = new CourseWindow();
-                });
-
-                foreach(var course in Courses.Courses)
+                foreach (var course in Courses.Courses)
                 {
                     if (course.Name == _chosenCourse.Name)
                     {
@@ -81,36 +53,39 @@ namespace EEMC.ViewModels
             }
         }
 
-        public MainWindowVM(
+        private MainWindowVM _mainWindowVM;
+        IServiceProvider _serviceProvider;
+
+        public CoursesListVM(
             Course courses,
-            MessageBus messageBus
+            MessageBus messageBus,
+            IServiceProvider serviceProvider
         )
         {
             _courses = courses;
             _messageBus = messageBus;
+            _serviceProvider = serviceProvider;
 
             _courses.AddWatcherHandler(OnDirectoryChanged);
-
-            CurrentPage = new CoursesList();
         }
 
         public ICommand AddCourse_Click
         {
             get => new Commands.DelegateCommand(async (obj) =>
+            {
+
+                Window window = new Window
                 {
+                    SizeToContent = SizeToContent.WidthAndHeight,
+                    ResizeMode = ResizeMode.NoResize,
+                    Title = "Добавление курса",
+                    Content = new AddCourse()
+                };
 
-                    Window window = new Window
-                    {
-                        SizeToContent = SizeToContent.WidthAndHeight,
-                        ResizeMode = ResizeMode.NoResize,
-                        Title = "Добавление курса",
-                        Content = new AddCourse()
-                    };
+                await _messageBus.SendTo<AddCourseVM>(new WindowMessage(window));
 
-                    await _messageBus.SendTo<AddCourseVM>(new WindowMessage(window));
-
-                    window.ShowDialog();
-                }
+                window.ShowDialog();
+            }
             );
         }
 
@@ -152,24 +127,14 @@ namespace EEMC.ViewModels
             );
         }
 
-        public async Task ChangeCurrentCourse(Explorer chosenCourse)
+        public ICommand bMenu_Click
         {
-            _chosenCourse = chosenCourse;
-
-            CurrentPage = new CourseWindow();
-
-            await _messageBus.SendTo<CourseWindowVM>(new CourseMessage(_chosenCourse));
-        }
-
-        public ICommand bMenu_Click 
-        {
-            get => new Commands.DelegateCommand(async (ChosenCourse) => 
+            get => new Commands.DelegateCommand(async (ChosenCourse) =>
                 {
-                    CurrentPage = new CourseWindow();
+                    //_chosenCourse = ChosenCourse as Explorer;
+                    _mainWindowVM = _serviceProvider.GetService(typeof(MainWindowVM)) as MainWindowVM;
 
-                    _chosenCourse = ChosenCourse as Explorer;
-
-                    await _messageBus.SendTo<CourseWindowVM>(new CourseMessage(_chosenCourse));
+                    await _mainWindowVM.ChangeCurrentCourse(ChosenCourse as Explorer);
                 }
             );
         }
