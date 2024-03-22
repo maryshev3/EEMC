@@ -41,7 +41,7 @@
                         <Button
                         Style="{DynamicResource RoundButton}"
                         Content="{Binding Path=Name}"
-                        Command="{Binding ElementName=CourseList, Path=DataContext.bMenu_Click}"
+                        Command="{Binding ElementName=CourseList, Path=DataContext.OpenCourse_Click}"
                         CommandParameter="{Binding}"
                         Background="#FFFFFF"
                         Foreground="#EE5648"
