@@ -33,26 +33,41 @@
             Name="CourseList"
             ItemsSource="{Binding Path=Courses.Courses, Mode=OneWay}"
             Padding="0"
-            HorizontalContentAlignment="Stretch"
-            VerticalAlignment="Stretch"
-            Background="#EE5648">
+            Background="#F5E7E3">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel HorizontalAlignment="Stretch"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Button
                         Style="{DynamicResource RoundButton}"
-                        Content="{Binding Path=Name}"
                         Command="{Binding ElementName=CourseList, Path=DataContext.OpenCourse_Click}"
                         CommandParameter="{Binding}"
-                        Background="#FFFFFF"
-                        Foreground="#EE5648"
-                        Height="auto"
-                        Width="auto"
-                        HorizontalAlignment="Stretch"
+                        Background="#1D6590"
+                        Height="140"
+                        Width="220"
                         Margin="10"
+                        Padding="0"
                         HorizontalContentAlignment="Center"
-                        Padding="5"
                         BorderBrush="Red"
                         >
+                            <Grid Margin="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="100"/>
+                                    <RowDefinition Height="40"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="220"/>
+                                </Grid.ColumnDefinitions>
+                                <Border BorderThickness="1" Grid.Row="0" CornerRadius="10,10,0,0">
+                                    <Border.Background>
+                                        <ImageBrush ImageSource="C:\RTSoft\im.jpg" Stretch="Fill"/>
+                                    </Border.Background>
+                                </Border>
+                                <TextBlock Grid.Row="1" Margin="5,0,0,0" Foreground="#FDDFAC" HorizontalAlignment="Center" Text="{Binding Path=Name}"/>
+                            </Grid>
                             <Button.ContextMenu>
                                 <ContextMenu>
                                     <MenuItem 
