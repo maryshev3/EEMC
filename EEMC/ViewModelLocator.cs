@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using EEMC.Services;
 using DevExpress.Mvvm;
 using DevExpress.Mvvm.UI;
+using System;
 
 namespace EEMC
 {
@@ -16,6 +17,7 @@ namespace EEMC
         public AddCourseVM AddCourseVM => _provider.GetRequiredService<AddCourseVM>();
         public RenameCourseVM RenameCourseVM => _provider.GetRequiredService<RenameCourseVM>();
         public RemoveCourseVM RemoveCourseVM => _provider.GetRequiredService<RemoveCourseVM>();
+        public CoursesListVM CoursesListVM => _provider.GetRequiredService<CoursesListVM>();
 
         public static void Init() 
         {
@@ -26,12 +28,15 @@ namespace EEMC
             services.AddSingleton<AddCourseVM>();
             services.AddTransient<RenameCourseVM>();
             services.AddTransient<RemoveCourseVM>();
+            services.AddTransient<CoursesListVM>();
 
             services.AddSingleton<Course>();
 
             services.AddSingleton<IWindowService, WindowService>();
 
             services.AddSingleton<MessageBus>();
+
+            services.AddSingleton<IServiceProvider>(sp => sp);
 
             _provider = services.BuildServiceProvider();
 

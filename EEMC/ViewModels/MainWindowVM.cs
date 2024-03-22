@@ -12,10 +12,9 @@ using System.Windows.Input;
 
 namespace EEMC.ViewModels
 {
-    public class MainWindowVM : ViewModelBase
+    public class MainWindowVM : CoursesListVMBase
     {
-        private Course _courses;
-        public Course Courses
+        public override Course Courses
         {
             get => _courses;
 
@@ -45,10 +44,7 @@ namespace EEMC.ViewModels
             }
         }
 
-        private readonly MessageBus _messageBus;
-        private Explorer? _chosenCourse = null;
-
-        private async void OnDirectoryChanged(object sender, FileSystemEventArgs e)
+        protected override async void OnDirectoryChanged(object sender, FileSystemEventArgs e)
         {
             string fileExt = Path.GetExtension(e.Name);
 
@@ -90,75 +86,24 @@ namespace EEMC.ViewModels
             _messageBus = messageBus;
 
             _courses.AddWatcherHandler(OnDirectoryChanged);
+
+            CurrentPage = new CoursesList();
         }
 
-        public ICommand AddCourse_Click
+        public async Task ChangeCurrentCourse(Explorer chosenCourse)
         {
-            get => new Commands.DelegateCommand(async (obj) =>
-                {
+            _chosenCourse = chosenCourse;
 
-                    Window window = new Window
-                    {
-                        SizeToContent = SizeToContent.WidthAndHeight,
-                        ResizeMode = ResizeMode.NoResize,
-                        Title = "Добавление курса",
-                        Content = new AddCourse()
-                    };
+            CurrentPage = new CourseWindow();
 
-                    await _messageBus.SendTo<AddCourseVM>(new WindowMessage(window));
-
-                    window.ShowDialog();
-                }
-            );
+            await _messageBus.SendTo<CourseWindowVM>(new CourseMessage(_chosenCourse));
         }
 
-        public ICommand RenameCourse_Click
-        {
-            get => new Commands.DelegateCommand(async (chosenCourse) =>
-            {
-                Window window = new Window
-                {
-                    SizeToContent = SizeToContent.WidthAndHeight,
-                    ResizeMode = ResizeMode.NoResize,
-                    Title = "Переименование курса",
-                    Content = new RenameCourse()
-                };
-
-                await _messageBus.SendTo<RenameCourseVM>(new ExplorerWindowMessage(window, chosenCourse as Explorer));
-
-                window.ShowDialog();
-            }
-            );
-        }
-
-        public ICommand RemoveCourse_Click
-        {
-            get => new Commands.DelegateCommand(async (chosenCourse) =>
-            {
-                Window window = new Window
-                {
-                    SizeToContent = SizeToContent.WidthAndHeight,
-                    ResizeMode = ResizeMode.NoResize,
-                    Title = "Удаление курса",
-                    Content = new RemoveCourse()
-                };
-
-                await _messageBus.SendTo<RemoveCourseVM>(new ExplorerWindowMessage(window, chosenCourse as Explorer));
-
-                window.ShowDialog();
-            }
-            );
-        }
-
-        public ICommand bMenu_Click 
+        public override ICommand OpenCourse_Click
         {
             get => new Commands.DelegateCommand(async (ChosenCourse) => 
                 {
-                    CurrentPage = new CourseWindow();
-
-                    _chosenCourse = ChosenCourse as Explorer;
-
-                    await _messageBus.SendTo<CourseWindowVM>(new CourseMessage(_chosenCourse));
+                    await ChangeCurrentCourse(ChosenCourse as Explorer);
                 }
             );
         }

@@ -16,8 +16,9 @@ namespace EEMC.ToXPSConverteres
             return await Task<XpsDocument>.Run(() =>
             {
                 Microsoft.Office.Interop.Word.Application wordApplication = new Microsoft.Office.Interop.Word.Application();
+                wordApplication.Visible = false;
 
-                wordApplication.Documents.Add(OriginFileName);
+                wordApplication.Documents.Open(OriginFileName, ReadOnly: true);
 
                 Document doc = wordApplication.ActiveDocument;
 
