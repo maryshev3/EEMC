@@ -47,7 +47,7 @@ namespace EEMC.ViewModels
                 {
                     try
                     {
-                        ChosenCourse.RemoveCourse();
+                        ChosenCourse.Remove();
 
                         _window?.Close();
                     }

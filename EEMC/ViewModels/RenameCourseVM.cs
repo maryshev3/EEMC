@@ -36,7 +36,7 @@ namespace EEMC.ViewModels
             {
                 try
                 {
-                    _chosenCourse.RenameCourse(newCourseName as string);
+                    _chosenCourse.Rename(newCourseName as string);
 
                     _window?.Close();
                 }

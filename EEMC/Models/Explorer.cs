@@ -33,13 +33,13 @@ namespace EEMC.Models
             this.Content = Content;
         }
 
-        public void RenameCourse(string NewCourseName)
+        public void Rename(string NewName)
         {
             //Проверка на имя курса
-            if (String.IsNullOrWhiteSpace(NewCourseName))
+            if (String.IsNullOrWhiteSpace(NewName))
                 throw new Exception("Название курса не содержит символов");
 
-            string courseDirectory = Path.Combine(Environment.CurrentDirectory, "Курсы", NewCourseName);
+            string courseDirectory = Path.Combine(Environment.CurrentDirectory, "Курсы", NewName);
             string oldCourseDirectory = Environment.CurrentDirectory + NameWithPath;
 
             if (Directory.Exists(courseDirectory))
@@ -50,7 +50,7 @@ namespace EEMC.Models
             //Будет автоматически вызван пересбор класса Course
         }
 
-        public void RemoveCourse()
+        public void Remove()
         {
             string courseDirectory = Environment.CurrentDirectory + NameWithPath;
 
