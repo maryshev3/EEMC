@@ -45,4 +45,10 @@
     <Resource Include="Resources\AddImage.png" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="templates.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

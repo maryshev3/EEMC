@@ -9,6 +9,8 @@ namespace EEMC.Models
 {
     public class Course: INotifyPropertyChanged
     {
+        private static Templates _templates;
+
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName)
         {
@@ -18,8 +20,11 @@ namespace EEMC.Models
         private ObservableCollection<Explorer>? _courses;
         private static FileSystemWatcher? _watcher = null;
 
-        public Course() 
+        public Course(Templates templates)
         {
+            if (_templates == default)
+                _templates = templates;
+
             _courses = CourseBuilder.Build(new ExplorerBuilder())._courses;
 
             if (_watcher == null)
@@ -92,9 +97,22 @@ namespace EEMC.Models
 
             //Если директории курсов не существует - создаём
             if (!Directory.Exists(courseDirectory))
+            {
+                //Создаём курс
                 Directory.CreateDirectory(courseDirectory);
+
+                //Реализуем шаблон
+                foreach (var template in _templates.TemplatesList)
+                {
+                    string templateDirectory = Path.Combine(courseDirectory, template);
+
+                    Directory.CreateDirectory(templateDirectory);
+                }
+            }
             else
+            {
                 throw new Exception("Курс уже существует");
+            }
         }
     }
 }
