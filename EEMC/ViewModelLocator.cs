@@ -5,6 +5,10 @@ using EEMC.Services;
 using DevExpress.Mvvm;
 using DevExpress.Mvvm.UI;
 using System;
+using Newtonsoft.Json;
+using System.Windows.Documents;
+using System.Collections.Generic;
+using System.IO;
 
 namespace EEMC
 {
@@ -19,16 +23,34 @@ namespace EEMC
         public RemoveCourseVM RemoveCourseVM => _provider.GetRequiredService<RemoveCourseVM>();
         public CoursesListVM CoursesListVM => _provider.GetRequiredService<CoursesListVM>();
 
-        public static void Init() 
+        public static void AddVMs(ServiceCollection services)
         {
-            var services = new ServiceCollection();
-
             services.AddTransient<CourseWindowVM>();
             services.AddSingleton<MainWindowVM>();
             services.AddSingleton<AddCourseVM>();
             services.AddTransient<RenameCourseVM>();
             services.AddTransient<RemoveCourseVM>();
             services.AddTransient<CoursesListVM>();
+        }
+
+        public static void AddTemplates(ServiceCollection services)
+        {
+            Templates templates = new();
+
+            string json = File.ReadAllText("./templates.json");
+
+            templates.TemplatesList = JsonConvert.DeserializeObject<List<string>>(json);
+
+            services.AddSingleton<Templates>(templates);
+        }
+
+        public static void Init() 
+        {
+            var services = new ServiceCollection();
+
+            AddVMs(services);
+
+            AddTemplates(services);
 
             services.AddSingleton<Course>();
 
