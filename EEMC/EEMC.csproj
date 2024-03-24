@@ -10,6 +10,7 @@
   <ItemGroup>
     <None Remove="Resources\AddImage.jpg" />
     <None Remove="Resources\AddImage.png" />
+    <None Remove="Resources\course_img.jpg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -43,6 +44,7 @@
 
   <ItemGroup>
     <Resource Include="Resources\AddImage.png" />
+    <Resource Include="Resources\course_img.jpg" />
   </ItemGroup>
 
   <ItemGroup>

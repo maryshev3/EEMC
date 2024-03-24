@@ -54,7 +54,7 @@ namespace EEMC.ViewModels
                 await _messageBus.SendTo<CourseWindowVM>(new CourseMessage(_chosenCourse));
             }
 
-            if (e.Name.Contains("~$") || fileExt == "")
+            if (e.Name.Contains("~$"))
                 return;
 
             if (_chosenCourse != null)

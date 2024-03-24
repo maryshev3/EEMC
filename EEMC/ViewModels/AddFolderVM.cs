@@ -12,31 +12,31 @@ using System.Windows.Input;
 
 namespace EEMC.ViewModels
 {
-    public class RenameCourseVM : ViewModelBase
+    public class AddFolderVM : ViewModelBase
     {
         private readonly MessageBus _messageBus;
         private Window? _window;
         private Explorer? _chosenCourse;
 
-        public RenameCourseVM(MessageBus messageBus)
+        public AddFolderVM(MessageBus messageBus)
         {
             _messageBus = messageBus;
 
             _messageBus.Receive<ExplorerWindowMessage>(this, async (message) =>
-                {
-                    _window = message.Window;
-                    _chosenCourse = message.Course;
-                }
+            {
+                _window = message.Window;
+                _chosenCourse = message.Course;
+            }
             );
         }
 
-        public ICommand RenameCourse_Click
+        public ICommand Add
         {
             get => new Commands.DelegateCommand((newCourseName) =>
             {
                 try
                 {
-                    _chosenCourse.Rename(newCourseName as string);
+                    _chosenCourse.AddFolder(newCourseName as string);
 
                     _window?.Close();
                 }

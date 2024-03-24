@@ -25,39 +25,84 @@ namespace EEMC.Models
 
         public ObservableCollection<Explorer>? Content { get; set; }
 
-        public Explorer(string Name, string NameWithPath, ContentType Type, ObservableCollection<Explorer>? Content) 
+        public Explorer(string name, string nameWithPath, ContentType type, ObservableCollection<Explorer>? content) 
         {
-            this._name = Name;
-            this.NameWithPath = NameWithPath;
-            this.Type = Type;
-            this.Content = Content;
+            this._name = name;
+            this.NameWithPath = nameWithPath;
+            this.Type = type;
+            this.Content = content;
         }
 
-        public void RenameCourse(string NewCourseName)
+        public void AddFile(string filePath)
+        {
+            if (Type == ContentType.File)
+                throw new Exception("Невозможно добавить в файл - файл");
+
+            string fileName = Path.GetFileName(filePath);
+
+            string currentDicrectory = Environment.CurrentDirectory + NameWithPath;
+            string resultFileDirectory = Path.Combine(currentDicrectory, fileName);
+
+            if (File.Exists(resultFileDirectory))
+            {
+                return;
+            }
+
+            byte[] file = File.ReadAllBytes(filePath);
+
+            File.WriteAllBytes(resultFileDirectory, file);
+        }
+
+        public void AddFolder(string folderName)
+        {
+            if (Type == ContentType.File)
+                throw new Exception("Невозможно добавить раздел в файл");
+
+            string currentDicrectory = Environment.CurrentDirectory + NameWithPath;
+
+            string resultDirectory = Path.Combine(currentDicrectory, folderName);
+
+            if (Directory.Exists(resultDirectory))
+                throw new Exception("Раздел уже существует");
+
+            Directory.CreateDirectory(resultDirectory);
+        }
+
+        public void Rename(string newName)
         {
             //Проверка на имя курса
-            if (String.IsNullOrWhiteSpace(NewCourseName))
-                throw new Exception("Название курса не содержит символов");
+            if (String.IsNullOrWhiteSpace(newName))
+                throw new Exception("Пустое название");
 
-            string courseDirectory = Path.Combine(Environment.CurrentDirectory, "Курсы", NewCourseName);
             string oldCourseDirectory = Environment.CurrentDirectory + NameWithPath;
+            string courseDirectory = Path.Combine(oldCourseDirectory, "..", newName);
 
             if (Directory.Exists(courseDirectory))
-                throw new Exception("Курс уже существует");
+                throw new Exception("Раздел уже существует");
 
             Directory.Move(oldCourseDirectory, courseDirectory);
 
             //Будет автоматически вызван пересбор класса Course
         }
 
-        public void RemoveCourse()
+        public void Remove()
         {
             string courseDirectory = Environment.CurrentDirectory + NameWithPath;
 
-            if (!Directory.Exists(courseDirectory))
-                throw new Exception("Курс не существует");
+            if (Type == ContentType.File)
+            {
+                if (!File.Exists(courseDirectory))
+                    throw new Exception("Файл не существует");
 
-            Directory.Delete(courseDirectory, true);
+                File.Delete(courseDirectory);
+            }
+            else
+            {
+                if (!Directory.Exists(courseDirectory))
+                    throw new Exception("Раздел не существует");
+
+                Directory.Delete(courseDirectory, true);
+            }
 
             //Будет автоматически вызван пересбор класса Course
         }

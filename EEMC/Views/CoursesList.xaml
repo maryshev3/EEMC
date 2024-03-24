@@ -63,7 +63,7 @@
                                 </Grid.ColumnDefinitions>
                                 <Border BorderThickness="1" Grid.Row="0" CornerRadius="10,10,0,0">
                                     <Border.Background>
-                                        <ImageBrush ImageSource="C:\RTSoft\im.jpg" Stretch="Fill"/>
+                                        <ImageBrush ImageSource="/Resources/course_img.jpg" Stretch="Fill"/>
                                     </Border.Background>
                                 </Border>
                                 <TextBlock Grid.Row="1" Margin="5,0,0,0" Foreground="#FDDFAC" HorizontalAlignment="Center" Text="{Binding Path=Name}"/>

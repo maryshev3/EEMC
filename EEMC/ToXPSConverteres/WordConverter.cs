@@ -15,18 +15,34 @@ namespace EEMC.ToXPSConverteres
         {
             return await Task<XpsDocument>.Run(() =>
             {
-                Microsoft.Office.Interop.Word.Application wordApplication = new Microsoft.Office.Interop.Word.Application();
-                wordApplication.Visible = false;
-
-                wordApplication.Documents.Open(OriginFileName, ReadOnly: true);
-
-                Document doc = wordApplication.ActiveDocument;
-
                 try
                 {
-                    doc.SaveAs(XPSFileName, WdSaveFormat.wdFormatXPS);
+                    Microsoft.Office.Interop.Word.Application wordApplication = new Microsoft.Office.Interop.Word.Application();
+                    Boolean isQuited = false;
 
+                    cancellationToken.Register(() =>
+                        {
+                            try
+                            {
+                                wordApplication.Quit();
+                            }
+                            catch
+                            {
+
+                            }
+                        }
+                    );
+
+                    wordApplication.Visible = false;
+                
+                    wordApplication.Documents.Open(OriginFileName, ReadOnly: true);
+
+                    Document doc = wordApplication.ActiveDocument;
+
+                    doc.SaveAs(XPSFileName, WdSaveFormat.wdFormatXPS);
+                    
                     wordApplication.Quit();
+                    isQuited = true;
 
                     XpsDocument xpsDoc = new XpsDocument(XPSFileName, System.IO.FileAccess.Read);
 
