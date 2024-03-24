@@ -72,8 +72,12 @@ namespace EEMC.ViewModels
 
                         if (_currentCancellationSource != null)
                         {
-                            _currentCancellationSource.Cancel();
-                            _currentCancellationSource.Token.WaitHandle.WaitOne();
+                            _currentCancellationSource?.Cancel();
+                            _currentCancellationSource?.Token.WaitHandle.WaitOne();
+
+                            _currentCancellationSource?.Dispose();
+
+                            _currentCancellationSource = null;
                         }
 
                         _currentCancellationSource = new CancellationTokenSource();
@@ -82,6 +86,7 @@ namespace EEMC.ViewModels
                             Path.Combine(Environment.CurrentDirectory, Path.GetFileNameWithoutExtension((ChosenFile as Explorer).Name) + ".xps"),
                             _currentCancellationSource.Token
                         );
+                        _currentCancellationSource?.Dispose();
                         _currentCancellationSource = null;
 
                         //null может быть, когда слишком быстро переключаешь окна (одно ещё не загрузилось, а второе уже включаем)
@@ -173,8 +178,10 @@ namespace EEMC.ViewModels
             {
                 if (_currentCancellationSource != null)
                 {
-                    _currentCancellationSource.Cancel();
-                    _currentCancellationSource.Token.WaitHandle.WaitOne();
+                    _currentCancellationSource?.Cancel();
+                    _currentCancellationSource?.Token.WaitHandle.WaitOne();
+
+                    _currentCancellationSource?.Dispose();
 
                     _currentCancellationSource = null;
                 }

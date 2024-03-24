@@ -20,20 +20,44 @@ namespace EEMC.ToXPSConverteres
 
                 cancellationToken.Register(() =>
                     {
-                        if (wordApplication != default && !isQuited)
-                            wordApplication.Quit(false);
+                        try
+                        {
+                            wordApplication.Quit();
+                        }
+                        catch
+                        {
+
+                        }
                     }
                 );
 
                 wordApplication.Visible = false;
 
-                wordApplication.Documents.Open(OriginFileName, ReadOnly: true);
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    wordApplication.Quit();
+                    isQuited = true;
+                    return null;
+                }
+                else
+                {
+                    wordApplication.Documents.Open(OriginFileName, ReadOnly: true);
+                }
 
                 Document doc = wordApplication.ActiveDocument;
 
                 try
                 {
-                    doc.SaveAs(XPSFileName, WdSaveFormat.wdFormatXPS);
+                    if (cancellationToken.IsCancellationRequested)
+                    {
+                        wordApplication.Quit();
+                        isQuited = true;
+                        return null;
+                    }
+                    else
+                    {
+                        doc.SaveAs(XPSFileName, WdSaveFormat.wdFormatXPS);
+                    }
 
                     wordApplication.Quit();
                     isQuited = true;
