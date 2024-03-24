@@ -42,7 +42,7 @@
                 Удалить
             </Button>
             <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="4">
-                <TreeView x:Name="CourseTreeView" ItemsSource="{Binding Path=CurrentCourse.Content, Mode=OneWay}" SelectedItemChanged="CourseTreeView_SelectedItemChanged">
+                <TreeView x:Name="CourseTreeView" ItemsSource="{Binding Path=CurrentCourse.Content, Mode=OneWay}" SelectedItemChanged="CourseTreeView_SelectedItemChanged" IsEnabled="{Binding Path=IsEnabledTW, Mode=TwoWay}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SelectedItemChanged">
                             <i:InvokeCommandAction Command="{Binding ShowDocument}" CommandParameter="{Binding ElementName=CourseTreeView, Path=SelectedItem}"/>

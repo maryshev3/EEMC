@@ -8,6 +8,7 @@ using Microsoft.Win32;
 using System;
 using System.IO;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -17,6 +18,17 @@ namespace EEMC.ViewModels
 {
     public class CourseWindowVM : ViewModelBase
     {
+        private bool _isEnabledTW = true;
+        public bool IsEnabledTW 
+        {
+            get => _isEnabledTW;
+            set
+            {
+                _isEnabledTW = value;
+                RaisePropertyChanged(() => IsEnabledTW);
+            }
+        }
+
         private FixedDocumentSequence _document;
 
         public FixedDocumentSequence Document 
@@ -66,6 +78,8 @@ namespace EEMC.ViewModels
                 {
                     if (Path.GetExtension((ChosenFile as Explorer).NameWithPath) == ".docx")
                     {
+                        IsEnabledTW = false;
+
                         XpsDocument oldXpsPackage = _xpsDocument;
 
                         string OriginDocumentName = Environment.CurrentDirectory + "\\" + (ChosenFile as Explorer).NameWithPath;
@@ -95,6 +109,8 @@ namespace EEMC.ViewModels
 
                         if (oldXpsPackage != null)
                             oldXpsPackage.Close();
+
+                        IsEnabledTW = true;
                     }
                 }
             });
@@ -176,6 +192,8 @@ namespace EEMC.ViewModels
         {
             get => new Commands.DelegateCommand(async (chosenCourse) =>
             {
+                IsEnabledTW = true;
+
                 if (_currentCancellationSource != null)
                 {
                     _currentCancellationSource?.Cancel();

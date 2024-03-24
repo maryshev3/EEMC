@@ -15,50 +15,32 @@ namespace EEMC.ToXPSConverteres
         {
             return await Task<XpsDocument>.Run(() =>
             {
-                Microsoft.Office.Interop.Word.Application wordApplication = new Microsoft.Office.Interop.Word.Application();
-                Boolean isQuited = false;
-
-                cancellationToken.Register(() =>
-                    {
-                        try
-                        {
-                            wordApplication.Quit();
-                        }
-                        catch
-                        {
-
-                        }
-                    }
-                );
-
-                wordApplication.Visible = false;
-
-                if (cancellationToken.IsCancellationRequested)
-                {
-                    wordApplication.Quit();
-                    isQuited = true;
-                    return null;
-                }
-                else
-                {
-                    wordApplication.Documents.Open(OriginFileName, ReadOnly: true);
-                }
-
-                Document doc = wordApplication.ActiveDocument;
-
                 try
                 {
-                    if (cancellationToken.IsCancellationRequested)
-                    {
-                        wordApplication.Quit();
-                        isQuited = true;
-                        return null;
-                    }
-                    else
-                    {
-                        doc.SaveAs(XPSFileName, WdSaveFormat.wdFormatXPS);
-                    }
+                    Microsoft.Office.Interop.Word.Application wordApplication = new Microsoft.Office.Interop.Word.Application();
+                    Boolean isQuited = false;
 
+                    cancellationToken.Register(() =>
+                        {
+                            try
+                            {
+                                wordApplication.Quit();
+                            }
+                            catch
+                            {
+
+                            }
+                        }
+                    );
+
+                    wordApplication.Visible = false;
+                
+                    wordApplication.Documents.Open(OriginFileName, ReadOnly: true);
+
+                    Document doc = wordApplication.ActiveDocument;
+
+                    doc.SaveAs(XPSFileName, WdSaveFormat.wdFormatXPS);
+                    
                     wordApplication.Quit();
                     isQuited = true;
 
