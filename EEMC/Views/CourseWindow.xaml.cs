@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EEMC.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -34,6 +35,30 @@ namespace EEMC.Views
 
             if (item != null)
                 item.IsSelected = false;
+        }
+
+        private void CourseTreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            var item = CourseTreeView.SelectedItem as Explorer;
+
+            if (item == default) 
+            {
+                AddFile_Button.IsEnabled = true;
+                AddFolder_Button.IsEnabled = true;
+
+                Rename_Button.IsEnabled = false;
+                Remove_Button.IsEnabled = false;
+
+                return; 
+            }
+
+            Remove_Button.IsEnabled= true;
+
+            Boolean isFile = item.Type == ContentType.File;
+
+            Rename_Button.IsEnabled = !isFile;
+            AddFolder_Button.IsEnabled = !isFile;
+            AddFile_Button.IsEnabled = !isFile;
         }
     }
 }

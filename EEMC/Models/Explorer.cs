@@ -33,6 +33,26 @@ namespace EEMC.Models
             this.Content = content;
         }
 
+        public void AddFile(string filePath)
+        {
+            if (Type == ContentType.File)
+                throw new Exception("Невозможно добавить в файл - файл");
+
+            string fileName = Path.GetFileName(filePath);
+
+            string currentDicrectory = Environment.CurrentDirectory + NameWithPath;
+            string resultFileDirectory = Path.Combine(currentDicrectory, fileName);
+
+            if (File.Exists(resultFileDirectory))
+            {
+                return;
+            }
+
+            byte[] file = File.ReadAllBytes(filePath);
+
+            File.WriteAllBytes(resultFileDirectory, file);
+        }
+
         public void AddFolder(string folderName)
         {
             if (Type == ContentType.File)
@@ -69,10 +89,20 @@ namespace EEMC.Models
         {
             string courseDirectory = Environment.CurrentDirectory + NameWithPath;
 
-            if (!Directory.Exists(courseDirectory))
-                throw new Exception("Раздел не существует");
+            if (Type == ContentType.File)
+            {
+                if (!File.Exists(courseDirectory))
+                    throw new Exception("Файл не существует");
 
-            Directory.Delete(courseDirectory, true);
+                File.Delete(courseDirectory);
+            }
+            else
+            {
+                if (!Directory.Exists(courseDirectory))
+                    throw new Exception("Раздел не существует");
+
+                Directory.Delete(courseDirectory, true);
+            }
 
             //Будет автоматически вызван пересбор класса Course
         }

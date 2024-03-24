@@ -22,6 +22,7 @@ namespace EEMC
         public RenameCourseVM RenameCourseVM => _provider.GetRequiredService<RenameCourseVM>();
         public RemoveCourseVM RemoveCourseVM => _provider.GetRequiredService<RemoveCourseVM>();
         public CoursesListVM CoursesListVM => _provider.GetRequiredService<CoursesListVM>();
+        public AddFolderVM AddFolderVM => _provider.GetRequiredService<AddFolderVM>();
 
         public static void AddVMs(ServiceCollection services)
         {
@@ -31,6 +32,7 @@ namespace EEMC
             services.AddTransient<RenameCourseVM>();
             services.AddTransient<RemoveCourseVM>();
             services.AddTransient<CoursesListVM>();
+            services.AddTransient<AddFolderVM>();
         }
 
         public static void AddTemplates(ServiceCollection services)
