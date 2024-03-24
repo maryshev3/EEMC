@@ -25,25 +25,40 @@ namespace EEMC.Models
 
         public ObservableCollection<Explorer>? Content { get; set; }
 
-        public Explorer(string Name, string NameWithPath, ContentType Type, ObservableCollection<Explorer>? Content) 
+        public Explorer(string name, string nameWithPath, ContentType type, ObservableCollection<Explorer>? content) 
         {
-            this._name = Name;
-            this.NameWithPath = NameWithPath;
-            this.Type = Type;
-            this.Content = Content;
+            this._name = name;
+            this.NameWithPath = nameWithPath;
+            this.Type = type;
+            this.Content = content;
         }
 
-        public void Rename(string NewName)
+        public void AddFolder(string folderName)
+        {
+            if (Type == ContentType.File)
+                throw new Exception("Невозможно добавить раздел в файл");
+
+            string currentDicrectory = Environment.CurrentDirectory + NameWithPath;
+
+            string resultDirectory = Path.Combine(currentDicrectory, folderName);
+
+            if (Directory.Exists(resultDirectory))
+                throw new Exception("Раздел уже существует");
+
+            Directory.CreateDirectory(resultDirectory);
+        }
+
+        public void Rename(string newName)
         {
             //Проверка на имя курса
-            if (String.IsNullOrWhiteSpace(NewName))
-                throw new Exception("Название курса не содержит символов");
+            if (String.IsNullOrWhiteSpace(newName))
+                throw new Exception("Пустое название");
 
-            string courseDirectory = Path.Combine(Environment.CurrentDirectory, "Курсы", NewName);
             string oldCourseDirectory = Environment.CurrentDirectory + NameWithPath;
+            string courseDirectory = Path.Combine(oldCourseDirectory, "..", newName);
 
             if (Directory.Exists(courseDirectory))
-                throw new Exception("Курс уже существует");
+                throw new Exception("Раздел уже существует");
 
             Directory.Move(oldCourseDirectory, courseDirectory);
 
@@ -55,7 +70,7 @@ namespace EEMC.Models
             string courseDirectory = Environment.CurrentDirectory + NameWithPath;
 
             if (!Directory.Exists(courseDirectory))
-                throw new Exception("Курс не существует");
+                throw new Exception("Раздел не существует");
 
             Directory.Delete(courseDirectory, true);
 

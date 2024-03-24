@@ -6,7 +6,9 @@ using EEMC.ToXPSConverteres;
 using System;
 using System.IO;
 using System.Threading;
+using System.Windows;
 using System.Windows.Documents;
+using System.Windows.Input;
 using System.Windows.Xps.Packaging;
 
 namespace EEMC.ViewModels
@@ -91,5 +93,29 @@ namespace EEMC.ViewModels
             });
         }
 
+        public ICommand Add
+        {
+            get => new Commands.DelegateCommand(async (ChosenFolder) =>
+            {
+                if (ChosenFolder == null) 
+                {
+                    _currentCourse.AddFolder("saa");
+
+                    return;
+                }
+
+                Explorer explorer = ChosenFolder as Explorer;
+
+                if (explorer.Type == ContentType.File)
+                {
+                    MessageBox.Show("Нельзя добавить раздел, прикреплённый к файлу");
+
+                    return;
+                }
+
+                explorer.AddFolder("as");
+            }
+            );
+        }
     }
 }

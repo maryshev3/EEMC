@@ -24,5 +24,16 @@ namespace EEMC.Views
         {
             InitializeComponent();
         }
+
+        private void Page_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key != Key.Escape)
+                return;
+
+            var item = CourseTreeView.ItemContainerGenerator.ContainerFromItem(CourseTreeView.SelectedItem) as TreeViewItem;
+
+            if (item != null)
+                item.IsSelected = false;
+        }
     }
 }
