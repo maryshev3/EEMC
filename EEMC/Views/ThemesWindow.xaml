@@ -21,7 +21,7 @@
                         <Border
                             Height="150"
                             BorderThickness="2"
-                            BorderBrush="Red"
+                            BorderBrush="Black"
                             Margin="10"
                             HorizontalAlignment="Stretch">
                             <Grid>
