@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,45 +16,28 @@ namespace EEMC.ToXPSConverteres
         {
             return await Task<XpsDocument>.Run(() =>
             {
-                try
+                Microsoft.Office.Interop.Word.Application wordApplication = new Microsoft.Office.Interop.Word.Application();
+
+                wordApplication.Documents.Open(OriginFileName, ReadOnly: true, Visible: false, Revert: false);
+
+                if (wordApplication.Options.AlertIfNotDefault)
                 {
-                    Microsoft.Office.Interop.Word.Application wordApplication = new Microsoft.Office.Interop.Word.Application();
-                    Boolean isQuited = false;
-
-                    cancellationToken.Register(() =>
-                        {
-                            try
-                            {
-                                wordApplication.Quit();
-                            }
-                            catch
-                            {
-
-                            }
-                        }
-                    );
-
-                    wordApplication.Visible = false;
-                
-                    wordApplication.Documents.Open(OriginFileName, ReadOnly: true);
-
-                    Document doc = wordApplication.ActiveDocument;
-
-                    doc.SaveAs(XPSFileName, WdSaveFormat.wdFormatXPS);
-                    
-                    wordApplication.Quit();
-                    isQuited = true;
-
-                    XpsDocument xpsDoc = new XpsDocument(XPSFileName, System.IO.FileAccess.Read);
-
-                    return xpsDoc;
-                }
-                catch (Exception exp)
-                {
-                    string str = exp.Message;
+                    throw new Exception("Для работы необходимо установить Word в качестве приложения по умолчанию");
                 }
 
-                return null;
+                Document doc = wordApplication.ActiveDocument;
+
+                doc.SaveAs(XPSFileName, WdSaveFormat.wdFormatXPS);
+
+                Marshal.ReleaseComObject(doc);
+                Marshal.ReleaseComObject(wordApplication);
+
+                wordApplication.Documents.Close(SaveChanges: false);
+                wordApplication.Quit();
+
+                XpsDocument xpsDoc = new XpsDocument(XPSFileName, System.IO.FileAccess.Read);
+
+                return xpsDoc;
             }, cancellationToken
             );
         }

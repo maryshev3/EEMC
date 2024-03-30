@@ -95,11 +95,20 @@ namespace EEMC.ViewModels
                         }
 
                         _currentCancellationSource = new CancellationTokenSource();
-                        _xpsDocument = await _wordConverter.ToXpsConvertAsync(
-                            OriginDocumentName,
-                            Path.Combine(Environment.CurrentDirectory, Path.GetFileNameWithoutExtension((ChosenFile as Explorer).Name) + ".xps"),
-                            _currentCancellationSource.Token
-                        );
+                        try
+                        {
+                            _xpsDocument = await _wordConverter.ToXpsConvertAsync(
+                                OriginDocumentName,
+                                Path.Combine(Environment.CurrentDirectory, Path.GetFileNameWithoutExtension((ChosenFile as Explorer).Name) + ".xps"),
+                                _currentCancellationSource.Token
+                            );
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.Message);
+
+                            _xpsDocument = null;
+                        }
                         _currentCancellationSource?.Dispose();
                         _currentCancellationSource = null;
 

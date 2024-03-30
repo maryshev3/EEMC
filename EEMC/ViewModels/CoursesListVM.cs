@@ -45,7 +45,7 @@ namespace EEMC.ViewModels
                     }
                 }
 
-                await _messageBus.SendTo<CourseWindowVM>(new CourseMessage(_chosenCourse));
+                await _messageBus.SendTo<SwitcherCourseViewVM>(new CourseMessage(_chosenCourse));
             }
         }
 

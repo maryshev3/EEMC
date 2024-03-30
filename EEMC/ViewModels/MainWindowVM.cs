@@ -24,9 +24,9 @@ namespace EEMC.ViewModels
 
                 if (_chosenCourse != null)
                 {
-                    CurrentPage = new CourseWindow();
+                    CurrentPage = new SwitcherCourseView();
 
-                    _messageBus.SendTo<CourseWindowVM>(new CourseMessage(_chosenCourse));
+                    _messageBus.SendTo<SwitcherCourseViewVM>(new CourseMessage(_chosenCourse));
                 }
 
                 RaisePropertyChanged(() => Courses);
@@ -51,7 +51,7 @@ namespace EEMC.ViewModels
             if (_chosenCourse == null || fileExt == "" && e.ChangeType == WatcherChangeTypes.Deleted && e.Name == _chosenCourse.Name)
             {
                 _chosenCourse = null;
-                await _messageBus.SendTo<CourseWindowVM>(new CourseMessage(_chosenCourse));
+                await _messageBus.SendTo<SwitcherCourseViewVM>(new CourseMessage(_chosenCourse));
             }
 
             if (e.Name.Contains("~$"))
@@ -61,7 +61,7 @@ namespace EEMC.ViewModels
             {
                 Application.Current.Dispatcher.Invoke(() =>
                 {
-                    CurrentPage = new CourseWindow();
+                    CurrentPage = new SwitcherCourseView();
                 });
 
                 foreach(var course in Courses.Courses)
@@ -73,7 +73,7 @@ namespace EEMC.ViewModels
                     }
                 }
 
-                await _messageBus.SendTo<CourseWindowVM>(new CourseMessage(_chosenCourse));
+                await _messageBus.SendTo<SwitcherCourseViewVM>(new CourseMessage(_chosenCourse));
             }
         }
 
@@ -94,9 +94,9 @@ namespace EEMC.ViewModels
         {
             _chosenCourse = chosenCourse;
 
-            CurrentPage = new CourseWindow();
+            CurrentPage = new SwitcherCourseView();
 
-            await _messageBus.SendTo<CourseWindowVM>(new CourseMessage(_chosenCourse));
+            await _messageBus.SendTo<SwitcherCourseViewVM>(new CourseMessage(_chosenCourse));
         }
 
         public override ICommand OpenCourse_Click
