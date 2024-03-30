@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 
 namespace EEMC.Models
 {
@@ -70,6 +72,22 @@ namespace EEMC.Models
             Directory.CreateDirectory(resultDirectory);
         }
 
+        private Theme[] ReadAllThemes()
+        {
+            string json = File.ReadAllText("./themes.json");
+
+            var themes = JsonConvert.DeserializeObject<Theme[]>(json);
+
+            return themes;
+        }
+
+        private void RewriteAllThemes(Theme[] themes)
+        {
+            string json = JsonConvert.SerializeObject(themes);
+
+            File.WriteAllText("./themes.json", json);
+        }
+
         public void Rename(string newName)
         {
             //Проверка на имя курса
@@ -82,6 +100,19 @@ namespace EEMC.Models
             if (Directory.Exists(courseDirectory))
                 throw new Exception("Раздел уже существует");
 
+            //Переформировываем список тем (Name теперь - старое название курса) (если список тем для данного курса пуст - то нет смысла переформировывать json тем)
+            if (Themes != default && Themes.Any()) 
+            {
+                var allThemes = ReadAllThemes();
+
+                foreach (var theme in allThemes)
+                    if (theme.ThemeName == Name)
+                        theme.ThemeName = newName;
+
+                RewriteAllThemes(allThemes);
+            }
+
+            //Переименовываем
             Directory.Move(oldCourseDirectory, courseDirectory);
 
             //Будет автоматически вызван пересбор класса Course
@@ -102,6 +133,14 @@ namespace EEMC.Models
             {
                 if (!Directory.Exists(courseDirectory))
                     throw new Exception("Раздел не существует");
+
+                //Переформировываем список тем (удаляем все темы, связанные с курсом) (если список тем для данного курса пуст - то нет смысла переформировывать json тем)
+                if (Themes != default && Themes.Any())
+                {
+                    var allThemesWithoutThis = ReadAllThemes().Where(x => x.ThemeName != Name).ToArray();
+
+                    RewriteAllThemes(allThemesWithoutThis);
+                }
 
                 Directory.Delete(courseDirectory, true);
             }
