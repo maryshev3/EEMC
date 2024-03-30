@@ -59,11 +59,27 @@ namespace EEMC.ViewModels
             );
         }
 
+        public ICommand OpenThemes_Click
+        {
+            get => new Commands.DelegateCommand(async (obj) =>
+            {
+                await OpenThemesWindow();
+            }
+            );
+        }
+
         public async Task OpenCourseWindow()
         {
             CurrentPage = new CourseWindow();
 
             await _messageBus.SendTo<CourseWindowVM>(new CourseMessage(_currentCourse));
+        }
+
+        public async Task OpenThemesWindow()
+        {
+            CurrentPage = new ThemesWindow();
+
+            await _messageBus.SendTo<ThemesWindowVM>(new CourseMessage(_currentCourse));
         }
     }
 }

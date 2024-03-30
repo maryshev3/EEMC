@@ -19,7 +19,7 @@
 
         <Menu Grid.Row="0">
             <MenuItem Header="Просмотр материалов" Command="{Binding OpenFiles_Click}"></MenuItem>
-            <MenuItem Header="Просмотр занятий"></MenuItem>
+            <MenuItem Header="Просмотр занятий" Command="{Binding OpenThemes_Click}"></MenuItem>
         </Menu>
 
         <Frame
