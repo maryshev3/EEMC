@@ -25,6 +25,12 @@
     <Compile Update="Views\RenameCourse.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\SwitcherCourseView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\ThemesWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Views\AddCourse.xaml">
@@ -46,6 +52,12 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\RenameCourse.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\SwitcherCourseView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\ThemesWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

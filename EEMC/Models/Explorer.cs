@@ -25,6 +25,8 @@ namespace EEMC.Models
 
         public ObservableCollection<Explorer>? Content { get; set; }
 
+        public ObservableCollection<Theme>? Themes { get; set; }
+
         public Explorer(string name, string nameWithPath, ContentType type, ObservableCollection<Explorer>? content) 
         {
             this._name = name;
