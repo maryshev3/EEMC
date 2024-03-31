@@ -13,6 +13,9 @@
     <Compile Update="Views\AddFolder.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\AddTheme.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\CoursesList.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -37,6 +40,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\AddFolder.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\AddTheme.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\CoursesList.xaml">

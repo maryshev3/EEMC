@@ -86,6 +86,41 @@ namespace EEMC.Models
             string json = JsonConvert.SerializeObject(themes);
 
             File.WriteAllText("./themes.json", json);
+
+            //Иммитируем пересбор курсов
+            string tmpDir = Path.Combine(Environment.CurrentDirectory, "Курсы", "tmpf");
+
+            if (!Directory.Exists(tmpDir))
+            {
+                Directory.CreateDirectory(tmpDir);
+                Directory.Delete(tmpDir);
+            }
+            else
+            {
+                Directory.Delete(tmpDir, true);
+            }
+        }
+
+        public void AddTheme(string themeName)
+        {
+            bool isExistingTheme = Themes.Where(x => x.ThemeName == themeName).Any();
+
+            if (isExistingTheme)
+            {
+                throw new Exception("Производится попытка добавить существующую тему");
+            }
+
+            var allThemes = ReadAllThemes().ToList();
+
+            allThemes.Add(
+                new Theme()
+                {
+                    CourseName = Name,
+                    ThemeName = themeName
+                }
+            );
+
+            RewriteAllThemes(allThemes.ToArray());
         }
 
         public void Rename(string newName)
@@ -106,8 +141,8 @@ namespace EEMC.Models
                 var allThemes = ReadAllThemes();
 
                 foreach (var theme in allThemes)
-                    if (theme.ThemeName == Name)
-                        theme.ThemeName = newName;
+                    if (theme.CourseName == Name)
+                        theme.CourseName = newName;
 
                 RewriteAllThemes(allThemes);
             }
@@ -137,7 +172,7 @@ namespace EEMC.Models
                 //Переформировываем список тем (удаляем все темы, связанные с курсом) (если список тем для данного курса пуст - то нет смысла переформировывать json тем)
                 if (Themes != default && Themes.Any())
                 {
-                    var allThemesWithoutThis = ReadAllThemes().Where(x => x.ThemeName != Name).ToArray();
+                    var allThemesWithoutThis = ReadAllThemes().Where(x => x.CourseName != Name).ToArray();
 
                     RewriteAllThemes(allThemesWithoutThis);
                 }

@@ -10,7 +10,14 @@
       Title="ThemesWindow">
 
     <Grid>
-        <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.15*"/>
+            <RowDefinition Height="0.9*"/>
+        </Grid.RowDefinitions>
+        <Button Width="120" Height="50" Grid.Row="0" Command="{Binding AddTheme_Click}">
+            Добавить тему урока
+        </Button>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1">
             <ItemsControl
                 Name="ThemesList"
                 ItemsSource="{Binding Path=CurrentCourse.Themes, Mode=OneWay}"

@@ -1,0 +1,46 @@
+﻿<UserControl x:Class="EEMC.Views.AddTheme"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:EEMC.Views"
+             mc:Ignorable="d"
+             DataContext="{Binding AddThemeVM, Source={StaticResource ViewModelLocator}}">
+    <Grid Background="AliceBlue">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="400"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="45"/>
+            <RowDefinition Height="60"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock 
+        Grid.Column="0" 
+        HorizontalAlignment="Center"
+        VerticalAlignment="Center"
+        Margin="10">
+        Название темы
+        </TextBlock>
+        <TextBox 
+        Grid.Column="1"
+        Margin="10"
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Center"
+        x:Name="inputBox">
+        </TextBox>
+        <Button
+        Grid.Row="1"
+        Margin="10"
+        HorizontalAlignment="Center"
+        VerticalAlignment="Center"
+        Height="40"
+        Width="100"
+        Command="{Binding Path=AddTheme_Click}"
+        CommandParameter="{Binding Text, ElementName=inputBox}">
+            Добавить тему
+        </Button>
+    </Grid>
+</UserControl>
