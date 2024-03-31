@@ -56,5 +56,24 @@ namespace EEMC.ViewModels
             }
             );
         }
+
+        public ICommand RenameTheme_Click
+        {
+            get => new Commands.DelegateCommand(async (currentTheme) =>
+            {
+                Window window = new Window
+                {
+                    SizeToContent = SizeToContent.WidthAndHeight,
+                    ResizeMode = ResizeMode.NoResize,
+                    Title = "Переименование темы",
+                    Content = new RenameTheme()
+                };
+
+                await _messageBus.SendTo<RenameThemeVM>(new ThemeWindowMessage(window, currentTheme as Theme));
+
+                window.ShowDialog();
+            }
+            );
+        }
     }
 }

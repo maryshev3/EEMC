@@ -26,6 +26,7 @@ namespace EEMC
         public SwitcherCourseViewVM SwitcherCourseViewVM => _provider.GetRequiredService<SwitcherCourseViewVM>();
         public ThemesWindowVM ThemesWindowVM => _provider.GetRequiredService<ThemesWindowVM>();
         public AddThemeVM AddThemeVM => _provider.GetRequiredService<AddThemeVM>();
+        public RenameThemeVM RenameThemeVM => _provider.GetRequiredService<RenameThemeVM>();
 
         public static void AddVMs(ServiceCollection services)
         {
@@ -39,6 +40,7 @@ namespace EEMC
             services.AddTransient<SwitcherCourseViewVM>();
             services.AddTransient<ThemesWindowVM>();
             services.AddTransient<AddThemeVM>();
+            services.AddTransient<RenameThemeVM>();
         }
 
         public static void AddTemplates(ServiceCollection services)

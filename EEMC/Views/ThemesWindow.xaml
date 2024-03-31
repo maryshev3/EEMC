@@ -32,12 +32,43 @@
                             Margin="10"
                             HorizontalAlignment="Stretch">
                             <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="0.9*"/>
+                                    <ColumnDefinition Width="0.1*"/>
+                                </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="0.2*"/>
-                                    <RowDefinition Height="0.8*"/>
+                                    <RowDefinition Height="0.3*"/>
+                                    <RowDefinition Height="0.7*"/>
                                 </Grid.RowDefinitions>
-                                <Label Content="{Binding Path=ThemeName}" Grid.Row="0" FontWeight="Bold"/>
-                                <Label Content="{Binding Path=ThemeDescription}" Grid.Row="1"/>
+                                <Label Content="{Binding Path=ThemeName}" Grid.Row="0" FontWeight="Bold" Grid.Column="0"/>
+                                <Button
+                                    Background="White"
+                                    BorderThickness="0"
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    Margin="10"
+                                    Width="30"
+                                    Command="{Binding ElementName=ThemesList, Path=DataContext.RenameTheme_Click}"
+                                    CommandParameter="{Binding}">
+                                    <Image Source="/Resources/modify_icon.png"/>
+                                </Button>
+                                <Grid Grid.Row="1" Grid.Column="0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="0.3*"/>
+                                        <RowDefinition Height="0.7*"/>
+                                    </Grid.RowDefinitions>
+                                    <Label Grid.Row="0" FontWeight="Bold">Описание темы:</Label>
+                                    <Label Content="{Binding Path=ThemeDescription}" Grid.Row="1"/>
+                                </Grid>
+                                <Button
+                                    Background="White"
+                                    BorderThickness="0"
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    Margin="10"
+                                    Width="30">
+                                    <Image Source="/Resources/modify_icon.png"/>
+                                </Button>
                             </Grid>
                         </Border>
                     </DataTemplate>
