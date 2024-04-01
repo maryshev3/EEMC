@@ -52,5 +52,14 @@ namespace EEMC.Models
 
             Theme.RewriteAllThemes(allThemes.ToArray());
         }
+
+        public void ChangeDescription(string newDescription)
+        {
+            var allThemes = Theme.ReadAllThemes().ToList();
+
+            allThemes.First(x => x.ThemeName == ThemeName && x.CourseName == CourseName).ThemeDescription = newDescription;
+
+            Theme.RewriteAllThemes(allThemes.ToArray());
+        }
     }
 }

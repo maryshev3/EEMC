@@ -75,5 +75,24 @@ namespace EEMC.ViewModels
             }
             );
         }
+
+        public ICommand ChangeDescriptionTheme_Click
+        {
+            get => new Commands.DelegateCommand(async (currentTheme) =>
+            {
+                Window window = new Window
+                {
+                    SizeToContent = SizeToContent.WidthAndHeight,
+                    ResizeMode = ResizeMode.NoResize,
+                    Title = "Изменение описания темы",
+                    Content = new ChangeDescriptionTheme()
+                };
+
+                await _messageBus.SendTo<ChangeDescriptionThemeVM>(new ThemeWindowMessage(window, currentTheme as Theme));
+
+                window.ShowDialog();
+            }
+            );
+        }
     }
 }

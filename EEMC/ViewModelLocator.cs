@@ -27,6 +27,7 @@ namespace EEMC
         public ThemesWindowVM ThemesWindowVM => _provider.GetRequiredService<ThemesWindowVM>();
         public AddThemeVM AddThemeVM => _provider.GetRequiredService<AddThemeVM>();
         public RenameThemeVM RenameThemeVM => _provider.GetRequiredService<RenameThemeVM>();
+        public ChangeDescriptionThemeVM ChangeDescriptionThemeVM => _provider.GetRequiredService<ChangeDescriptionThemeVM>();
 
         public static void AddVMs(ServiceCollection services)
         {
@@ -41,6 +42,7 @@ namespace EEMC
             services.AddTransient<ThemesWindowVM>();
             services.AddTransient<AddThemeVM>();
             services.AddTransient<RenameThemeVM>();
+            services.AddTransient<ChangeDescriptionThemeVM>();
         }
 
         public static void AddTemplates(ServiceCollection services)
