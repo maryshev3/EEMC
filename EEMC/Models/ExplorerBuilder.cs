@@ -10,6 +10,7 @@ namespace EEMC.Models
         public static Explorer Build(string ExplorerPath) 
         {
             string ExpName = ExplorerPath.Split(Path.DirectorySeparatorChar).Last();
+
             Explorer explorer = new Explorer
                 (
                     ExplorerPath.Split(Path.DirectorySeparatorChar).Last(),
@@ -19,7 +20,7 @@ namespace EEMC.Models
                 );
 
             //Заполняем папки
-            string[] directories = Directory.GetDirectories(ExplorerPath);
+            var directories = Directory.GetDirectories(ExplorerPath).Where(x => !x.Contains("tmpf"));
             foreach (string directory in directories)
                 explorer.Content.Add(Build(directory));
 

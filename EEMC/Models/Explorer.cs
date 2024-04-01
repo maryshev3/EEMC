@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 
 namespace EEMC.Models
 {
@@ -70,6 +72,28 @@ namespace EEMC.Models
             Directory.CreateDirectory(resultDirectory);
         }
 
+        public void AddTheme(string themeName)
+        {
+            bool isExistingTheme = Themes.Where(x => x.ThemeName == themeName).Any();
+
+            if (isExistingTheme)
+            {
+                throw new Exception("Производится попытка добавить существующую тему");
+            }
+
+            var allThemes = Theme.ReadAllThemes().ToList();
+
+            allThemes.Add(
+                new Theme()
+                {
+                    CourseName = Name,
+                    ThemeName = themeName
+                }
+            );
+
+            Theme.RewriteAllThemes(allThemes.ToArray());
+        }
+
         public void Rename(string newName)
         {
             //Проверка на имя курса
@@ -82,6 +106,19 @@ namespace EEMC.Models
             if (Directory.Exists(courseDirectory))
                 throw new Exception("Раздел уже существует");
 
+            //Переформировываем список тем (Name теперь - старое название курса) (если список тем для данного курса пуст - то нет смысла переформировывать json тем)
+            if (Themes != default && Themes.Any()) 
+            {
+                var allThemes = Theme.ReadAllThemes();
+
+                foreach (var theme in allThemes)
+                    if (theme.CourseName == Name)
+                        theme.CourseName = newName;
+
+                Theme.RewriteAllThemes(allThemes);
+            }
+
+            //Переименовываем
             Directory.Move(oldCourseDirectory, courseDirectory);
 
             //Будет автоматически вызван пересбор класса Course
@@ -102,6 +139,14 @@ namespace EEMC.Models
             {
                 if (!Directory.Exists(courseDirectory))
                     throw new Exception("Раздел не существует");
+
+                //Переформировываем список тем (удаляем все темы, связанные с курсом) (если список тем для данного курса пуст - то нет смысла переформировывать json тем)
+                if (Themes != default && Themes.Any())
+                {
+                    var allThemesWithoutThis = Theme.ReadAllThemes().Where(x => x.CourseName != Name).ToArray();
+
+                    Theme.RewriteAllThemes(allThemesWithoutThis);
+                }
 
                 Directory.Delete(courseDirectory, true);
             }

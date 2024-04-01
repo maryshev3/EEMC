@@ -13,6 +13,12 @@
     <Compile Update="Views\AddFolder.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\AddTheme.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\ChangeDescriptionTheme.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\CoursesList.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -23,6 +29,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\RenameCourse.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\RenameTheme.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\SwitcherCourseView.xaml.cs">
@@ -39,6 +48,12 @@
     <Page Update="Views\AddFolder.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Views\AddTheme.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\ChangeDescriptionTheme.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Views\CoursesList.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -52,6 +67,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\RenameCourse.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\RenameTheme.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\SwitcherCourseView.xaml">
