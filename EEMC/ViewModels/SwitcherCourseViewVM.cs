@@ -15,7 +15,7 @@ namespace EEMC.ViewModels
 {
     public class SwitcherCourseViewVM : ViewModelBase
     {
-        private Page _currentPage = null;
+        private static Page _currentPage = null;
         public Page CurrentPage
         {
             get => _currentPage;
