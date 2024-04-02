@@ -48,6 +48,13 @@ namespace EEMC.Models
         {
             var allThemes = Theme.ReadAllThemes();
 
+            bool isExisting = allThemes.Where(x => x.ThemeName == newThemeName && x.CourseName == CourseName).Any();
+
+            if (isExisting)
+            {
+                throw new Exception("Новое имя темы не может совпадать с уже существующей");
+            }
+
             allThemes.First(x => x.ThemeName == ThemeName && x.CourseName == CourseName).ThemeName = newThemeName;
 
             Theme.RewriteAllThemes(allThemes);
