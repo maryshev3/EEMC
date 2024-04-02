@@ -9,6 +9,16 @@
       DataContext="{Binding ThemesWindowVM, Source={StaticResource ViewModelLocator}}"
       Title="ThemesWindow">
 
+    <Page.Resources>
+        <Style TargetType="Button" x:Key="RoundButton">
+            <Style.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="10" />
+                </Style>
+            </Style.Resources>
+        </Style>
+    </Page.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="0.15*"/>
@@ -40,14 +50,27 @@
                                     <RowDefinition Height="0.3*"/>
                                     <RowDefinition Height="0.7*"/>
                                 </Grid.RowDefinitions>
+                                <Button
+                                    Command="{Binding ElementName=ThemesList, Path=DataContext.RemoveTheme_Click}"
+                                    CommandParameter="{Binding}"
+                                    Style="{DynamicResource RoundButton}"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Top"
+                                    Width="25"
+                                    Height="25"
+                                    Content="X"
+                                    Grid.RowSpan="2"
+                                    Grid.ColumnSpan="2"/>
                                 <Label Content="{Binding Path=ThemeName}" Grid.Row="0" FontWeight="Bold" Grid.Column="0"/>
                                 <Button
                                     Background="White"
                                     BorderThickness="0"
                                     Grid.Row="0"
-                                    Grid.Column="1"
+                                    Grid.Column="0"
                                     Margin="10"
-                                    Width="30"
+                                    Width="25"
+                                    Height="25"
+                                    VerticalAlignment="Top"
                                     Command="{Binding ElementName=ThemesList, Path=DataContext.RenameTheme_Click}"
                                     CommandParameter="{Binding}">
                                     <Image Source="/Resources/modify_icon.png"/>
@@ -64,9 +87,11 @@
                                     Background="White"
                                     BorderThickness="0"
                                     Grid.Row="1"
-                                    Grid.Column="1"
+                                    Grid.Column="0"
                                     Margin="10"
-                                    Width="30"
+                                    Width="25"
+                                    Height="25"
+                                    VerticalAlignment="Top"
                                     Command="{Binding ElementName=ThemesList, Path=DataContext.ChangeDescriptionTheme_Click}"
                                     CommandParameter="{Binding}">
                                     <Image Source="/Resources/modify_icon.png"/>

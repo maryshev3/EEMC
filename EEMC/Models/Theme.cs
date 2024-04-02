@@ -46,20 +46,29 @@ namespace EEMC.Models
 
         public void RenameTheme(string newThemeName)
         {
-            var allThemes = Theme.ReadAllThemes().ToList();
+            var allThemes = Theme.ReadAllThemes();
 
             allThemes.First(x => x.ThemeName == ThemeName && x.CourseName == CourseName).ThemeName = newThemeName;
 
-            Theme.RewriteAllThemes(allThemes.ToArray());
+            Theme.RewriteAllThemes(allThemes);
         }
 
         public void ChangeDescription(string newDescription)
         {
-            var allThemes = Theme.ReadAllThemes().ToList();
+            var allThemes = Theme.ReadAllThemes();
 
             allThemes.First(x => x.ThemeName == ThemeName && x.CourseName == CourseName).ThemeDescription = newDescription;
 
-            Theme.RewriteAllThemes(allThemes.ToArray());
+            Theme.RewriteAllThemes(allThemes);
+        }
+
+        public void RemoveTheme()
+        {
+            var allThemes = Theme.ReadAllThemes();
+
+            var allThemesFiltered = allThemes.Where(x => x.ThemeName != ThemeName || x.CourseName != CourseName).ToArray();
+
+            Theme.RewriteAllThemes(allThemesFiltered);
         }
     }
 }
