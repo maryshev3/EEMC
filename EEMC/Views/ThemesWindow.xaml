@@ -24,7 +24,7 @@
             <RowDefinition Height="0.15*"/>
             <RowDefinition Height="0.9*"/>
         </Grid.RowDefinitions>
-        <Button Width="120" Height="50" Grid.Row="0" Command="{Binding AddTheme_Click}">
+        <Button Width="190" Height="50" Grid.Row="0" Command="{Binding AddTheme_Click}" FontSize="18">
             Добавить тему урока
         </Button>
         <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1">
@@ -44,7 +44,7 @@
                                 Grid.Row="0"
                                 Orientation="Horizontal"
                                 Margin="10, 0, 10, 0">
-                                <Label>Не отображать при импорте?</Label>
+                                <Label FontSize="18">Не отображать при импорте?</Label>
                                 <CheckBox
                                     Width="25"
                                     Height="25"
@@ -79,9 +79,10 @@
                                         Width="25"
                                         Height="25"
                                         Content="X"
+                                        FontSize="18"
                                         Grid.RowSpan="2"
                                         Grid.ColumnSpan="2"/>
-                                    <Label Content="{Binding Path=ThemeName}" Grid.Row="0" FontWeight="Bold" Grid.Column="0"/>
+                                    <Label Content="{Binding Path=ThemeName}" Grid.Row="0" FontWeight="Bold" Grid.Column="0" FontSize="18"/>
                                     <Button
                                         Background="White"
                                         BorderThickness="0"
@@ -100,8 +101,8 @@
                                             <RowDefinition Height="0.3*"/>
                                             <RowDefinition Height="0.7*"/>
                                         </Grid.RowDefinitions>
-                                        <Label Grid.Row="0" FontWeight="Bold">Описание темы:</Label>
-                                        <Label Content="{Binding Path=ThemeDescription}" Grid.Row="1"/>
+                                        <Label Grid.Row="0" FontWeight="Bold" FontSize="18">Описание темы:</Label>
+                                        <Label Content="{Binding Path=ThemeDescription}" Grid.Row="1" FontSize="18"/>
                                     </Grid>
                                     <Button
                                         Background="White"
