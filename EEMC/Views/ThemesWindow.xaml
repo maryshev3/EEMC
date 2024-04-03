@@ -35,69 +35,90 @@
                 Background="#F5E7E3">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Border
-                            Height="150"
-                            BorderThickness="2"
-                            BorderBrush="Black"
-                            Margin="10"
-                            HorizontalAlignment="Stretch">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="0.9*"/>
-                                    <ColumnDefinition Width="0.1*"/>
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="0.3*"/>
-                                    <RowDefinition Height="0.7*"/>
-                                </Grid.RowDefinitions>
-                                <Button
-                                    Command="{Binding ElementName=ThemesList, Path=DataContext.RemoveTheme_Click}"
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="0.1*"/>
+                                <RowDefinition Height="0.9*"/>
+                            </Grid.RowDefinitions>
+                            <StackPanel
+                                Grid.Row="0"
+                                Orientation="Horizontal"
+                                Margin="10, 0, 10, 0">
+                                <Label>Не отображать при импорте?</Label>
+                                <CheckBox
+                                    Width="25"
+                                    Height="25"
+                                    VerticalAlignment="Bottom"
+                                    IsChecked="{Binding Path=IsHiden, Mode=OneWay}"
+                                    Command="{Binding ElementName=ThemesList, Path=DataContext.ChangeHidenModeTheme_Click}"
                                     CommandParameter="{Binding}"
-                                    Style="{DynamicResource RoundButton}"
-                                    HorizontalAlignment="Right"
-                                    VerticalAlignment="Top"
-                                    Width="25"
-                                    Height="25"
-                                    Content="X"
-                                    Grid.RowSpan="2"
-                                    Grid.ColumnSpan="2"/>
-                                <Label Content="{Binding Path=ThemeName}" Grid.Row="0" FontWeight="Bold" Grid.Column="0"/>
-                                <Button
-                                    Background="White"
-                                    BorderThickness="0"
-                                    Grid.Row="0"
-                                    Grid.Column="0"
-                                    Margin="10"
-                                    Width="25"
-                                    Height="25"
-                                    VerticalAlignment="Top"
-                                    Command="{Binding ElementName=ThemesList, Path=DataContext.RenameTheme_Click}"
-                                    CommandParameter="{Binding}">
-                                    <Image Source="/Resources/modify_icon.png"/>
-                                </Button>
-                                <Grid Grid.Row="1" Grid.Column="0">
+                                    />
+                            </StackPanel>
+                            <Border
+                                Height="150"
+                                BorderThickness="2"
+                                BorderBrush="Black"
+                                Margin="10"
+                                Grid.Row="1"
+                                HorizontalAlignment="Stretch">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="0.9*"/>
+                                        <ColumnDefinition Width="0.1*"/>
+                                    </Grid.ColumnDefinitions>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="0.3*"/>
                                         <RowDefinition Height="0.7*"/>
                                     </Grid.RowDefinitions>
-                                    <Label Grid.Row="0" FontWeight="Bold">Описание темы:</Label>
-                                    <Label Content="{Binding Path=ThemeDescription}" Grid.Row="1"/>
+                                    <Button
+                                        Command="{Binding ElementName=ThemesList, Path=DataContext.RemoveTheme_Click}"
+                                        CommandParameter="{Binding}"
+                                        Style="{DynamicResource RoundButton}"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Top"
+                                        Width="25"
+                                        Height="25"
+                                        Content="X"
+                                        Grid.RowSpan="2"
+                                        Grid.ColumnSpan="2"/>
+                                    <Label Content="{Binding Path=ThemeName}" Grid.Row="0" FontWeight="Bold" Grid.Column="0"/>
+                                    <Button
+                                        Background="White"
+                                        BorderThickness="0"
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        Margin="10"
+                                        Width="25"
+                                        Height="25"
+                                        VerticalAlignment="Top"
+                                        Command="{Binding ElementName=ThemesList, Path=DataContext.RenameTheme_Click}"
+                                        CommandParameter="{Binding}">
+                                        <Image Source="/Resources/modify_icon.png"/>
+                                    </Button>
+                                    <Grid Grid.Row="1" Grid.Column="0">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="0.3*"/>
+                                            <RowDefinition Height="0.7*"/>
+                                        </Grid.RowDefinitions>
+                                        <Label Grid.Row="0" FontWeight="Bold">Описание темы:</Label>
+                                        <Label Content="{Binding Path=ThemeDescription}" Grid.Row="1"/>
+                                    </Grid>
+                                    <Button
+                                        Background="White"
+                                        BorderThickness="0"
+                                        Grid.Row="1"
+                                        Grid.Column="0"
+                                        Margin="10"
+                                        Width="25"
+                                        Height="25"
+                                        VerticalAlignment="Top"
+                                        Command="{Binding ElementName=ThemesList, Path=DataContext.ChangeDescriptionTheme_Click}"
+                                        CommandParameter="{Binding}">
+                                        <Image Source="/Resources/modify_icon.png"/>
+                                    </Button>
                                 </Grid>
-                                <Button
-                                    Background="White"
-                                    BorderThickness="0"
-                                    Grid.Row="1"
-                                    Grid.Column="0"
-                                    Margin="10"
-                                    Width="25"
-                                    Height="25"
-                                    VerticalAlignment="Top"
-                                    Command="{Binding ElementName=ThemesList, Path=DataContext.ChangeDescriptionTheme_Click}"
-                                    CommandParameter="{Binding}">
-                                    <Image Source="/Resources/modify_icon.png"/>
-                                </Button>
-                            </Grid>
-                        </Border>
+                            </Border>
+                        </Grid>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>

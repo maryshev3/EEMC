@@ -12,6 +12,7 @@ namespace EEMC.Models
     {
         public string ThemeName { get; set; }
         public string ThemeDescription { get; set; }
+        public Boolean IsHiden { get; set; }
         //Воспринимать как внешний ключ к Course
         public string CourseName { get; set; }
 
@@ -62,6 +63,9 @@ namespace EEMC.Models
 
         public void ChangeDescription(string newDescription)
         {
+            if (ThemeDescription == newDescription)
+                return;
+
             var allThemes = Theme.ReadAllThemes();
 
             allThemes.First(x => x.ThemeName == ThemeName && x.CourseName == CourseName).ThemeDescription = newDescription;
@@ -76,6 +80,15 @@ namespace EEMC.Models
             var allThemesFiltered = allThemes.Where(x => x.ThemeName != ThemeName || x.CourseName != CourseName).ToArray();
 
             Theme.RewriteAllThemes(allThemesFiltered);
+        }
+
+        public void ChangeHidenMode()
+        {
+            var allThemes = Theme.ReadAllThemes();
+
+            allThemes.First(x => x.ThemeName == ThemeName && x.CourseName == CourseName).IsHiden = !IsHiden;
+
+            Theme.RewriteAllThemes(allThemes);
         }
     }
 }

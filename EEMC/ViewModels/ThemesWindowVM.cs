@@ -113,5 +113,17 @@ namespace EEMC.ViewModels
             }
             );
         }
+
+        public ICommand ChangeHidenModeTheme_Click
+        {
+            get => new Commands.DelegateCommand(async (currentTheme) =>
+            {
+                Theme currentThemeConverted = currentTheme as Theme;
+
+                if (currentThemeConverted != default)
+                    currentThemeConverted.ChangeHidenMode();
+            }
+            );
+        }
     }
 }
