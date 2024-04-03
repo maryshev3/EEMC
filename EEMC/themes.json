@@ -2,26 +2,31 @@
   {
     "ThemeName": "Тема 1",
     "ThemeDescription": "Описание темы 1",
+    "IsHiden": false,
     "CourseName": "das"
   },
   {
     "ThemeName": "Тема 1",
     "ThemeDescription": "Описание темы 1 из новой папки",
+    "IsHiden": false,
     "CourseName": "Новая папка"
   },
   {
     "ThemeName": "Тема 2",
     "ThemeDescription": "Описание темы 2",
+    "IsHiden": false,
     "CourseName": "das"
   },
   {
     "ThemeName": "Тема 3",
     "ThemeDescription": "Описание темы 3",
+    "IsHiden": false,
     "CourseName": "das"
   },
   {
     "ThemeName": "Тема 4",
     "ThemeDescription": "Описание темы 4",
+    "IsHiden": false,
     "CourseName": "das"
   }
 ]

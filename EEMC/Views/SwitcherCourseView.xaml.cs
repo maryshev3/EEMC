@@ -32,7 +32,10 @@ namespace EEMC.Views
 
             if (vm != null)
             {
-                vm.OpenCourseWindow().Wait();
+                if (vm.CurrentPage is ThemesWindow)
+                    vm.OpenThemesWindow().Wait();
+                else
+                    vm.OpenCourseWindow().Wait();
             }
         }
     }

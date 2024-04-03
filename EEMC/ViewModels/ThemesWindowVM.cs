@@ -94,5 +94,36 @@ namespace EEMC.ViewModels
             }
             );
         }
+
+        public ICommand RemoveTheme_Click
+        {
+            get => new Commands.DelegateCommand(async (currentTheme) =>
+            {
+                Window window = new Window
+                {
+                    SizeToContent = SizeToContent.WidthAndHeight,
+                    ResizeMode = ResizeMode.NoResize,
+                    Title = "Удаление темы",
+                    Content = new RemoveTheme()
+                };
+
+                await _messageBus.SendTo<RemoveThemeVM>(new ThemeWindowMessage(window, currentTheme as Theme));
+
+                window.ShowDialog();
+            }
+            );
+        }
+
+        public ICommand ChangeHidenModeTheme_Click
+        {
+            get => new Commands.DelegateCommand(async (currentTheme) =>
+            {
+                Theme currentThemeConverted = currentTheme as Theme;
+
+                if (currentThemeConverted != default)
+                    currentThemeConverted.ChangeHidenMode();
+            }
+            );
+        }
     }
 }

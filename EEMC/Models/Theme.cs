@@ -12,6 +12,7 @@ namespace EEMC.Models
     {
         public string ThemeName { get; set; }
         public string ThemeDescription { get; set; }
+        public Boolean IsHiden { get; set; }
         //Воспринимать как внешний ключ к Course
         public string CourseName { get; set; }
 
@@ -46,20 +47,48 @@ namespace EEMC.Models
 
         public void RenameTheme(string newThemeName)
         {
-            var allThemes = Theme.ReadAllThemes().ToList();
+            var allThemes = Theme.ReadAllThemes();
+
+            bool isExisting = allThemes.Where(x => x.ThemeName == newThemeName && x.CourseName == CourseName).Any();
+
+            if (isExisting)
+            {
+                throw new Exception("Новое имя темы не может совпадать с уже существующей");
+            }
 
             allThemes.First(x => x.ThemeName == ThemeName && x.CourseName == CourseName).ThemeName = newThemeName;
 
-            Theme.RewriteAllThemes(allThemes.ToArray());
+            Theme.RewriteAllThemes(allThemes);
         }
 
         public void ChangeDescription(string newDescription)
         {
-            var allThemes = Theme.ReadAllThemes().ToList();
+            if (ThemeDescription == newDescription)
+                return;
+
+            var allThemes = Theme.ReadAllThemes();
 
             allThemes.First(x => x.ThemeName == ThemeName && x.CourseName == CourseName).ThemeDescription = newDescription;
 
-            Theme.RewriteAllThemes(allThemes.ToArray());
+            Theme.RewriteAllThemes(allThemes);
+        }
+
+        public void RemoveTheme()
+        {
+            var allThemes = Theme.ReadAllThemes();
+
+            var allThemesFiltered = allThemes.Where(x => x.ThemeName != ThemeName || x.CourseName != CourseName).ToArray();
+
+            Theme.RewriteAllThemes(allThemesFiltered);
+        }
+
+        public void ChangeHidenMode()
+        {
+            var allThemes = Theme.ReadAllThemes();
+
+            allThemes.First(x => x.ThemeName == ThemeName && x.CourseName == CourseName).IsHiden = !IsHiden;
+
+            Theme.RewriteAllThemes(allThemes);
         }
     }
 }

@@ -74,7 +74,7 @@ namespace EEMC.Models
 
         public void AddTheme(string themeName)
         {
-            bool isExistingTheme = Themes.Where(x => x.ThemeName == themeName).Any();
+            bool isExistingTheme = Themes?.Where(x => x.ThemeName == themeName).Any() ?? false;
 
             if (isExistingTheme)
             {
