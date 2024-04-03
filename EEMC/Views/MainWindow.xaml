@@ -58,6 +58,7 @@
                             <Button
                                 Style="{DynamicResource RoundButton}"
                                 Content="{Binding Path=Name}"
+                                FontSize="18"
                                 Command="{Binding ElementName=CoursesList, Path=DataContext.OpenCourse_Click}"
                                 CommandParameter="{Binding}"
                                 Background="#FFFFFF"
