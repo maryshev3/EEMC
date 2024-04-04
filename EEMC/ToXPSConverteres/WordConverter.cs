@@ -18,21 +18,19 @@ namespace EEMC.ToXPSConverteres
             {
                 Microsoft.Office.Interop.Word.Application wordApplication = new Microsoft.Office.Interop.Word.Application();
 
-                wordApplication.Documents.Open(OriginFileName, ReadOnly: true, Visible: false, Revert: false);
+                Document doc = wordApplication.Documents.Open(OriginFileName, ReadOnly: true, Visible: false, Revert: false);
+                doc.Activate();
 
-                if (wordApplication.Options.AlertIfNotDefault)
+                if (!wordApplication.Options.AlertIfNotDefault)
                 {
                     throw new Exception("Для работы необходимо установить Word в качестве приложения по умолчанию");
                 }
 
-                Document doc = wordApplication.ActiveDocument;
-
+                
                 doc.SaveAs(XPSFileName, WdSaveFormat.wdFormatXPS);
 
-                Marshal.ReleaseComObject(doc);
-                Marshal.ReleaseComObject(wordApplication);
 
-                wordApplication.Documents.Close(SaveChanges: false);
+                doc.Close();
                 wordApplication.Quit();
 
                 XpsDocument xpsDoc = new XpsDocument(XPSFileName, System.IO.FileAccess.Read);
