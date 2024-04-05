@@ -10,7 +10,7 @@
         Title="ЭУМК Конструктор"
         Icon="/Resources/app_icon.png"
         Height="540"
-        Width="960"
+        Width="1000"
         MinWidth="600"
         MinHeight="340"
         DataContext="{Binding MainWindowVM, Source={StaticResource ViewModelLocator}}"
@@ -24,6 +24,25 @@
                 </Style>
             </Style.Resources>
         </Style>
+        <ControlTemplate x:Key="NoMouseOverButtonTemplate"   
+                 TargetType="Button">
+            <Border Background="{TemplateBinding Background}"  
+          BorderBrush="{TemplateBinding BorderBrush}"  
+          BorderThickness="{TemplateBinding BorderThickness}">
+                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"  
+                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+            </Border>
+
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsEnabled"  
+             Value="False">
+                    <Setter Property="Background"  
+              Value="{x:Static SystemColors.ControlLightBrush}" />
+                    <Setter Property="Foreground"  
+              Value="{x:Static SystemColors.GrayTextBrush}" />
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
     </Window.Resources>
 
     <Grid>
@@ -59,6 +78,11 @@
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     BorderThickness="0, 0, 0, 2"
+                    Name="AddMainButton"
+                    Template="{StaticResource NoMouseOverButtonTemplate}"
+                    MouseEnter="AddMainButton_MouseEnter"
+                    MouseLeave="AddMainButton_MouseLeave"
+                    Margin="5, 2, 2, 2"
                     BorderBrush="#ebedf7">
                     <Label HorizontalAlignment="Left" Width="200" FontSize="18" FontWeight="Bold">Добавить курс</Label>
                 </Button>
@@ -87,13 +111,21 @@
                                 Foreground="Black"
                                 Height="auto"
                                 Width="auto"
+                                Template="{StaticResource NoMouseOverButtonTemplate}"
                                 HorizontalAlignment="Stretch"
                                 HorizontalContentAlignment="Left"
                                 Padding="5"
+                                Margin="4"
                                 BorderBrush="#f7f7fa">
                                 <StackPanel Orientation="Horizontal">
-                                    <Label Content="{Binding Path=Name}"/>
-                                    <Button Background="#f7f7fa" BorderThickness="0" Name="ContextButton" Click="ContextButton_Click">
+                                    <Button 
+                                        Background="#f7f7fa"
+                                        BorderThickness="0"
+                                        Name="ContextButton"
+                                        Click="ContextButton_Click"
+                                        MouseEnter="ContextButton_MouseEnter"
+                                        MouseLeave="ContextButton_MouseLeave"
+                                        Template="{StaticResource NoMouseOverButtonTemplate}">
                                         <Image Source="/Resources/three_points.png" Width="20" Height="20"/>
                                         <Button.ContextMenu>
                                             <ContextMenu>
@@ -112,6 +144,7 @@
                                             </ContextMenu>
                                         </Button.ContextMenu>
                                     </Button>
+                                    <Label Content="{Binding Path=Name}"/>
                                 </StackPanel>
                                 <Button.ContextMenu>
                                     <ContextMenu>

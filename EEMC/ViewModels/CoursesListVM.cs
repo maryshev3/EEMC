@@ -72,6 +72,9 @@ namespace EEMC.ViewModels
                     //_chosenCourse = ChosenCourse as Explorer;
                     _mainWindowVM = _serviceProvider.GetService(typeof(MainWindowVM)) as MainWindowVM;
 
+                    var shell = System.Windows.Application.Current.MainWindow as MainWindow;
+                    shell.UpdateChosenCourse((ChosenCourse as Explorer).Name);
+
                     await _mainWindowVM.ChangeCurrentCourse(ChosenCourse as Explorer);
                 }
             );

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -28,13 +29,49 @@ namespace EEMC.Views
         private Button _oldPressedButton;
         private Button _oldHoveredButton;
 
+        public void UpdateChosenCourse(string courseName)
+        {
+            if (_oldPressedButton != default)
+            {
+                ResetButtonStyle(_oldPressedButton);
+            }
+
+            for (int i = 0; i < CoursesList.Items.Count; i++)
+            {
+                ContentPresenter c = (ContentPresenter)CoursesList.ItemContainerGenerator.ContainerFromItem(CoursesList.Items[i]);
+                Button button = c.ContentTemplate.FindName("CourseButton", c) as Button;
+
+                var text = (button.Content as StackPanel).Children.OfType<Label>().First();
+                
+                if (text.Content as string == courseName)
+                {
+                    button.BorderThickness = new Thickness() { Left = 3 };
+                    button.BorderBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("#4b6cdf"));
+
+                    text.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#4b6cdf"));
+
+                    _oldPressedButton = button;
+
+                    break;
+                }
+            }
+        }
+
         private void ResetButtonStyle(Button button) 
         {
             button.BorderThickness = new Thickness() { Left = 0 };
             button.BorderBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("#f7f7fa"));
 
-            var text = (button.Content as StackPanel).Children.OfType<Label>().First();
-            text.Foreground = System.Windows.Media.Brushes.Black;
+            if (button.Content is StackPanel)
+            {
+                var text = (button.Content as StackPanel).Children.OfType<Label>().First();
+                text.Foreground = System.Windows.Media.Brushes.Black;
+            }
+            else
+            {
+                var text = (button.Content as Label);
+                text.Foreground = System.Windows.Media.Brushes.Black;
+            }
         }
 
         private void CourseButton_Click(object sender, RoutedEventArgs e)
@@ -64,8 +101,16 @@ namespace EEMC.Views
 
             Button button = sender as Button;
 
-            var text = (button.Content as StackPanel).Children.OfType<Label>().First();
-            text.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#4b6cdf"));
+            if (button.Content is StackPanel)
+            {
+                var text = (button.Content as StackPanel).Children.OfType<Label>().First();
+                text.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#4b6cdf"));
+            }
+            else
+            {
+                var text = (button.Content as Label);
+                text.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#4b6cdf"));
+            }
 
             _oldHoveredButton = button;
         }
@@ -85,6 +130,35 @@ namespace EEMC.Views
             Button button = sender as Button;
 
             button.ContextMenu.IsOpen = true;
+        }
+
+        private void ContextButton_MouseEnter(object sender, MouseEventArgs e)
+        {
+            e.Handled = true;
+
+            if (_oldHoveredButton != default && _oldHoveredButton != _oldPressedButton)
+            {
+                ResetButtonStyle(_oldHoveredButton);
+            }
+
+            Cursor = Cursors.Hand;
+        }
+
+        private void ContextButton_MouseLeave(object sender, MouseEventArgs e)
+        {
+            e.Handled = true;
+
+            Cursor = Cursors.Arrow;
+        }
+
+        private void AddMainButton_MouseEnter(object sender, MouseEventArgs e)
+        {
+            CourseButton_MouseEnter(sender, e);
+        }
+
+        private void AddMainButton_MouseLeave(object sender, MouseEventArgs e)
+        {
+            CourseButton_MouseLeave(sender, e);
         }
     }
 }
