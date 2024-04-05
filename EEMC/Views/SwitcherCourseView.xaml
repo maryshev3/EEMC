@@ -10,23 +10,77 @@
       Name="SwitcherPage"
       Loaded="Page_Loaded"
       Title="SwitcherCourseView">
+    
+    <Page.Resources>
+        <ControlTemplate 
+    x:Key="NoMouseOverButtonTemplate"   
+    TargetType="Button">
+            <Border Background="{TemplateBinding Background}"  
+        BorderBrush="{TemplateBinding BorderBrush}"  
+        BorderThickness="{TemplateBinding BorderThickness}">
+                <ContentPresenter
+            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"  
+            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger 
+            Property="IsEnabled"  
+            Value="False">
+                    <Setter 
+                Property="Background"  
+                Value="{x:Static SystemColors.ControlLightBrush}"/>
+                    <Setter 
+                Property="Foreground"  
+                Value="{x:Static SystemColors.GrayTextBrush}"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+    </Page.Resources>
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="0.07*"/>
-            <RowDefinition Height="0.93*"/>
-        </Grid.RowDefinitions>
+    <Border CornerRadius="10" Padding="0, 4, 0, 4" Background="White">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
-        <Menu Grid.Row="0">
-            <MenuItem Header="Просмотр материалов" Command="{Binding OpenFiles_Click}" FontSize="18"></MenuItem>
-            <MenuItem Header="Просмотр занятий" Command="{Binding OpenThemes_Click}" FontSize="18"></MenuItem>
-        </Menu>
+            <Border BorderThickness="0, 0, 0, 2" BorderBrush="#ebedf7">
+                <StackPanel Orientation="Horizontal" Name="SwitcherButtons">
+                    <Button
+                        Name="MaterialButton"
+                        MouseEnter="MaterialButton_MouseEnter"
+                        MouseLeave="MaterialButton_MouseLeave"
+                        Click="MaterialButton_Click"
+                        Command="{Binding OpenFiles_Click}"
+                        Background="White"
+                        FontSize="16"
+                        BorderThickness="0"
+                        Margin="0, 0, 10, 0"
+                        Template="{StaticResource NoMouseOverButtonTemplate}">
+                        <Label FontWeight="SemiBold">Библиотека курса</Label>
+                    </Button>
+                    <Button
+                        Name="LessonsButton"
+                        MouseEnter="LessonsButton_MouseEnter"
+                        MouseLeave="LessonsButton_MouseLeave"
+                        Click="LessonsButton_Click"
+                        Command="{Binding OpenThemes_Click}"
+                        Background="White"
+                        FontSize="16"
+                        BorderThickness="0"
+                        Padding="10"
+                        Template="{StaticResource NoMouseOverButtonTemplate}">
+                        <Label FontWeight="SemiBold">Просмотр занятий</Label>
+                    </Button>
+                </StackPanel>
+            </Border>
 
-        <Frame
+            <Frame
             Name="CurrentView"
             Content="{Binding CurrentPage}"
             Grid.Row="1"
             NavigationUIVisibility="Hidden"
-            Background="#f7f7fa"/>
-    </Grid>
+            Background="White"/>
+        </Grid>
+    </Border>
 </Page>
