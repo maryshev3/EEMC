@@ -27,6 +27,6 @@
             Content="{Binding CurrentPage}"
             Grid.Row="1"
             NavigationUIVisibility="Hidden"
-            Background="#F5E7E3"/>
+            Background="#f7f7fa"/>
     </Grid>
 </Page>

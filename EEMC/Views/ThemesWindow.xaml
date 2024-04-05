@@ -32,7 +32,7 @@
                 Name="ThemesList"
                 ItemsSource="{Binding Path=CurrentCourse.Themes, Mode=OneWay}"
                 Padding="0"
-                Background="#F5E7E3">
+                Background="#f7f7fa">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Grid>

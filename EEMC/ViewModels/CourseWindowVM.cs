@@ -119,7 +119,7 @@ namespace EEMC.ViewModels
                         if (oldXpsPackage != null)
                             oldXpsPackage.Close();
 
-                        _xpsDocument.Close();
+                        _xpsDocument?.Close();
                         IsEnabledTW = true;
                     }
                 }
