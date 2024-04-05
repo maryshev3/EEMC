@@ -32,7 +32,7 @@
                 Name="ThemesList"
                 ItemsSource="{Binding Path=CurrentCourse.Themes, Mode=OneWay}"
                 Padding="0"
-                Background="#f7f7fa">
+                Background="#efeff5">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Grid>
@@ -84,7 +84,7 @@
                                         Grid.ColumnSpan="2"/>
                                     <Label Content="{Binding Path=ThemeName}" Grid.Row="0" FontWeight="Bold" Grid.Column="0" FontSize="18"/>
                                     <Button
-                                        Background="White"
+                                        Background="#f7f7fa"
                                         BorderThickness="0"
                                         Grid.Row="0"
                                         Grid.Column="0"
@@ -105,7 +105,7 @@
                                         <Label Content="{Binding Path=ThemeDescription}" Grid.Row="1" FontSize="18"/>
                                     </Grid>
                                     <Button
-                                        Background="White"
+                                        Background="#f7f7fa"
                                         BorderThickness="0"
                                         Grid.Row="1"
                                         Grid.Column="0"

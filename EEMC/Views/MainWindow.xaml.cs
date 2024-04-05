@@ -59,8 +59,11 @@ namespace EEMC.Views
 
         private void ResetButtonStyle(Button button) 
         {
-            button.BorderThickness = new Thickness() { Left = 0 };
-            button.BorderBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("#f7f7fa"));
+            if (button.BorderThickness.Bottom == 0)
+            {
+                button.BorderThickness = new Thickness() { Left = 0 };
+                button.BorderBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("#efeff5"));
+            }
 
             if (button.Content is StackPanel)
             {

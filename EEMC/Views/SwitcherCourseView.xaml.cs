@@ -76,7 +76,7 @@ namespace EEMC.Views
         private void ResetButtonStyle(Button button)
         {
             button.BorderThickness = new Thickness() { Bottom = 0 };
-            button.BorderBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("#f7f7fa"));
+            button.BorderBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("#efeff5"));
 
             var text = button.Content as Label;
             text.Foreground = System.Windows.Media.Brushes.Black;

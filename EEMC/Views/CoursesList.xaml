@@ -19,7 +19,7 @@
         </Style>
     </Page.Resources>
 
-    <Border CornerRadius="10" Padding="4" Background="White">
+    <Border CornerRadius="10" Padding="4" Background="#f7f7fa">
         <Grid>
             <Grid.ContextMenu>
                 <ContextMenu>
@@ -34,7 +34,7 @@
             Name="CourseList"
             ItemsSource="{Binding Path=Courses.Courses, Mode=OneWay}"
             Padding="0"
-            Background="White">
+            Background="#f7f7fa">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <WrapPanel HorizontalAlignment="Stretch"/>
@@ -43,17 +43,17 @@
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Button
-                        Style="{DynamicResource RoundButton}"
-                        Command="{Binding ElementName=CourseList, Path=DataContext.OpenCourse_Click}"
-                        CommandParameter="{Binding}"
-                        Background="#f7f7fa"
-                        Height="140"
-                        Width="220"
-                        Margin="10"
-                        Padding="0"
-                        HorizontalContentAlignment="Center"
-                        BorderBrush="#ebedf7"
-                        >
+                                Style="{DynamicResource RoundButton}"
+                                Command="{Binding ElementName=CourseList, Path=DataContext.OpenCourse_Click}"
+                                CommandParameter="{Binding}"
+                                Background="White"
+                                Height="140"
+                                Width="220"
+                                Margin="10"
+                                Padding="0"
+                                HorizontalContentAlignment="Center"
+                                BorderThickness="1"
+                                BorderBrush="#7c80ac">
                                 <Grid Margin="0">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="100"/>

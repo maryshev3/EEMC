@@ -11,7 +11,7 @@
       DataContext="{Binding CourseWindowVM, Source={StaticResource ViewModelLocator}}"
       KeyDown="Page_KeyDown">
 
-    <Border CornerRadius="10" Padding="4" Background="White">
+    <Border CornerRadius="10" Padding="4" Background="#f7f7fa">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="200"/>

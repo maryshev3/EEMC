@@ -37,14 +37,14 @@
         </ControlTemplate>
     </Page.Resources>
 
-    <Border CornerRadius="10" Padding="0, 4, 0, 4" Background="White">
+    <Border CornerRadius="10" Padding="4" Background="#f7f7fa">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Border BorderThickness="0, 0, 0, 2" BorderBrush="#ebedf7">
+            <Border BorderThickness="0, 0, 0, 2" BorderBrush="#7c80ac">
                 <StackPanel Orientation="Horizontal" Name="SwitcherButtons">
                     <Button
                         Name="MaterialButton"
@@ -52,7 +52,7 @@
                         MouseLeave="MaterialButton_MouseLeave"
                         Click="MaterialButton_Click"
                         Command="{Binding OpenFiles_Click}"
-                        Background="White"
+                        Background="#f7f7fa"
                         FontSize="16"
                         BorderThickness="0"
                         Margin="0, 0, 10, 0"
@@ -65,7 +65,7 @@
                         MouseLeave="LessonsButton_MouseLeave"
                         Click="LessonsButton_Click"
                         Command="{Binding OpenThemes_Click}"
-                        Background="White"
+                        Background="#f7f7fa"
                         FontSize="16"
                         BorderThickness="0"
                         Padding="10"
@@ -80,7 +80,7 @@
             Content="{Binding CurrentPage}"
             Grid.Row="1"
             NavigationUIVisibility="Hidden"
-            Background="White"/>
+            Background="#f7f7fa"/>
         </Grid>
     </Border>
 </Page>
