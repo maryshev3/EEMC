@@ -7,7 +7,8 @@
         xmlns:viewmodels="clr-namespace:EEMC.ViewModels"
         d:DataContext="{d:DesignInstance Type=viewmodels:MainWindowVM}"
         mc:Ignorable="d"
-        Title="MainWindow"
+        Title="ЭУМК Конструктор"
+        Icon="/Resources/app_icon.png"
         Height="540"
         Width="960"
         MinWidth="600"
@@ -35,7 +36,12 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Grid>
+        <Grid Background="#f7f7fa">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
             <Grid.ContextMenu>
                 <ContextMenu>
                     <MenuItem 
@@ -44,7 +50,21 @@
                         CommandParameter="{Binding}"/>
                 </ContextMenu>
             </Grid.ContextMenu>
-            <ScrollViewer VerticalScrollBarVisibility="Auto">
+
+            <Grid Grid.Row="0" Background="#f7f7fa">
+                <Button
+                    Command="{Binding Path=AddCourse_Click}"
+                    CommandParameter="{Binding}"
+                    Background="#f7f7fa"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    BorderThickness="0, 0, 0, 2"
+                    BorderBrush="#ebedf7">
+                    <Label HorizontalAlignment="Left" Width="200" FontSize="18" FontWeight="Bold">Добавить курс</Label>
+                </Button>
+            </Grid>
+
+            <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1">
                 <ItemsControl
                     Name="CoursesList"
                     ItemsSource="{Binding Path=Courses.Courses, Mode=OneWay}"
@@ -56,7 +76,6 @@
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Button
-                                Content="{Binding Path=Name}"
                                 FontSize="18"
                                 Name="CourseButton"
                                 Click="CourseButton_Click"
@@ -72,6 +91,28 @@
                                 HorizontalContentAlignment="Left"
                                 Padding="5"
                                 BorderBrush="#f7f7fa">
+                                <StackPanel Orientation="Horizontal">
+                                    <Label Content="{Binding Path=Name}"/>
+                                    <Button Background="#f7f7fa" BorderThickness="0" Name="ContextButton" Click="ContextButton_Click">
+                                        <Image Source="/Resources/three_points.png" Width="20" Height="20"/>
+                                        <Button.ContextMenu>
+                                            <ContextMenu>
+                                                <MenuItem 
+                                                    Header="Добавить курс"
+                                                    Command="{Binding Path=DataContext.AddCourse_Click, Source={x:Reference Name=CoursesList}}"
+                                                    CommandParameter="{Binding}"/>
+                                                <MenuItem 
+                                                    Header="Переименовать курс"
+                                                    Command="{Binding Path=DataContext.RenameCourse_Click, Source={x:Reference Name=CoursesList}}"
+                                                    CommandParameter="{Binding}"/>
+                                                <MenuItem 
+                                                    Header="Удалить курс"
+                                                    Command="{Binding Path=DataContext.RemoveCourse_Click, Source={x:Reference Name=CoursesList}}"
+                                                    CommandParameter="{Binding}"/>
+                                            </ContextMenu>
+                                        </Button.ContextMenu>
+                                    </Button>
+                                </StackPanel>
                                 <Button.ContextMenu>
                                     <ContextMenu>
                                         <MenuItem 
@@ -102,9 +143,9 @@
                                                     Background="#f7f7fa">
                                                     <Border
                                                         Background="White" 
-                                                        BorderBrush="White"
+                                                        BorderBrush="#f7f7fa"
                                                         BorderThickness ="1" 
-                                                        CornerRadius="10, 0, 10, 10"
+                                                        CornerRadius="10, 10, 10, 10"
                                                         Height="100"
                                                         VerticalAlignment="Center"
                                                         Margin="10">
@@ -124,7 +165,7 @@
                                                             <Button
                                                                 Command="{Binding Path=AddCourse_Click}"
                                                                 CommandParameter="{Binding}"
-                                                                Background="White"
+                                                                Background="#f7f7fa"
                                                                 BorderThickness="0"
                                                                 Grid.Row="1"
                                                                 Margin="10"

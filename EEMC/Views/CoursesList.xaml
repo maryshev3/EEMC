@@ -52,7 +52,7 @@
                         Margin="10"
                         Padding="0"
                         HorizontalContentAlignment="Center"
-                        BorderBrush="#eaedf9"
+                        BorderBrush="#ebedf7"
                         >
                                 <Grid Margin="0">
                                     <Grid.RowDefinitions>

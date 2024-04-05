@@ -32,7 +32,9 @@ namespace EEMC.Views
         {
             button.BorderThickness = new Thickness() { Left = 0 };
             button.BorderBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("#f7f7fa"));
-            button.Foreground = System.Windows.Media.Brushes.Black;
+
+            var text = (button.Content as StackPanel).Children.OfType<Label>().First();
+            text.Foreground = System.Windows.Media.Brushes.Black;
         }
 
         private void CourseButton_Click(object sender, RoutedEventArgs e)
@@ -46,7 +48,9 @@ namespace EEMC.Views
 
             button.BorderThickness = new Thickness() { Left = 3 };
             button.BorderBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("#4b6cdf"));
-            button.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#4b6cdf"));
+
+            var text = (button.Content as StackPanel).Children.OfType<Label>().First();
+            text.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#4b6cdf"));
 
             _oldPressedButton = button;
         }
@@ -60,7 +64,8 @@ namespace EEMC.Views
 
             Button button = sender as Button;
 
-            button.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#4b6cdf"));
+            var text = (button.Content as StackPanel).Children.OfType<Label>().First();
+            text.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#4b6cdf"));
 
             _oldHoveredButton = button;
         }
@@ -71,6 +76,15 @@ namespace EEMC.Views
             {
                 ResetButtonStyle(_oldHoveredButton);
             }
+        }
+
+        private void ContextButton_Click(object sender, RoutedEventArgs e)
+        {
+            e.Handled = true;
+
+            Button button = sender as Button;
+
+            button.ContextMenu.IsOpen = true;
         }
     }
 }

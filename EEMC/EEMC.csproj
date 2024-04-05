@@ -10,9 +10,12 @@
   <ItemGroup>
     <None Remove="Resources\AddImage.jpg" />
     <None Remove="Resources\AddImage.png" />
+    <None Remove="Resources\app_icon.jpg" />
+    <None Remove="Resources\app_icon.png" />
     <None Remove="Resources\course_img.jpg" />
     <None Remove="Resources\course_img2.png" />
     <None Remove="Resources\modify_icon.png" />
+    <None Remove="Resources\three_points.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -46,9 +49,11 @@
 
   <ItemGroup>
     <Resource Include="Resources\AddImage.png" />
+    <Resource Include="Resources\app_icon.png" />
     <Resource Include="Resources\course_img.jpg" />
     <Resource Include="Resources\course_img2.png" />
     <Resource Include="Resources\modify_icon.png" />
+    <Resource Include="Resources\three_points.png" />
   </ItemGroup>
 
   <ItemGroup>
