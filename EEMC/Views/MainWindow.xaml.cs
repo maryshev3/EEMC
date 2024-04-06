@@ -157,11 +157,15 @@ namespace EEMC.Views
         private void AddMainButton_MouseEnter(object sender, MouseEventArgs e)
         {
             CourseButton_MouseEnter(sender, e);
+
+            Cursor = Cursors.Hand;
         }
 
         private void AddMainButton_MouseLeave(object sender, MouseEventArgs e)
         {
             CourseButton_MouseLeave(sender, e);
+
+            Cursor = Cursors.Arrow;
         }
     }
 }

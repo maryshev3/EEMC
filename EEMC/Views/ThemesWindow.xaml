@@ -17,112 +17,142 @@
                 </Style>
             </Style.Resources>
         </Style>
+        <ControlTemplate 
+x:Key="NoMouseOverButtonTemplate"   
+TargetType="Button">
+            <Border Background="{TemplateBinding Background}"  
+    BorderBrush="{TemplateBinding BorderBrush}"  
+    BorderThickness="{TemplateBinding BorderThickness}">
+                <ContentPresenter
+        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"  
+        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger 
+        Property="IsEnabled"  
+        Value="False">
+                    <Setter 
+            Property="Background"  
+            Value="{x:Static SystemColors.ControlLightBrush}"/>
+                    <Setter 
+            Property="Foreground"  
+            Value="{x:Static SystemColors.GrayTextBrush}"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
     </Page.Resources>
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="0.15*"/>
-            <RowDefinition Height="0.9*"/>
-        </Grid.RowDefinitions>
-        <Button Width="190" Height="50" Grid.Row="0" Command="{Binding AddTheme_Click}" FontSize="18">
-            Добавить тему урока
-        </Button>
-        <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1">
-            <ItemsControl
+    <Border CornerRadius="10" Padding="4" Background="#f7f7fa">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <StackPanel 
+                Grid.Row="0"
+                Grid.ColumnSpan="2"
+                Orientation="Horizontal"
+                Margin="0, 0, 0, 5">
+                <Button
+                    Style="{DynamicResource RoundButton}"
+                    Template="{StaticResource NoMouseOverButtonTemplate}"
+                    Margin="0, 5, 5, 5"
+                    Background="White"
+                    BorderBrush="#ebebf1"
+                    Command="{Binding AddTheme_Click}"
+                    MouseEnter="AddTheme_Button_MouseEnter"
+                    MouseLeave="AddTheme_Button_MouseLeave"
+                    IsEnabled="True"
+                    Name="AddTheme_Button"
+                    FontSize="16">
+                    <Label>Добавить тему</Label>
+                </Button>
+            </StackPanel>
+            <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1">
+                <ItemsControl
                 Name="ThemesList"
                 ItemsSource="{Binding Path=CurrentCourse.Themes, Mode=OneWay}"
                 Padding="0"
-                Background="#efeff5">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="0.1*"/>
-                                <RowDefinition Height="0.9*"/>
-                            </Grid.RowDefinitions>
-                            <StackPanel
-                                Grid.Row="0"
-                                Orientation="Horizontal"
-                                Margin="10, 0, 10, 0">
-                                <Label FontSize="18">Не отображать при импорте?</Label>
-                                <CheckBox
-                                    Width="25"
-                                    Height="25"
-                                    VerticalAlignment="Bottom"
-                                    IsChecked="{Binding Path=IsHiden, Mode=OneWay}"
-                                    Command="{Binding ElementName=ThemesList, Path=DataContext.ChangeHidenModeTheme_Click}"
-                                    CommandParameter="{Binding}"
-                                    />
-                            </StackPanel>
+                Background="#f7f7fa">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
                             <Border
-                                Height="150"
-                                BorderThickness="2"
-                                BorderBrush="Black"
-                                Margin="10"
-                                Grid.Row="1"
+                                Height="Auto"
+                                BorderThickness="1"
+                                BorderBrush="#ebebf1"
+                                Margin="0, 5, 5, 5"
+                                CornerRadius="10"
+                                Padding="3"
                                 HorizontalAlignment="Stretch">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="0.9*"/>
-                                        <ColumnDefinition Width="0.1*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="0.3*"/>
-                                        <RowDefinition Height="0.7*"/>
-                                    </Grid.RowDefinitions>
+                                <DockPanel Background="White">
+                                    <StackPanel Orientation="Vertical">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label Content="{Binding Path=ThemeName}" FontWeight="Bold" FontSize="16"/>
+                                            <Button
+                                                Name="RenameTheme_Button"
+                                                Template="{StaticResource NoMouseOverButtonTemplate}"
+                                                Background="White"
+                                                BorderThickness="0"
+                                                Width="35"
+                                                Height="35"
+                                                Command="{Binding ElementName=ThemesList, Path=DataContext.RenameTheme_Click}"
+                                                CommandParameter="{Binding}"
+                                                MouseEnter="RenameTheme_Button_MouseEnter"
+                                                MouseLeave="RenameTheme_Button_MouseLeave">
+                                                <Image Source="/Resources/modify_icon.png"/>
+                                            </Button>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <StackPanel Orientation="Vertical">
+                                                <Label FontWeight="Bold" FontSize="16">Описание темы:</Label>
+                                                <Label Content="{Binding Path=ThemeDescription}" FontSize="16"/>
+                                            </StackPanel>
+                                            <Button
+                                                Name="ChangeDescription_Button"
+                                                Template="{StaticResource NoMouseOverButtonTemplate}"
+                                                Background="White"
+                                                BorderThickness="0"
+                                                Width="35"
+                                                Height="35"
+                                                Command="{Binding ElementName=ThemesList, Path=DataContext.ChangeDescriptionTheme_Click}"
+                                                CommandParameter="{Binding}"
+                                                MouseEnter="ChangeDescription_Button_MouseEnter"
+                                                MouseLeave="ChangeDescription_Button_MouseLeave">
+                                                <Image Source="/Resources/modify_icon.png"/>
+                                            </Button>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+                                            <Label FontSize="16">Не отображать при импорте?</Label>
+                                            <CheckBox
+                                                Width="35"
+                                                Height="35"
+                                                Margin="5, 10, 0, 0"
+                                                IsChecked="{Binding Path=IsHiden, Mode=OneWay}"
+                                                Command="{Binding ElementName=ThemesList, Path=DataContext.ChangeHidenModeTheme_Click}"
+                                                CommandParameter="{Binding}"/>
+                                        </StackPanel>
+                                    </StackPanel>
                                     <Button
+                                        Name="RemoveTheme_Button"
+                                        Template="{StaticResource NoMouseOverButtonTemplate}"
                                         Command="{Binding ElementName=ThemesList, Path=DataContext.RemoveTheme_Click}"
                                         CommandParameter="{Binding}"
-                                        Style="{DynamicResource RoundButton}"
                                         HorizontalAlignment="Right"
                                         VerticalAlignment="Top"
-                                        Width="25"
-                                        Height="25"
-                                        Content="X"
-                                        FontSize="18"
-                                        Grid.RowSpan="2"
-                                        Grid.ColumnSpan="2"/>
-                                    <Label Content="{Binding Path=ThemeName}" Grid.Row="0" FontWeight="Bold" Grid.Column="0" FontSize="18"/>
-                                    <Button
-                                        Background="#f7f7fa"
+                                        Width="35"
+                                        Height="35"
                                         BorderThickness="0"
-                                        Grid.Row="0"
-                                        Grid.Column="0"
-                                        Margin="10"
-                                        Width="25"
-                                        Height="25"
-                                        VerticalAlignment="Top"
-                                        Command="{Binding ElementName=ThemesList, Path=DataContext.RenameTheme_Click}"
-                                        CommandParameter="{Binding}">
-                                        <Image Source="/Resources/modify_icon.png"/>
+                                        Background="White"
+                                        MouseEnter="RemoveTheme_Button_MouseEnter"
+                                        MouseLeave="RemoveTheme_Button_MouseLeave">
+                                        <Image Source="/Resources/close_icon.png"/>
                                     </Button>
-                                    <Grid Grid.Row="1" Grid.Column="0">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="0.3*"/>
-                                            <RowDefinition Height="0.7*"/>
-                                        </Grid.RowDefinitions>
-                                        <Label Grid.Row="0" FontWeight="Bold" FontSize="18">Описание темы:</Label>
-                                        <Label Content="{Binding Path=ThemeDescription}" Grid.Row="1" FontSize="18"/>
-                                    </Grid>
-                                    <Button
-                                        Background="#f7f7fa"
-                                        BorderThickness="0"
-                                        Grid.Row="1"
-                                        Grid.Column="0"
-                                        Margin="10"
-                                        Width="25"
-                                        Height="25"
-                                        VerticalAlignment="Top"
-                                        Command="{Binding ElementName=ThemesList, Path=DataContext.ChangeDescriptionTheme_Click}"
-                                        CommandParameter="{Binding}">
-                                        <Image Source="/Resources/modify_icon.png"/>
-                                    </Button>
-                                </Grid>
+                                </DockPanel>
                             </Border>
-                        </Grid>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </ScrollViewer>
-    </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </Grid>
+    </Border>
 </Page>
