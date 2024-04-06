@@ -60,5 +60,74 @@ namespace EEMC.Views
             AddFolder_Button.IsEnabled = !isFile;
             AddFile_Button.IsEnabled = !isFile;
         }
+
+        private Button _oldHoveredButton;
+
+        private void ResetButtonStyle(Button button)
+        {
+            button.Background = System.Windows.Media.Brushes.White;
+
+            var text = button.Content as Label;
+            text.Foreground = System.Windows.Media.Brushes.Black;
+        }
+
+        private void Remove_Button_MouseEnter(object sender, MouseEventArgs e)
+        {
+            if (_oldHoveredButton != default)
+            {
+                ResetButtonStyle(_oldHoveredButton);
+            }
+
+            Button button = sender as Button;
+
+            button.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#e0e7fd"));
+
+            var text = (button.Content as Label);
+            text.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#4b6cdf"));
+
+            _oldHoveredButton = button;
+
+            Cursor = Cursors.Hand;
+        }
+
+        private void Remove_Button_MouseLeave(object sender, MouseEventArgs e)
+        {
+            if (_oldHoveredButton != default)
+            {
+                ResetButtonStyle(_oldHoveredButton);
+            }
+
+            Cursor = Cursors.Arrow;
+        }
+
+        private void Rename_Button_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Remove_Button_MouseEnter(sender, e);
+        }
+
+        private void Rename_Button_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Remove_Button_MouseLeave(sender, e);
+        }
+
+        private void AddFile_Button_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Remove_Button_MouseEnter(sender, e);
+        }
+
+        private void AddFile_Button_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Remove_Button_MouseLeave(sender, e);
+        }
+
+        private void AddFolder_Button_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Remove_Button_MouseEnter(sender, e);
+        }
+
+        private void AddFolder_Button_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Remove_Button_MouseLeave(sender, e);
+        }
     }
 }

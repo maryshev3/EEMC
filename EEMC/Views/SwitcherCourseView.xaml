@@ -44,7 +44,7 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Border BorderThickness="0, 0, 0, 2" BorderBrush="#7c80ac">
+            <Border BorderThickness="0, 0, 0, 2" BorderBrush="#ebebf1">
                 <StackPanel Orientation="Horizontal" Name="SwitcherButtons">
                     <Button
                         Name="MaterialButton"
