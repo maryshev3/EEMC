@@ -93,7 +93,7 @@
                 </Button>
             </Grid>
 
-            <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1">
+            <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1" Height="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type Border}},Path=ActualHeight}">
                 <ItemsControl
                     Name="CoursesList"
                     ItemsSource="{Binding Path=Courses.Courses, Mode=OneWay}"
@@ -101,6 +101,7 @@
                     Padding="0"
                     HorizontalContentAlignment="Stretch"
                     VerticalAlignment="Stretch"
+                    Height = "auto"
                     Background="#efeff5">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
