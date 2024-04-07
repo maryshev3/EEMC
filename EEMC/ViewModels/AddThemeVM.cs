@@ -1,4 +1,5 @@
-﻿using EEMC.Messages;
+﻿using DevExpress.Mvvm;
+using EEMC.Messages;
 using EEMC.Models;
 using EEMC.Services;
 using System;
@@ -11,7 +12,7 @@ using System.Windows.Input;
 
 namespace EEMC.ViewModels
 {
-    public class AddThemeVM
+    public class AddThemeVM : ViewModelBase
     {
         private readonly MessageBus _messageBus;
         private Window? _window;
@@ -43,6 +44,15 @@ namespace EEMC.ViewModels
                 {
                     MessageBox.Show(ex.Message);
                 }
+            }
+            );
+        }
+
+        public ICommand Cancel_Click
+        {
+            get => new Commands.DelegateCommand((courseName) =>
+            {
+                _window?.Close();
             }
             );
         }

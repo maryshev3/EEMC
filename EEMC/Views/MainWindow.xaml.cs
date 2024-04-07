@@ -132,6 +132,7 @@ namespace EEMC.Views
 
             Button button = sender as Button;
 
+            button.ContextMenu.DataContext = button.DataContext;
             button.ContextMenu.IsOpen = true;
         }
 

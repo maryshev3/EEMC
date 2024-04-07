@@ -6,50 +6,84 @@
              xmlns:local="clr-namespace:EEMC.Views"
              mc:Ignorable="d" 
              DataContext="{Binding RemoveCourseVM, Source={StaticResource ViewModelLocator}}">
-    <Grid Background="AliceBlue">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"/>
-            <ColumnDefinition Width="200"/>
-        </Grid.ColumnDefinitions>
-
-        <Grid.RowDefinitions>
-            <RowDefinition Height="45"/>
-            <RowDefinition Height="60"/>
-        </Grid.RowDefinitions>
-
-        <TextBlock
-            Grid.Column="0" Grid.ColumnSpan="2"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Center"
-            Width="400"
-            Margin="10">
-            <Run Text="Вы действительно хотите удалить курс " />
-            <Run Text="{Binding ChosenCourse.Name}" />
-            <Run Text=" и его содержание?" />
-        </TextBlock>
-        <Button
-            Grid.Row="1"
-            Grid.Column="0"
-            Margin="10"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Height="40"
-            Width="100"
-            Command="{Binding Path=RemoveCourse_Click}"
-            CommandParameter="{Binding}">
-            Да
-        </Button>
-        <Button
-            Grid.Row="1"
-            Grid.Column="1"
-            Margin="10"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Height="40"
-            Width="100"
-            Command="{Binding Path=CancelRemoving_Click}"
-            CommandParameter="{Binding}">
-            Нет
-        </Button>
-    </Grid>
+    <UserControl.Resources>
+        <Style TargetType="Button" x:Key="RoundButton">
+            <Style.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="10" />
+                </Style>
+            </Style.Resources>
+        </Style>
+        <ControlTemplate 
+x:Key="NoMouseOverButtonTemplate"   
+TargetType="Button">
+            <Border Background="{TemplateBinding Background}"  
+    BorderBrush="{TemplateBinding BorderBrush}"  
+    BorderThickness="{TemplateBinding BorderThickness}">
+                <ContentPresenter
+        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"  
+        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger 
+        Property="IsEnabled"  
+        Value="False">
+                    <Setter 
+            Property="Background"  
+            Value="{x:Static SystemColors.ControlLightBrush}"/>
+                    <Setter 
+            Property="Foreground"  
+            Value="{x:Static SystemColors.GrayTextBrush}"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+    </UserControl.Resources>
+    <Border CornerRadius="10" Padding="10" Background="White">
+        <StackPanel Background="White">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock
+                    Name="inputBox"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontSize="16">
+                    <Run Text="Вы действительно хотите удалить курс " />
+                    <Run Text="{Binding ChosenCourse.Name}" />
+                    <Run Text=" и его содержание?" />
+                </TextBlock>
+            </StackPanel>
+            <DockPanel Margin="0, 10, 0, 10">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button
+                    Name="Cancel_Button"
+                    MouseEnter="Cancel_Button_MouseEnter"
+                    MouseLeave="Cancel_Button_MouseLeave"
+                    Style="{DynamicResource RoundButton}"
+                    Template="{StaticResource NoMouseOverButtonTemplate}"
+                    Margin="0, 5, 5, 5"
+                    Background="White"
+                    BorderThickness="0"
+                    Command="{Binding Path=CancelRemoving_Click}"
+                    CommandParameter="{Binding Text, ElementName=inputBox}"
+                    FontSize="16">
+                        <Label>Отменить</Label>
+                    </Button>
+                    <Button
+                    Name="Remove_Button"
+                    MouseEnter="Remove_Button_MouseEnter"
+                    MouseLeave="Remove_Button_MouseLeave"
+                    Style="{DynamicResource RoundButton}"
+                    Template="{StaticResource NoMouseOverButtonTemplate}"
+                    Margin="0, 5, 5, 5"
+                    Background="White"
+                    BorderThickness="0"
+                    Command="{Binding Path=RemoveCourse_Click}"
+                    CommandParameter="{Binding Text, ElementName=inputBox}"
+                    FontSize="16"
+                    FontWeight="SemiBold">
+                        <Label>Удалить</Label>
+                    </Button>
+                </StackPanel>
+            </DockPanel>
+        </StackPanel>
+    </Border>
 </UserControl>
