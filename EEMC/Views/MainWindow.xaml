@@ -9,6 +9,7 @@
         mc:Ignorable="d"
         Title="ЭУМК Конструктор"
         Icon="/Resources/app_icon.png"
+        WindowStartupLocation="CenterScreen"
         Height="640"
         Width="1000"
         MinWidth="600"
