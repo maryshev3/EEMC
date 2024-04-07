@@ -42,7 +42,7 @@ namespace EEMC.Views
 
         private void Add_Button_MouseEnter(object sender, MouseEventArgs e)
         {
-            (this as IHover).ConfirmHoverEffect(sender, ButtonType.ConfirmButton);
+            (this as IHover).ConfirmHoverEffect(sender, ButtonType.AddButton);
 
             Cursor = Cursors.Hand;
         }

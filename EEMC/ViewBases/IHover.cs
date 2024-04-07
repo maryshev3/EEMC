@@ -12,7 +12,38 @@ namespace EEMC.ViewBases
     public enum ButtonType
     {
         CancelButton,
-        ConfirmButton
+        AddButton,
+        ChangeButton,
+        RemoveButton
+    }
+
+    public class ColorSettings
+    {
+        public string Background { get; set; }
+        public string Foreground { get; set; }
+
+        public ColorSettings(ButtonType buttonType) 
+        {
+            switch(buttonType)
+            {
+                case ButtonType.CancelButton:
+                    Background = "#f3f3f6";
+                    Foreground = "#9a9eb1";
+                    break;
+                case ButtonType.AddButton:
+                    Background = "#e9f5ef";
+                    Foreground = "#5ac18f";
+                    break;
+                case ButtonType.ChangeButton:
+                    Background = "#fdf4ef";
+                    Foreground = "#fd8958";
+                    break;
+                case ButtonType.RemoveButton:
+                    Background = "#fcdcdc";
+                    Foreground = "#f55b5b";
+                    break;
+            }
+        }
     }
 
     public interface IHover
@@ -35,11 +66,12 @@ namespace EEMC.ViewBases
             }
 
             Button button = sender as Button;
+            ColorSettings colorSettings = new ColorSettings(buttonType);
 
-            button.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom(buttonType == ButtonType.ConfirmButton ? "#e0e7fd" : "#fdf4ef"));
+            button.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom(colorSettings.Background));
 
             var text = (button.Content as Label);
-            text.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom(buttonType == ButtonType.ConfirmButton ? "#4b6cdf" : "#fd8958"));
+            text.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom(colorSettings.Foreground));
 
             _oldHoveredButton = button;
         }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EEMC.ViewBases;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,38 +19,18 @@ namespace EEMC.Views
     /// <summary>
     /// Interaction logic for ThemesWindow.xaml
     /// </summary>
-    public partial class ThemesWindow : Page
+    public partial class ThemesWindow : Page, IHover
     {
         public ThemesWindow()
         {
             InitializeComponent();
         }
 
-        private Button _oldHoveredButton;
-
-        private void ResetButtonStyle(Button button)
-        {
-            button.Background = System.Windows.Media.Brushes.White;
-
-            var text = button.Content as Label;
-            text.Foreground = System.Windows.Media.Brushes.Black;
-        }
+        public Button _oldHoveredButton { get; set; }
 
         private void AddTheme_Button_MouseEnter(object sender, MouseEventArgs e)
         {
-            if (_oldHoveredButton != default)
-            {
-                ResetButtonStyle(_oldHoveredButton);
-            }
-
-            Button button = sender as Button;
-
-            button.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#e0e7fd"));
-
-            var text = (button.Content as Label);
-            text.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#4b6cdf"));
-
-            _oldHoveredButton = button;
+            (this as IHover).ConfirmHoverEffect(sender, ButtonType.AddButton);
 
             Cursor = Cursors.Hand;
         }
@@ -58,7 +39,7 @@ namespace EEMC.Views
         {
             if (_oldHoveredButton != default)
             {
-                ResetButtonStyle(_oldHoveredButton);
+                (this as IHover).ResetButtonStyle(_oldHoveredButton);
             }
 
             Cursor = Cursors.Arrow;
