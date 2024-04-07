@@ -6,41 +6,91 @@
              xmlns:local="clr-namespace:EEMC.Views"
              mc:Ignorable="d"
              DataContext="{Binding AddFolderVM, Source={StaticResource ViewModelLocator}}">
-    <Grid Background="AliceBlue">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"/>
-            <ColumnDefinition Width="400"/>
-        </Grid.ColumnDefinitions>
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="45"/>
-            <RowDefinition Height="60"/>
-        </Grid.RowDefinitions>
+    <UserControl.Resources>
+        <Style TargetType="Button" x:Key="RoundButton">
+            <Style.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="10" />
+                </Style>
+            </Style.Resources>
+        </Style>
+        <ControlTemplate 
+        x:Key="NoMouseOverButtonTemplate"   
+        TargetType="Button">
+            <Border Background="{TemplateBinding Background}"  
+            BorderBrush="{TemplateBinding BorderBrush}"  
+            BorderThickness="{TemplateBinding BorderThickness}">
+                <ContentPresenter
+                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"  
+                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger 
+                Property="IsEnabled"  
+                Value="False">
+                    <Setter 
+                    Property="Background"  
+                    Value="{x:Static SystemColors.ControlLightBrush}"/>
+                    <Setter 
+                    Property="Foreground"  
+                    Value="{x:Static SystemColors.GrayTextBrush}"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+    </UserControl.Resources>
 
-        <TextBlock 
-            Grid.Column="0" 
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Margin="10">
-            Название курса
-        </TextBlock>
-        <TextBox 
-            Grid.Column="1"
-            Margin="10"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Center"
-            x:Name="inputBox">
-        </TextBox>
-        <Button
-            Grid.Row="1"
-            Margin="10"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Height="40"
-            Width="100"
-            Command="{Binding Path=Add}"
-            CommandParameter="{Binding Text, ElementName=inputBox}">
-            Добавить курс
-        </Button>
-    </Grid>
+    <Border CornerRadius="10" Padding="10" Background="White">
+        <StackPanel Background="White">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontSize="16">
+                Название раздела
+                </TextBlock>
+                <TextBox
+                Margin="15, 0, 0, 0"
+                Width="200"
+                FontSize="16"
+                BorderThickness="0, 0, 0, 1"
+                HorizontalAlignment="Stretch"
+                x:Name="inputBox">
+                </TextBox>
+            </StackPanel>
+            <DockPanel Margin="0, 10, 0, 10">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button
+                    Name="Cancel_Button"
+                    MouseEnter="Cancel_Button_MouseEnter"
+                    MouseLeave="Cancel_Button_MouseLeave"
+                    Style="{DynamicResource RoundButton}"
+                    Template="{StaticResource NoMouseOverButtonTemplate}"
+                    Margin="0, 5, 5, 5"
+                    Background="White"
+                    BorderThickness="0"
+                    Command="{Binding Path=Cancel_Click}"
+                    CommandParameter="{Binding Text, ElementName=inputBox}"
+                    FontSize="16">
+                        <Label>Отменить</Label>
+                    </Button>
+                    <Button
+                    Name="Add_Button"
+                    MouseEnter="Add_Button_MouseEnter"
+                    MouseLeave="Add_Button_MouseLeave"
+                    Style="{DynamicResource RoundButton}"
+                    Template="{StaticResource NoMouseOverButtonTemplate}"
+                    Margin="0, 5, 5, 5"
+                    Background="White"
+                    BorderThickness="0"
+                    Command="{Binding Path=Add}"
+                    CommandParameter="{Binding Text, ElementName=inputBox}"
+                    FontSize="16"
+                    FontWeight="SemiBold">
+                        <Label>Добавить</Label>
+                    </Button>
+                </StackPanel>
+            </DockPanel>
+        </StackPanel>
+    </Border>
 </UserControl>

@@ -32,11 +32,11 @@ namespace EEMC.ViewModels
 
         public ICommand Add
         {
-            get => new Commands.DelegateCommand((newCourseName) =>
+            get => new Commands.DelegateCommand((folderName) =>
             {
                 try
                 {
-                    _chosenCourse.AddFolder(newCourseName as string);
+                    _chosenCourse.AddFolder(folderName as string);
 
                     _window?.Close();
                 }
@@ -44,6 +44,15 @@ namespace EEMC.ViewModels
                 {
                     MessageBox.Show(ex.Message);
                 }
+            }
+            );
+        }
+
+        public ICommand Cancel_Click
+        {
+            get => new Commands.DelegateCommand((courseName) =>
+            {
+                _window?.Close();
             }
             );
         }

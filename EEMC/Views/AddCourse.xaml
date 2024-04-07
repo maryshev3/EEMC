@@ -39,7 +39,6 @@
             </ControlTemplate.Triggers>
         </ControlTemplate>
     </UserControl.Resources>
-
     <Border CornerRadius="10" Padding="10" Background="White">
         <StackPanel Background="White">
             <StackPanel Orientation="Horizontal">
