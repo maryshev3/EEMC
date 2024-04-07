@@ -31,6 +31,8 @@ namespace EEMC.Views
         private void Cancel_Button_MouseEnter(object sender, MouseEventArgs e)
         {
             (this as IHover).ConfirmHoverEffect(sender, ButtonType.CancelButton);
+
+            Cursor = Cursors.Hand;
         }
 
         private void Cancel_Button_MouseLeave(object sender, MouseEventArgs e)
@@ -41,6 +43,8 @@ namespace EEMC.Views
         private void Remove_Button_MouseEnter(object sender, MouseEventArgs e)
         {
             (this as IHover).ConfirmHoverEffect(sender, ButtonType.ConfirmButton);
+
+            Cursor = Cursors.Hand;
         }
 
         private void Remove_Button_MouseLeave(object sender, MouseEventArgs e)

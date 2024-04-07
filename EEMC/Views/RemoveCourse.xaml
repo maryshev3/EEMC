@@ -46,9 +46,9 @@ TargetType="Button">
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     FontSize="16">
-                    <Run Text="Вы действительно хотите удалить курс " />
+                    <Run Text="Вы действительно хотите удалить курс" />
                     <Run Text="{Binding ChosenCourse.Name}" />
-                    <Run Text=" и его содержание?" />
+                    <Run Text="и его содержание?" />
                 </TextBlock>
             </StackPanel>
             <DockPanel Margin="0, 10, 0, 10">
