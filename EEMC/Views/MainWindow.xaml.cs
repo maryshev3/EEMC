@@ -41,6 +41,7 @@ namespace EEMC.Views
             {
                 ContentPresenter c = (ContentPresenter)CoursesList.ItemContainerGenerator.ContainerFromItem(CoursesList.Items[i]);
                 Button button = c.ContentTemplate.FindName("CourseButton", c) as Button;
+                ColorSettings colorSettings = new ColorSettings(ButtonType.CourseButton);
 
                 var text = (button.Content as StackPanel).Children.OfType<Label>().First();
                 
@@ -48,8 +49,12 @@ namespace EEMC.Views
                 {
                     button.BorderThickness = new Thickness() { Left = 3 };
                     button.BorderBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("#4b6cdf"));
+                    button.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom(colorSettings.Background));
 
-                    text.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#4b6cdf"));
+                    text.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom(colorSettings.Foreground));
+
+                    var image = (button.Content as StackPanel).Children.OfType<Button>().First();
+                    image.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom(colorSettings.Background));
 
                     _oldPressedButton = button;
 
