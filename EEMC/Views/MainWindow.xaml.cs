@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EEMC.ViewBases;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -64,11 +65,16 @@ namespace EEMC.Views
                 button.BorderThickness = new Thickness() { Left = 0 };
                 button.BorderBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("#efeff5"));
             }
+            
+            button.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#efeff5"));
 
             if (button.Content is StackPanel)
             {
                 var text = (button.Content as StackPanel).Children.OfType<Label>().First();
                 text.Foreground = System.Windows.Media.Brushes.Black;
+
+                var image = (button.Content as StackPanel).Children.OfType<Button>().First();
+                image.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#efeff5"));
             }
             else
             {
@@ -89,13 +95,15 @@ namespace EEMC.Views
             button.BorderThickness = new Thickness() { Left = 3 };
             button.BorderBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("#4b6cdf"));
 
+            ColorSettings colorSettings = new ColorSettings(ButtonType.CourseButton);
+
             var text = (button.Content as StackPanel).Children.OfType<Label>().First();
-            text.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#4b6cdf"));
+            text.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom(colorSettings.Foreground));
 
             _oldPressedButton = button;
         }
 
-        private void CourseButton_MouseEnter(object sender, MouseEventArgs e)
+        private void HoverEffect(object sender, ButtonType buttonType)
         {
             if (_oldHoveredButton != default && _oldHoveredButton != _oldPressedButton)
             {
@@ -104,18 +112,29 @@ namespace EEMC.Views
 
             Button button = sender as Button;
 
+            ColorSettings colorSettings = new ColorSettings(buttonType);
+            button.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom(colorSettings.Background));
+
             if (button.Content is StackPanel)
             {
                 var text = (button.Content as StackPanel).Children.OfType<Label>().First();
-                text.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#4b6cdf"));
+                text.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom(colorSettings.Foreground));
+
+                var image = (button.Content as StackPanel).Children.OfType<Button>().First();
+                image.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom(colorSettings.Background));
             }
             else
             {
                 var text = (button.Content as Label);
-                text.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#4b6cdf"));
+                text.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom(colorSettings.Foreground));
             }
 
             _oldHoveredButton = button;
+        }
+
+        private void CourseButton_MouseEnter(object sender, MouseEventArgs e)
+        {
+            HoverEffect(sender, ButtonType.CourseButton);
         }
 
         private void CourseButton_MouseLeave(object sender, MouseEventArgs e)
@@ -157,7 +176,7 @@ namespace EEMC.Views
 
         private void AddMainButton_MouseEnter(object sender, MouseEventArgs e)
         {
-            CourseButton_MouseEnter(sender, e);
+            HoverEffect(sender, ButtonType.AddButton);
 
             Cursor = Cursors.Hand;
         }

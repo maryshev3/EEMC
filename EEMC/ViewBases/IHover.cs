@@ -14,7 +14,8 @@ namespace EEMC.ViewBases
         CancelButton,
         AddButton,
         ChangeButton,
-        RemoveButton
+        RemoveButton,
+        CourseButton
     }
 
     public class ColorSettings
@@ -41,6 +42,10 @@ namespace EEMC.ViewBases
                 case ButtonType.RemoveButton:
                     Background = "#fcdcdc";
                     Foreground = "#f55b5b";
+                    break;
+                case ButtonType.CourseButton:
+                    Background = "#e0e7fd";
+                    Foreground = "#4b6cdf";
                     break;
             }
         }
