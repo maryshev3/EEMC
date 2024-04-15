@@ -25,6 +25,12 @@
     "ThemeName": "Тема 2",
     "ThemeDescription": "Описание темы 2",
     "IsHiden": false,
+    "Files": [
+      {
+        "Name": "Файл темы 2.txt",
+        "NameWithPath": "\\Файлы тем\\das\\Тема 2\\Файл темы 2.txt"
+      }
+    ],
     "CourseName": "das"
   },
   {

@@ -6,6 +6,7 @@
       xmlns:local="clr-namespace:EEMC.Views"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
+      Name="ThemeWindow"
       DataContext="{Binding ThemesWindowVM, Source={StaticResource ViewModelLocator}}"
       Title="ThemesWindow">
 
@@ -140,6 +141,7 @@ TargetType="Button">
                                                             Template="{StaticResource NoMouseOverButtonTemplate}"
                                                             MouseEnter="File_Button_MouseEnter"
                                                             MouseLeave="File_Button_MouseLeave"
+                                                            Click="File_Button_Click"
                                                             Background="White"
                                                             Height="auto"
                                                             Width="auto"

@@ -136,5 +136,27 @@ namespace EEMC.ViewModels
             }
             );
         }
+
+        public ICommand ShowFile_Click
+        {
+            get => new Commands.DelegateCommand(async (currentFile) =>
+            {
+                ThemeFile currentFileConverted = currentFile as ThemeFile;
+
+                ;
+            }
+            );
+        }
+
+        public ICommand DownloadFile_Click
+        {
+            get => new Commands.DelegateCommand(async (currentFile) =>
+            {
+                ThemeFile currentFileConverted = currentFile as ThemeFile;
+
+                ;
+            }
+            );
+        }
     }
 }

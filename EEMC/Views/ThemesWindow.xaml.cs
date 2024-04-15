@@ -1,4 +1,6 @@
-﻿using EEMC.ViewBases;
+﻿using EEMC.Models;
+using EEMC.ViewBases;
+using EEMC.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -114,6 +116,41 @@ namespace EEMC.Views
             }
 
             Cursor = Cursors.Arrow;
+        }
+
+        private void File_Button_Click(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+
+            ThemeFile file = button.DataContext as ThemeFile;
+
+            if (file.IsSupportedExtension())
+            {
+                //Формируем контекстное меню для файла
+                ContextMenu cm = new();
+                ThemesWindowVM dc = ThemeWindow.DataContext as ThemesWindowVM;
+
+                MenuItem openItem = new();
+                openItem.Header = "Просмотреть файл";
+                openItem.Command = dc.ShowFile_Click;
+                openItem.CommandParameter = file;
+
+                MenuItem downloadItem = new();
+                downloadItem.Header = "Скачать файл";
+                downloadItem.Command = dc.DownloadFile_Click;
+                downloadItem.CommandParameter = file;
+
+                cm.Items.Add(openItem);
+                cm.Items.Add(downloadItem);
+
+                cm.IsOpen = true;
+            }
+            else
+            {
+                ThemesWindowVM dc = ThemeWindow.DataContext as ThemesWindowVM;
+
+                dc.DownloadFile_Click.Execute(file);
+            }
         }
     }
 }
