@@ -17,33 +17,8 @@ using System.Windows.Xps.Packaging;
 
 namespace EEMC.ViewModels
 {
-    public class CourseWindowVM : ViewModelBase
+    public class CourseWindowVM : ViewerBase
     {
-        private bool _isEnabledTW = true;
-        public bool IsEnabledTW 
-        {
-            get => _isEnabledTW;
-            set
-            {
-                _isEnabledTW = value;
-                RaisePropertyChanged(() => IsEnabledTW);
-            }
-        }
-
-        private FixedDocumentSequence _document;
-
-        public FixedDocumentSequence Document 
-        {
-            get => _document;
-            set 
-            {
-                _document = value;
-                RaisePropertyChanged(() => Document);
-            }
-        }
-
-        private XpsDocument _xpsDocument;
-
         private Explorer? _currentCourse;
 
         public Explorer? CurrentCourse
@@ -66,65 +41,6 @@ namespace EEMC.ViewModels
                 {
                     CurrentCourse = message.Course;
                 });
-        }
-
-        static WordConverter _wordConverter = new WordConverter();
-        static CancellationTokenSource? _currentCancellationSource = null;
-
-        public Commands.IAsyncCommand ShowDocument
-        {
-            get => new Commands.AsyncCommand(async (ChosenFile) =>
-            {
-                if (ChosenFile != null)
-                {
-                    if (Path.GetExtension((ChosenFile as Explorer).NameWithPath) == ".docx")
-                    {
-                        IsEnabledTW = false;
-
-                        XpsDocument oldXpsPackage = _xpsDocument;
-
-                        string OriginDocumentName = Environment.CurrentDirectory + "\\" + (ChosenFile as Explorer).NameWithPath;
-
-                        if (_currentCancellationSource != null)
-                        {
-                            _currentCancellationSource?.Cancel();
-                            _currentCancellationSource?.Token.WaitHandle.WaitOne();
-
-                            _currentCancellationSource?.Dispose();
-
-                            _currentCancellationSource = null;
-                        }
-
-                        _currentCancellationSource = new CancellationTokenSource();
-                        try
-                        {
-                            _xpsDocument = await _wordConverter.ToXpsConvertAsync(
-                                OriginDocumentName,
-                                Path.Combine(Environment.CurrentDirectory, Path.GetFileNameWithoutExtension((ChosenFile as Explorer).Name) + ".xps"),
-                                _currentCancellationSource.Token
-                            );
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show(ex.Message);
-
-                            _xpsDocument = null;
-                        }
-                        _currentCancellationSource?.Dispose();
-                        _currentCancellationSource = null;
-
-                        //null может быть, когда слишком быстро переключаешь окна (одно ещё не загрузилось, а второе уже включаем)
-                        if (_xpsDocument != null)
-                            Document = _xpsDocument.GetFixedDocumentSequence();
-
-                        if (oldXpsPackage != null)
-                            oldXpsPackage.Close();
-
-                        _xpsDocument?.Close();
-                        IsEnabledTW = true;
-                    }
-                }
-            });
         }
 
         private readonly BitmapImage _icon = new BitmapImage(new Uri("pack://application:,,,/Resources/app_icon.png", UriKind.RelativeOrAbsolute));
