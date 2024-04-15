@@ -1,4 +1,5 @@
 ﻿using EEMC.Models;
+using EEMC.ViewBases;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +20,7 @@ namespace EEMC.Views
     /// <summary>
     /// Логика взаимодействия для CourseWindow.xaml
     /// </summary>
-    public partial class CourseWindow : Page
+    public partial class CourseWindow : Page, IHover
     {
         public CourseWindow()
         {
@@ -59,6 +60,61 @@ namespace EEMC.Views
             Rename_Button.IsEnabled = !isFile;
             AddFolder_Button.IsEnabled = !isFile;
             AddFile_Button.IsEnabled = !isFile;
+        }
+
+        public Button _oldHoveredButton { get; set; }
+
+        private void Remove_Button_MouseEnter(object sender, MouseEventArgs e)
+        {
+            (this as IHover).ConfirmHoverEffect(sender, ButtonType.RemoveButton);
+
+            Cursor = Cursors.Hand;
+        }
+
+        private void Remove_Button_MouseLeave(object sender, MouseEventArgs e)
+        {
+            if (_oldHoveredButton != default)
+            {
+                (this as IHover).ResetButtonStyle(_oldHoveredButton);
+            }
+
+            Cursor = Cursors.Arrow;
+        }
+
+        private void Rename_Button_MouseEnter(object sender, MouseEventArgs e)
+        {
+            (this as IHover).ConfirmHoverEffect(sender, ButtonType.ChangeButton);
+
+            Cursor = Cursors.Hand;
+        }
+
+        private void Rename_Button_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Remove_Button_MouseLeave(sender, e);
+        }
+
+        private void AddFile_Button_MouseEnter(object sender, MouseEventArgs e)
+        {
+            (this as IHover).ConfirmHoverEffect(sender, ButtonType.AddButton);
+
+            Cursor = Cursors.Hand;
+        }
+
+        private void AddFile_Button_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Remove_Button_MouseLeave(sender, e);
+        }
+
+        private void AddFolder_Button_MouseEnter(object sender, MouseEventArgs e)
+        {
+            (this as IHover).ConfirmHoverEffect(sender, ButtonType.AddButton);
+
+            Cursor = Cursors.Hand;
+        }
+
+        private void AddFolder_Button_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Remove_Button_MouseLeave(sender, e);
         }
     }
 }

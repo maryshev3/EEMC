@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EEMC.ViewBases;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,11 +19,42 @@ namespace EEMC.Views
     /// <summary>
     /// Interaction logic for AddTheme.xaml
     /// </summary>
-    public partial class AddTheme : UserControl
+    public partial class AddTheme : UserControl, IHover
     {
+        public Button _oldHoveredButton { get; set; }
+
         public AddTheme()
         {
             InitializeComponent();
+        }
+
+        private void Cancel_Button_MouseEnter(object sender, MouseEventArgs e)
+        {
+            (this as IHover).ConfirmHoverEffect(sender, ButtonType.CancelButton);
+
+            Cursor = Cursors.Hand;
+        }
+
+        private void Cancel_Button_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Add_Button_MouseLeave(sender, e);
+        }
+
+        private void Add_Button_MouseEnter(object sender, MouseEventArgs e)
+        {
+            (this as IHover).ConfirmHoverEffect(sender, ButtonType.AddButton);
+
+            Cursor = Cursors.Hand;
+        }
+
+        private void Add_Button_MouseLeave(object sender, MouseEventArgs e)
+        {
+            if (_oldHoveredButton != default)
+            {
+                (this as IHover).ResetButtonStyle(_oldHoveredButton);
+            }
+
+            Cursor = Cursors.Arrow;
         }
     }
 }

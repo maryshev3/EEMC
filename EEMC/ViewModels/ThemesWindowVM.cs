@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows;
+using System.Windows.Media.Imaging;
 
 namespace EEMC.ViewModels
 {
@@ -38,12 +39,16 @@ namespace EEMC.ViewModels
             });
         }
 
+        private readonly BitmapImage _icon = new BitmapImage(new Uri("pack://application:,,,/Resources/app_icon.png", UriKind.RelativeOrAbsolute));
+
         public ICommand AddTheme_Click
         {
             get => new Commands.DelegateCommand(async (obj) =>
             {
                 Window window = new Window
                 {
+                    Icon = _icon,
+                    WindowStartupLocation = WindowStartupLocation.CenterScreen,
                     SizeToContent = SizeToContent.WidthAndHeight,
                     ResizeMode = ResizeMode.NoResize,
                     Title = "Добавление темы",
@@ -63,6 +68,8 @@ namespace EEMC.ViewModels
             {
                 Window window = new Window
                 {
+                    Icon = _icon,
+                    WindowStartupLocation = WindowStartupLocation.CenterScreen,
                     SizeToContent = SizeToContent.WidthAndHeight,
                     ResizeMode = ResizeMode.NoResize,
                     Title = "Переименование темы",
@@ -82,6 +89,8 @@ namespace EEMC.ViewModels
             {
                 Window window = new Window
                 {
+                    Icon = _icon,
+                    WindowStartupLocation = WindowStartupLocation.CenterScreen,
                     SizeToContent = SizeToContent.WidthAndHeight,
                     ResizeMode = ResizeMode.NoResize,
                     Title = "Изменение описания темы",
@@ -101,6 +110,8 @@ namespace EEMC.ViewModels
             {
                 Window window = new Window
                 {
+                    Icon = _icon,
+                    WindowStartupLocation = WindowStartupLocation.CenterScreen,
                     SizeToContent = SizeToContent.WidthAndHeight,
                     ResizeMode = ResizeMode.NoResize,
                     Title = "Удаление темы",

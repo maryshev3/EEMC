@@ -11,6 +11,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace EEMC.ViewModels
 {
@@ -24,14 +26,17 @@ namespace EEMC.ViewModels
 
         protected abstract void OnDirectoryChanged(object sender, FileSystemEventArgs e);
 
+        private readonly BitmapImage _icon = new BitmapImage(new Uri("pack://application:,,,/Resources/app_icon.png", UriKind.RelativeOrAbsolute));
+
         public ICommand AddCourse_Click
         {
             get => new Commands.DelegateCommand(async (obj) =>
             {
-
                 Window window = new Window
                 {
+                    Icon = _icon,
                     SizeToContent = SizeToContent.WidthAndHeight,
+                    WindowStartupLocation = WindowStartupLocation.CenterScreen,
                     ResizeMode = ResizeMode.NoResize,
                     Title = "Добавление курса",
                     Content = new AddCourse()
@@ -50,7 +55,9 @@ namespace EEMC.ViewModels
             {
                 Window window = new Window
                 {
+                    Icon = _icon,
                     SizeToContent = SizeToContent.WidthAndHeight,
+                    WindowStartupLocation = WindowStartupLocation.CenterScreen,
                     ResizeMode = ResizeMode.NoResize,
                     Title = "Переименование курса",
                     Content = new RenameCourse()
@@ -69,7 +76,9 @@ namespace EEMC.ViewModels
             {
                 Window window = new Window
                 {
+                    Icon = _icon,
                     SizeToContent = SizeToContent.WidthAndHeight,
+                    WindowStartupLocation = WindowStartupLocation.CenterScreen,
                     ResizeMode = ResizeMode.NoResize,
                     Title = "Удаление курса",
                     Content = new RemoveCourse()

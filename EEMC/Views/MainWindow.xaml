@@ -7,9 +7,11 @@
         xmlns:viewmodels="clr-namespace:EEMC.ViewModels"
         d:DataContext="{d:DesignInstance Type=viewmodels:MainWindowVM}"
         mc:Ignorable="d"
-        Title="MainWindow"
-        Height="540"
-        Width="960"
+        Title="ЭУМК Конструктор"
+        Icon="/Resources/app_icon.png"
+        WindowStartupLocation="CenterScreen"
+        Height="640"
+        Width="1000"
         MinWidth="600"
         MinHeight="340"
         DataContext="{Binding MainWindowVM, Source={StaticResource ViewModelLocator}}"
@@ -23,6 +25,29 @@
                 </Style>
             </Style.Resources>
         </Style>
+        <ControlTemplate 
+            x:Key="NoMouseOverButtonTemplate"   
+            TargetType="Button">
+            <Border Background="{TemplateBinding Background}"  
+                BorderBrush="{TemplateBinding BorderBrush}"  
+                BorderThickness="{TemplateBinding BorderThickness}">
+                <ContentPresenter
+                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"  
+                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger 
+                    Property="IsEnabled"  
+                    Value="False">
+                    <Setter 
+                        Property="Background"  
+                        Value="{x:Static SystemColors.ControlLightBrush}"/>
+                    <Setter 
+                        Property="Foreground"  
+                        Value="{x:Static SystemColors.GrayTextBrush}"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
     </Window.Resources>
 
     <Grid>
@@ -35,7 +60,12 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Grid>
+        <Grid Background="#efeff5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
             <Grid.ContextMenu>
                 <ContextMenu>
                     <MenuItem 
@@ -44,7 +74,26 @@
                         CommandParameter="{Binding}"/>
                 </ContextMenu>
             </Grid.ContextMenu>
-            <ScrollViewer VerticalScrollBarVisibility="Auto">
+
+            <Grid Grid.Row="0" Background="#efeff5">
+                <Button
+                    Command="{Binding Path=AddCourse_Click}"
+                    CommandParameter="{Binding}"
+                    Background="#efeff5"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    BorderThickness="0, 0, 0, 2"
+                    Name="AddMainButton"
+                    Template="{StaticResource NoMouseOverButtonTemplate}"
+                    MouseEnter="AddMainButton_MouseEnter"
+                    MouseLeave="AddMainButton_MouseLeave"
+                    Margin="5, 2, 2, 2"
+                    BorderBrush="#ebebf1">
+                    <Label HorizontalAlignment="Left" Width="200" FontSize="18" FontWeight="Bold">Добавить курс</Label>
+                </Button>
+            </Grid>
+
+            <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1" Height="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type Border}},Path=ActualHeight}">
                 <ItemsControl
                     Name="CoursesList"
                     ItemsSource="{Binding Path=Courses.Courses, Mode=OneWay}"
@@ -52,31 +101,55 @@
                     Padding="0"
                     HorizontalContentAlignment="Stretch"
                     VerticalAlignment="Stretch"
-                    Background="#EE5648">
+                    Height = "auto"
+                    Background="#efeff5">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Button
-                                Style="{DynamicResource RoundButton}"
-                                Content="{Binding Path=Name}"
                                 FontSize="18"
+                                Name="CourseButton"
+                                Click="CourseButton_Click"
+                                MouseEnter="CourseButton_MouseEnter"
+                                MouseLeave="CourseButton_MouseLeave"
                                 Command="{Binding ElementName=CoursesList, Path=DataContext.OpenCourse_Click}"
                                 CommandParameter="{Binding}"
-                                Background="#FFFFFF"
-                                Foreground="#EE5648"
+                                Background="#efeff5"
+                                Foreground="Black"
                                 Height="auto"
                                 Width="auto"
+                                Template="{StaticResource NoMouseOverButtonTemplate}"
                                 HorizontalAlignment="Stretch"
-                                Margin="10"
-                                HorizontalContentAlignment="Center"
+                                HorizontalContentAlignment="Left"
                                 Padding="5"
-                                BorderBrush="Red"
-                                >
+                                Margin="4"
+                                BorderBrush="#efeff5">
+                                <StackPanel Orientation="Horizontal">
+                                    <Button 
+                                        Background="#efeff5"
+                                        BorderThickness="0"
+                                        Name="ContextButton"
+                                        Click="ContextButton_Click"
+                                        MouseEnter="ContextButton_MouseEnter"
+                                        MouseLeave="ContextButton_MouseLeave"
+                                        Template="{StaticResource NoMouseOverButtonTemplate}">
+                                        <Image Source="/Resources/three_points.png" Width="20" Height="20"/>
+                                        <Button.ContextMenu>
+                                            <ContextMenu>
+                                                <MenuItem 
+                                                    Header="Переименовать курс"
+                                                    Command="{Binding Path=DataContext.RenameCourse_Click, Source={x:Reference Name=CoursesList}}"
+                                                    CommandParameter="{Binding}"/>
+                                                <MenuItem 
+                                                    Header="Удалить курс"
+                                                    Command="{Binding Path=DataContext.RemoveCourse_Click, Source={x:Reference Name=CoursesList}}"
+                                                    CommandParameter="{Binding}"/>
+                                            </ContextMenu>
+                                        </Button.ContextMenu>
+                                    </Button>
+                                    <Label Content="{Binding Path=Name}"/>
+                                </StackPanel>
                                 <Button.ContextMenu>
                                     <ContextMenu>
-                                        <MenuItem 
-                                            Header="Добавить курс"
-                                            Command="{Binding Path=DataContext.AddCourse_Click, Source={x:Reference Name=CoursesList}}"
-                                            CommandParameter="{Binding}"/>
                                         <MenuItem 
                                             Header="Переименовать курс"
                                             Command="{Binding Path=DataContext.RenameCourse_Click, Source={x:Reference Name=CoursesList}}"
@@ -98,12 +171,12 @@
                                         <Setter.Value>
                                             <ControlTemplate>
                                                 <Grid
-                                                    Background="#EE5648">
+                                                    Background="#efeff5">
                                                     <Border
-                                                        Background="White" 
-                                                        BorderBrush="White"
+                                                        Background="#f7f7fa" 
+                                                        BorderBrush="#efeff5"
                                                         BorderThickness ="1" 
-                                                        CornerRadius="10, 0, 10, 10"
+                                                        CornerRadius="10, 10, 10, 10"
                                                         Height="100"
                                                         VerticalAlignment="Center"
                                                         Margin="10">
@@ -114,7 +187,7 @@
                                                             </Grid.RowDefinitions>
                                                             <TextBlock
                                                                     TextAlignment="Center"
-                                                                    Foreground="#EE5648"
+                                                                    Foreground="Black"
                                                                     Grid.Row="0"
                                                                     Margin="5">
                                                                     Курсы отсутствуют. <LineBreak/>
@@ -123,7 +196,7 @@
                                                             <Button
                                                                 Command="{Binding Path=AddCourse_Click}"
                                                                 CommandParameter="{Binding}"
-                                                                Background="White"
+                                                                Background="#efeff5"
                                                                 BorderThickness="0"
                                                                 Grid.Row="1"
                                                                 Margin="10"
@@ -144,10 +217,14 @@
             </ScrollViewer>
         </Grid>
 
-        <Frame
-            Content="{Binding CurrentPage}"
-            Grid.Column="1"
-            NavigationUIVisibility="Hidden"
-            Background="#F5E7E3"/>
+        <Grid Grid.Column="1" Background="#efeff5">
+            <Border BorderBrush="#ebebf1" BorderThickness="2" CornerRadius="10" Margin="0, 10, 10, 10" Grid.Column="1">
+                <Frame
+                Content="{Binding CurrentPage}"
+                NavigationUIVisibility="Hidden"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"/>
+            </Border>
+        </Grid>
     </Grid>
 </Window>

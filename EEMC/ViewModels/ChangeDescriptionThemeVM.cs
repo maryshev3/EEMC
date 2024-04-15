@@ -46,5 +46,14 @@ namespace EEMC.ViewModels
             }
             );
         }
+
+        public ICommand Cancel_Click
+        {
+            get => new Commands.DelegateCommand((courseName) =>
+            {
+                _window?.Close();
+            }
+            );
+        }
     }
 }

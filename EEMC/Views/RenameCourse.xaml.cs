@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EEMC.ViewBases;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,11 +19,42 @@ namespace EEMC.Views
     /// <summary>
     /// Interaction logic for RenameCourse.xaml
     /// </summary>
-    public partial class RenameCourse : UserControl
+    public partial class RenameCourse : UserControl, IHover
     {
+        public Button _oldHoveredButton { get; set; }
+
         public RenameCourse()
         {
             InitializeComponent();
+        }
+
+        private void Cancel_Button_MouseEnter(object sender, MouseEventArgs e)
+        {
+            (this as IHover).ConfirmHoverEffect(sender, ButtonType.CancelButton);
+
+            Cursor = Cursors.Hand;
+        }
+
+        private void Cancel_Button_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Change_Button_MouseLeave(sender, e);
+        }
+
+        private void Change_Button_MouseEnter(object sender, MouseEventArgs e)
+        {
+            (this as IHover).ConfirmHoverEffect(sender, ButtonType.ChangeButton);
+
+            Cursor = Cursors.Hand;
+        }
+
+        private void Change_Button_MouseLeave(object sender, MouseEventArgs e)
+        {
+            if (_oldHoveredButton != default)
+            {
+                (this as IHover).ResetButtonStyle(_oldHoveredButton);
+            }
+
+            Cursor = Cursors.Arrow;
         }
     }
 }

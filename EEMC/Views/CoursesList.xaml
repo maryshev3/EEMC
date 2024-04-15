@@ -19,75 +19,77 @@
         </Style>
     </Page.Resources>
 
-    <Grid>
-        <Grid.ContextMenu>
-            <ContextMenu>
-                <MenuItem 
+    <Border CornerRadius="10" Padding="4" Background="#f7f7fa">
+        <Grid>
+            <Grid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem 
                 Header="Добавить курс"
                 Command="{Binding Path=AddCourse_Click}"
                 CommandParameter="{Binding}"/>
-            </ContextMenu>
-        </Grid.ContextMenu>
-        <ScrollViewer VerticalScrollBarVisibility="Auto">
-            <ItemsControl
+                </ContextMenu>
+            </Grid.ContextMenu>
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <ItemsControl
             Name="CourseList"
             ItemsSource="{Binding Path=Courses.Courses, Mode=OneWay}"
             Padding="0"
-            Background="#F5E7E3">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel HorizontalAlignment="Stretch"/>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Button
-                        Style="{DynamicResource RoundButton}"
-                        Command="{Binding ElementName=CourseList, Path=DataContext.OpenCourse_Click}"
-                        CommandParameter="{Binding}"
-                        Background="#1D6590"
-                        Height="140"
-                        Width="220"
-                        Margin="10"
-                        Padding="0"
-                        HorizontalContentAlignment="Center"
-                        BorderBrush="Red"
-                        >
-                            <Grid Margin="0">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="100"/>
-                                    <RowDefinition Height="40"/>
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="220"/>
-                                </Grid.ColumnDefinitions>
-                                <Border BorderThickness="1" Grid.Row="0" CornerRadius="10,10,0,0">
-                                    <Border.Background>
-                                        <ImageBrush ImageSource="/Resources/course_img.jpg" Stretch="Fill"/>
-                                    </Border.Background>
-                                </Border>
-                                <TextBlock Grid.Row="1" Margin="5,0,0,0" Foreground="#FDDFAC" HorizontalAlignment="Center" Text="{Binding Path=Name}" FontSize="16"/>
-                            </Grid>
-                            <Button.ContextMenu>
-                                <ContextMenu>
-                                    <MenuItem 
+            Background="#f7f7fa">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel HorizontalAlignment="Stretch"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button
+                                Style="{DynamicResource RoundButton}"
+                                Command="{Binding ElementName=CourseList, Path=DataContext.OpenCourse_Click}"
+                                CommandParameter="{Binding}"
+                                Background="White"
+                                Height="140"
+                                Width="220"
+                                Margin="10"
+                                Padding="0"
+                                HorizontalContentAlignment="Center"
+                                BorderThickness="1"
+                                BorderBrush="#ebebf1">
+                                <Grid Margin="0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="100"/>
+                                        <RowDefinition Height="40"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="220"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Border BorderThickness="1" Grid.Row="0" CornerRadius="10,10,0,0">
+                                        <Border.Background>
+                                            <ImageBrush ImageSource="/Resources/course_img2.png" Stretch="Fill"/>
+                                        </Border.Background>
+                                    </Border>
+                                    <TextBlock Grid.Row="1" Margin="5,0,0,0" Foreground="Black" HorizontalAlignment="Center" Text="{Binding Path=Name}" FontSize="16"/>
+                                </Grid>
+                                <Button.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem 
                                     Header="Добавить курс"
                                     Command="{Binding Path=DataContext.AddCourse_Click, Source={x:Reference Name=CourseList}}"
                                     CommandParameter="{Binding}"/>
-                                    <MenuItem 
+                                        <MenuItem 
                                     Header="Переименовать курс"
                                     Command="{Binding Path=DataContext.RenameCourse_Click, Source={x:Reference Name=CourseList}}"
                                     CommandParameter="{Binding}"/>
-                                    <MenuItem 
+                                        <MenuItem 
                                     Header="Удалить курс"
                                     Command="{Binding Path=DataContext.RemoveCourse_Click, Source={x:Reference Name=CourseList}}"
                                     CommandParameter="{Binding}"/>
-                                </ContextMenu>
-                            </Button.ContextMenu>
-                        </Button>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </ScrollViewer>
-    </Grid>
+                                    </ContextMenu>
+                                </Button.ContextMenu>
+                            </Button>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </Grid>
+    </Border>
 </Page>

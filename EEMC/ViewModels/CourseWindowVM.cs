@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 using System.Windows.Xps.Packaging;
 
 namespace EEMC.ViewModels
@@ -119,12 +120,14 @@ namespace EEMC.ViewModels
                         if (oldXpsPackage != null)
                             oldXpsPackage.Close();
 
-                        _xpsDocument.Close();
+                        _xpsDocument?.Close();
                         IsEnabledTW = true;
                     }
                 }
             });
         }
+
+        private readonly BitmapImage _icon = new BitmapImage(new Uri("pack://application:,,,/Resources/app_icon.png", UriKind.RelativeOrAbsolute));
 
         public ICommand Add
         {
@@ -138,6 +141,8 @@ namespace EEMC.ViewModels
 
                 Window window = new Window
                 {
+                    Icon = _icon,
+                    WindowStartupLocation = WindowStartupLocation.CenterScreen,
                     SizeToContent = SizeToContent.WidthAndHeight,
                     ResizeMode = ResizeMode.NoResize,
                     Title = "Добавление раздела",
@@ -185,6 +190,8 @@ namespace EEMC.ViewModels
 
                 Window window = new Window
                 {
+                    Icon = _icon,
+                    WindowStartupLocation = WindowStartupLocation.CenterScreen,
                     SizeToContent = SizeToContent.WidthAndHeight,
                     ResizeMode = ResizeMode.NoResize,
                     Title = "Переименование раздела",
@@ -221,6 +228,8 @@ namespace EEMC.ViewModels
 
                 Window window = new Window
                 {
+                    Icon = _icon,
+                    WindowStartupLocation = WindowStartupLocation.CenterScreen,
                     SizeToContent = SizeToContent.WidthAndHeight,
                     ResizeMode = ResizeMode.NoResize,
                     Title = "Удаление раздела",
