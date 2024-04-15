@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,7 @@ namespace EEMC.Models
     {
         public string ThemeName { get; set; }
         public string ThemeDescription { get; set; }
+        public ObservableCollection<ThemeFile>? Files { get; set; }
         public Boolean IsHiden { get; set; }
         //Воспринимать как внешний ключ к Course
         public string CourseName { get; set; }

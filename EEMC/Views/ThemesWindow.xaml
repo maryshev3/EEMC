@@ -121,6 +121,43 @@ TargetType="Button">
                                                 <Image Source="/Resources/modify_icon.png"/>
                                             </Button>
                                         </StackPanel>
+                                        <StackPanel Orientation="Vertical">
+                                            <Label FontSize="16" FontWeight="Bold">Файлы:</Label>
+                                            <ItemsControl
+                                                Name="CourseList"
+                                                ItemsSource="{Binding Path=Files, Mode=OneWay}"
+                                                Background="White">
+                                                <ItemsControl.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <WrapPanel HorizontalAlignment="Stretch"/>
+                                                    </ItemsPanelTemplate>
+                                                </ItemsControl.ItemsPanel>
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Button
+                                                        Background="White"
+                                                        Height="auto"
+                                                        Width="auto"
+                                                        Margin="10"
+                                                        Padding="0"
+                                                        BorderThickness="0">
+                                                            <StackPanel Orientation="Vertical">
+                                                                <Image Source="/Resources/document_icon.png" Height="80" Width="80"/>
+                                                                <Label Content="{Binding Name}" FontSize="16"/>
+                                                            </StackPanel>
+                                                            <Button.ContextMenu>
+                                                                <ContextMenu>
+                                                                    <MenuItem 
+                                                                    Header="Переименовать файл"/>
+                                                                    <MenuItem 
+                                                                    Header="Удалить файл"/>
+                                                                </ContextMenu>
+                                                            </Button.ContextMenu>
+                                                        </Button>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                        </StackPanel>
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
                                             <Label FontSize="16">Не отображать при импорте?</Label>
                                             <CheckBox

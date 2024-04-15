@@ -9,6 +9,16 @@
     "ThemeName": "Тема 1",
     "ThemeDescription": "Описание темы 1 из новой папки",
     "IsHiden": false,
+    "Files": [
+      {
+        "Name": "Файл 1.docx",
+        "NameWithPath": "\\Файлы тем\\Новая папка\\Тема 1\\Файл 1.docx"
+      },
+      {
+        "Name": "Файл 2.docx",
+        "NameWithPath": "\\Файлы тем\\Новая папка\\Тема 1\\Файл 2.docx"
+      }
+    ],
     "CourseName": "Новая папка"
   },
   {
@@ -21,6 +31,20 @@
     "ThemeName": "Тема 3",
     "ThemeDescription": "Описание темы 3",
     "IsHiden": false,
+    "Files": [
+      {
+        "Name": "Файл 3.docx",
+        "NameWithPath": "\\Файлы тем\\das\\Тема 3\\Файл 3.docx"
+      },
+      {
+        "Name": "Файл 4.docx",
+        "NameWithPath": "\\Файлы тем\\das\\Тема 3\\Файл 4.docx"
+      },
+      {
+        "Name": "Файл 5.docx",
+        "NameWithPath": "\\Файлы тем\\das\\Тема 3\\Файл 5.docx"
+      }
+    ],
     "CourseName": "das"
   },
   {
