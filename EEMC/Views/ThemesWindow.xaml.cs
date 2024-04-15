@@ -74,5 +74,46 @@ namespace EEMC.Views
         {
             RenameTheme_Button_MouseLeave(sender, e);
         }
+
+        private void File_Button_MouseEnter(object sender, MouseEventArgs e)
+        {
+            if (_oldHoveredButton != default)
+            {
+                (this as IHover).ResetButtonStyle(_oldHoveredButton);
+            }
+
+            Button button = sender as Button;
+            ColorSettings colorSettings = new ColorSettings(ButtonType.CourseButton);
+
+            button.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom(colorSettings.Background));
+
+            var stackPanel = (button.Content as StackPanel);
+
+            foreach (var child in stackPanel.Children)
+            {
+                if (child is Label)
+                {
+                    Label el = child as Label;
+                    el.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom(colorSettings.Background));
+                    el.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom(colorSettings.Foreground));
+                }
+            }
+
+            _oldHoveredButton = button;
+
+            Cursor = Cursors.Hand;
+        }
+
+        private void File_Button_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Button button = sender as Button;
+
+            if (_oldHoveredButton != default)
+            {
+                (this as IHover).ResetButtonStyle(_oldHoveredButton);
+            }
+
+            Cursor = Cursors.Arrow;
+        }
     }
 }

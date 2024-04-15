@@ -135,13 +135,17 @@ TargetType="Button">
                                                 <ItemsControl.ItemTemplate>
                                                     <DataTemplate>
                                                         <Button
-                                                        Background="White"
-                                                        Height="auto"
-                                                        Width="auto"
-                                                        Margin="10"
-                                                        Padding="0"
-                                                        BorderThickness="0">
-                                                            <StackPanel Orientation="Vertical">
+                                                            Name="File_Button"
+                                                            Style="{DynamicResource RoundButton}"
+                                                            Template="{StaticResource NoMouseOverButtonTemplate}"
+                                                            MouseEnter="File_Button_MouseEnter"
+                                                            MouseLeave="File_Button_MouseLeave"
+                                                            Background="White"
+                                                            Height="auto"
+                                                            Width="auto"
+                                                            Margin="10"
+                                                            BorderThickness="0">
+                                                            <StackPanel Orientation="Vertical" Margin="5">
                                                                 <Image Source="/Resources/document_icon.png" Height="80" Width="80"/>
                                                                 <Label Content="{Binding Name}" FontSize="16"/>
                                                             </StackPanel>
@@ -156,6 +160,27 @@ TargetType="Button">
                                                         </Button>
                                                     </DataTemplate>
                                                 </ItemsControl.ItemTemplate>
+                                                <ItemsControl.Style>
+                                                    <Style TargetType="ItemsControl">
+                                                        <Style.Triggers>
+                                                            <Trigger Property="HasItems" Value="false">
+                                                                <Setter Property="Template">
+                                                                    <Setter.Value>
+                                                                        <ControlTemplate>
+                                                                            <Grid
+                                                                                Background="White">
+                                                                                <Label
+                                                                                    FontSize="16"
+                                                                                    FontStyle="Italic"
+                                                                                    Content="У данной темы отсутствуют прикреплённые файлы"/>
+                                                                            </Grid>
+                                                                        </ControlTemplate>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                            </Trigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </ItemsControl.Style>
                                             </ItemsControl>
                                         </StackPanel>
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
