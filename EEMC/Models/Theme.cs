@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,7 @@ namespace EEMC.Models
     {
         public string ThemeName { get; set; }
         public string ThemeDescription { get; set; }
+        public ObservableCollection<ThemeFile>? Files { get; set; }
         public Boolean IsHiden { get; set; }
         //Воспринимать как внешний ключ к Course
         public string CourseName { get; set; }
@@ -87,6 +89,47 @@ namespace EEMC.Models
             var allThemes = Theme.ReadAllThemes();
 
             allThemes.First(x => x.ThemeName == ThemeName && x.CourseName == CourseName).IsHiden = !IsHiden;
+
+            Theme.RewriteAllThemes(allThemes);
+        }
+
+        public void AddFile(string path)
+        {
+            var file = File.ReadAllBytes(path);
+
+            string savePath = Path.Combine(
+                Environment.CurrentDirectory,
+                "Файлы тем",
+                CourseName,
+                ThemeName,
+                Path.GetFileName(path)
+            );
+
+            FileInfo fileInfo = new FileInfo(savePath);
+            fileInfo.Directory.Create();
+
+            File.WriteAllBytes(savePath, file);
+
+            var allThemes = Theme.ReadAllThemes();
+            var thisTheme = allThemes.First(x => x.CourseName == CourseName && x.ThemeName == ThemeName);
+
+            if (thisTheme.Files == default)
+                thisTheme.Files = new();
+            else
+            {
+                if (thisTheme.Files.Select(x => x.Name).ToHashSet().Contains(Path.GetFileName(savePath)))
+                {
+                    throw new Exception("Добавляемый файл уже есть в теме");
+                }
+            }
+
+            thisTheme.Files.Add(
+                new ThemeFile()
+                {
+                    Name = Path.GetFileName(savePath),
+                    NameWithPath = savePath.Substring(Environment.CurrentDirectory.Length)
+                }
+            );
 
             Theme.RewriteAllThemes(allThemes);
         }

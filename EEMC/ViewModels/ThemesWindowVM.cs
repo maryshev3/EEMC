@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows;
 using System.Windows.Media.Imaging;
+using Microsoft.Win32;
 
 namespace EEMC.ViewModels
 {
@@ -133,6 +134,75 @@ namespace EEMC.ViewModels
 
                 if (currentThemeConverted != default)
                     currentThemeConverted.ChangeHidenMode();
+            }
+            );
+        }
+
+        public ICommand ShowFile_Click
+        {
+            get => new Commands.DelegateCommand(async (currentFile) =>
+            {
+                ThemeFile currentFileConverted = currentFile as ThemeFile;
+
+                Window window = new DocumentView();
+
+                await _messageBus.SendTo<DocumentViewVM>(new ThemeFileMessage(currentFileConverted));
+
+                window.ShowDialog();
+            }
+            );
+        }
+
+        public ICommand DownloadFile_Click
+        {
+            get => new Commands.DelegateCommand(async (currentFile) =>
+            {
+                ThemeFile currentFileConverted = currentFile as ThemeFile;
+
+                var fileDialog = new SaveFileDialog();
+                fileDialog.Filter = currentFileConverted.GetSaveFilter();
+                
+                if (fileDialog.ShowDialog() == true)
+                {
+                    var filePath = fileDialog.FileName;
+
+                    currentFileConverted.SaveFile(filePath);
+                }
+            }
+            );
+        }
+
+        public ICommand AddFile_Click
+        {
+            get => new Commands.DelegateCommand(async (currentTheme) =>
+            {
+                Theme currentThemeConverted = currentTheme as Theme;
+
+                var fileDialog = new OpenFileDialog();
+
+                if (fileDialog.ShowDialog() == true)
+                {
+                    var filePath = fileDialog.FileName;
+                    try
+                    {
+                        currentThemeConverted.AddFile(filePath);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                }
+            }
+            );
+        }
+
+        public ICommand RemoveFile_Click
+        {
+            get => new Commands.DelegateCommand(async (currentFile) =>
+            {
+                ThemeFile currentFileConverted = currentFile as ThemeFile;
+
+                currentFileConverted.RemoveFile();
             }
             );
         }

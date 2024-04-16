@@ -59,8 +59,25 @@ namespace EEMC.ViewBases
         {
             button.Background = System.Windows.Media.Brushes.White;
 
-            var text = button.Content as Label;
-            text.Foreground = System.Windows.Media.Brushes.Black;
+            if (button.Content is Label)
+            {
+                var text = button.Content as Label;
+                text.Foreground = System.Windows.Media.Brushes.Black;
+            }
+            else
+            {
+                var stackPanel = button.Content as StackPanel;
+
+                foreach (var child in stackPanel.Children)
+                {
+                    if (child is Label)
+                    {
+                        Label el = child as Label;
+                        el.Background = System.Windows.Media.Brushes.White;
+                        el.Foreground = System.Windows.Media.Brushes.Black;
+                    }
+                }
+            }
         }
 
         public void ConfirmHoverEffect(object sender, ButtonType buttonType)

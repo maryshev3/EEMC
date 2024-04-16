@@ -11,6 +11,17 @@
       DataContext="{Binding CourseWindowVM, Source={StaticResource ViewModelLocator}}"
       KeyDown="Page_KeyDown">
 
+    <Page.Style>
+        <Style TargetType="Page">
+            <Setter Property="ForceCursor" Value="True"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsEnabledTW}" Value="False">
+                    <Setter Property="Cursor" Value="Wait"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </Page.Style>
+
     <Page.Resources>
         <Style TargetType="Button" x:Key="RoundButton">
             <Style.Resources>

@@ -31,10 +31,10 @@
             </Grid.ContextMenu>
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <ItemsControl
-            Name="CourseList"
-            ItemsSource="{Binding Path=Courses.Courses, Mode=OneWay}"
-            Padding="0"
-            Background="#f7f7fa">
+                    Name="CourseList"
+                    ItemsSource="{Binding Path=Courses.Courses, Mode=OneWay}"
+                    Padding="0"
+                    Background="#f7f7fa">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <WrapPanel HorizontalAlignment="Stretch"/>
