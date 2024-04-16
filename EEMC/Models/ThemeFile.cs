@@ -16,6 +16,12 @@ namespace EEMC.Models
             ".docx"
         };
 
+        [JsonIgnore]
+        private static Dictionary<string, string> _filtersMap = new()
+        {
+            {".docx", "Word 2007+ file | *.docx"}
+        };
+
         public string Name { get; set; }
         public string NameWithPath { get; set; }
 
@@ -24,6 +30,25 @@ namespace EEMC.Models
             string extension = Path.GetExtension(Name);
 
             return _supportedExtensions.Contains(extension);
+        }
+
+        public string GetSaveFilter()
+        {
+            string extension = Path.GetExtension(Name);
+
+            return _filtersMap.ContainsKey(extension) ? _filtersMap[extension] : " | *" + extension;
+        }
+
+        public void SaveFile(string savePath)
+        {
+            if (savePath.Contains(Environment.CurrentDirectory))
+                throw new Exception("Не допускается сохранение в дирректорию программы");
+
+            string filePath = Environment.CurrentDirectory + NameWithPath;
+
+            byte[] file = File.ReadAllBytes(filePath);
+
+            File.WriteAllBytes(savePath, file);
         }
     }
 }

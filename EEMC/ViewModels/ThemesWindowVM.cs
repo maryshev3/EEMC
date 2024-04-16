@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows;
 using System.Windows.Media.Imaging;
+using Microsoft.Win32;
 
 namespace EEMC.ViewModels
 {
@@ -154,7 +155,15 @@ namespace EEMC.ViewModels
             {
                 ThemeFile currentFileConverted = currentFile as ThemeFile;
 
-                ;
+                var fileDialog = new SaveFileDialog();
+                fileDialog.Filter = currentFileConverted.GetSaveFilter();
+                
+                if (fileDialog.ShowDialog() == true)
+                {
+                    var filePath = fileDialog.FileName;
+
+                    currentFileConverted.SaveFile(filePath);
+                }
             }
             );
         }
