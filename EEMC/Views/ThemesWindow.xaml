@@ -122,9 +122,32 @@ TargetType="Button">
                                                 <Image Source="/Resources/modify_icon.png"/>
                                             </Button>
                                         </StackPanel>
-                                        <StackPanel Orientation="Vertical">
-                                            <Label FontSize="16" FontWeight="Bold">Файлы:</Label>
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="auto"/>
+                                                <RowDefinition Height="auto"/>
+                                                <RowDefinition Height="*"/>
+                                            </Grid.RowDefinitions>
+                                            <Label FontSize="16" FontWeight="Bold" Grid.Row="0">Файлы:</Label>
+                                            <Button
+                                                Grid.Row="1"
+                                                Style="{DynamicResource RoundButton}"
+                                                Template="{StaticResource NoMouseOverButtonTemplate}"
+                                                Margin="5, 5, 5, 5"
+                                                Background="White"
+                                                BorderBrush="#ebebf1"
+                                                HorizontalAlignment="Left"
+                                                Command="{Binding ElementName=ThemesList, Path=DataContext.AddFile_Click}"
+                                                CommandParameter="{Binding}"
+                                                MouseEnter="AddThemeFile_Button_MouseEnter"
+                                                MouseLeave="AddThemeFile_Button_MouseLeave"
+                                                IsEnabled="True"
+                                                Name="AddThemeFile_Button"
+                                                FontSize="16">
+                                                <Label>Добавить файл</Label>
+                                            </Button>
                                             <ItemsControl
+                                                Grid.Row="2"
                                                 Name="CourseList"
                                                 ItemsSource="{Binding Path=Files, Mode=OneWay}"
                                                 Background="White">
@@ -136,17 +159,17 @@ TargetType="Button">
                                                 <ItemsControl.ItemTemplate>
                                                     <DataTemplate>
                                                         <Button
-                                                            Name="File_Button"
-                                                            Style="{DynamicResource RoundButton}"
-                                                            Template="{StaticResource NoMouseOverButtonTemplate}"
-                                                            MouseEnter="File_Button_MouseEnter"
-                                                            MouseLeave="File_Button_MouseLeave"
-                                                            Click="File_Button_Click"
-                                                            Background="White"
-                                                            Height="auto"
-                                                            Width="auto"
-                                                            Margin="10"
-                                                            BorderThickness="0">
+                                                        Name="File_Button"
+                                                        Style="{DynamicResource RoundButton}"
+                                                        Template="{StaticResource NoMouseOverButtonTemplate}"
+                                                        MouseEnter="File_Button_MouseEnter"
+                                                        MouseLeave="File_Button_MouseLeave"
+                                                        Click="File_Button_Click"
+                                                        Background="White"
+                                                        Height="auto"
+                                                        Width="auto"
+                                                        Margin="10"
+                                                        BorderThickness="0">
                                                             <StackPanel Orientation="Vertical" Margin="5">
                                                                 <Image Source="/Resources/document_icon.png" Height="80" Width="80"/>
                                                                 <Label Content="{Binding Name}" FontSize="16"/>
@@ -154,9 +177,9 @@ TargetType="Button">
                                                             <Button.ContextMenu>
                                                                 <ContextMenu>
                                                                     <MenuItem 
-                                                                    Header="Переименовать файл"/>
+                                                                Header="Переименовать файл"/>
                                                                     <MenuItem 
-                                                                    Header="Удалить файл"/>
+                                                                Header="Удалить файл"/>
                                                                 </ContextMenu>
                                                             </Button.ContextMenu>
                                                         </Button>
@@ -170,11 +193,11 @@ TargetType="Button">
                                                                     <Setter.Value>
                                                                         <ControlTemplate>
                                                                             <Grid
-                                                                                Background="White">
+                                                                            Background="White">
                                                                                 <Label
-                                                                                    FontSize="16"
-                                                                                    FontStyle="Italic"
-                                                                                    Content="У данной темы отсутствуют прикреплённые файлы"/>
+                                                                                FontSize="16"
+                                                                                FontStyle="Italic"
+                                                                                Content="У данной темы отсутствуют прикреплённые файлы"/>
                                                                             </Grid>
                                                                         </ControlTemplate>
                                                                     </Setter.Value>
@@ -184,7 +207,7 @@ TargetType="Button">
                                                     </Style>
                                                 </ItemsControl.Style>
                                             </ItemsControl>
-                                        </StackPanel>
+                                        </Grid>
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
                                             <Label FontSize="16">Не отображать при импорте?</Label>
                                             <CheckBox

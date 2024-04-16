@@ -171,5 +171,23 @@ namespace EEMC.ViewModels
             }
             );
         }
+
+        public ICommand AddFile_Click
+        {
+            get => new Commands.DelegateCommand(async (currentTheme) =>
+            {
+                Theme currentThemeConverted = currentTheme as Theme;
+
+                var fileDialog = new OpenFileDialog();
+
+                if (fileDialog.ShowDialog() == true)
+                {
+                    var filePath = fileDialog.FileName;
+
+                    currentThemeConverted.AddFile(filePath);
+                }
+            }
+            );
+        }
     }
 }

@@ -152,5 +152,15 @@ namespace EEMC.Views
                 dc.DownloadFile_Click.Execute(file);
             }
         }
+
+        private void AddThemeFile_Button_MouseEnter(object sender, MouseEventArgs e)
+        {
+            AddTheme_Button_MouseEnter(sender, e);
+        }
+
+        private void AddThemeFile_Button_MouseLeave(object sender, MouseEventArgs e)
+        {
+            AddTheme_Button_MouseLeave(sender, e);
+        }
     }
 }

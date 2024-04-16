@@ -92,5 +92,39 @@ namespace EEMC.Models
 
             Theme.RewriteAllThemes(allThemes);
         }
+
+        public void AddFile(string path)
+        {
+            var file = File.ReadAllBytes(path);
+
+            string savePath = Path.Combine(
+                Environment.CurrentDirectory,
+                "Файлы тем",
+                CourseName,
+                ThemeName,
+                Path.GetFileName(path)
+            );
+
+            FileInfo fileInfo = new FileInfo(savePath);
+            fileInfo.Directory.Create();
+
+            File.WriteAllBytes(savePath, file);
+
+            var allThemes = Theme.ReadAllThemes();
+            var thisTheme = allThemes.First(x => x.CourseName == CourseName && x.ThemeName == ThemeName);
+
+            if (thisTheme.Files == default)
+                thisTheme.Files = new();
+
+            thisTheme.Files.Add(
+                new ThemeFile()
+                {
+                    Name = Path.GetFileName(savePath),
+                    NameWithPath = savePath.Substring(Environment.CurrentDirectory.Length)
+                }
+            );
+
+            Theme.RewriteAllThemes(allThemes);
+        }
     }
 }
