@@ -115,6 +115,13 @@ namespace EEMC.Models
 
             if (thisTheme.Files == default)
                 thisTheme.Files = new();
+            else
+            {
+                if (thisTheme.Files.Select(x => x.Name).ToHashSet().Contains(Path.GetFileName(savePath)))
+                {
+                    throw new Exception("Добавляемый файл уже есть в теме");
+                }
+            }
 
             thisTheme.Files.Add(
                 new ThemeFile()

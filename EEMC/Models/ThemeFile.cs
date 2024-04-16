@@ -50,5 +50,26 @@ namespace EEMC.Models
 
             File.WriteAllBytes(savePath, file);
         }
+
+        public void RemoveFile()
+        {
+            var allThemes = Theme.ReadAllThemes();
+
+            var thisTheme = allThemes.First(
+                x => 
+                    x.Files != default
+                    && x
+                        .Files
+                        .Select(x => x.NameWithPath)
+                        .ToHashSet()
+                        .Contains(NameWithPath)
+            );
+
+            thisTheme.Files = new(thisTheme.Files.Where(x => x.NameWithPath != NameWithPath));
+
+            Theme.RewriteAllThemes(allThemes);
+
+            File.Delete(Environment.CurrentDirectory + NameWithPath);
+        }
     }
 }

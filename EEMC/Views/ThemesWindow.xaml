@@ -158,31 +158,40 @@ TargetType="Button">
                                                 </ItemsControl.ItemsPanel>
                                                 <ItemsControl.ItemTemplate>
                                                     <DataTemplate>
-                                                        <Button
-                                                        Name="File_Button"
-                                                        Style="{DynamicResource RoundButton}"
-                                                        Template="{StaticResource NoMouseOverButtonTemplate}"
-                                                        MouseEnter="File_Button_MouseEnter"
-                                                        MouseLeave="File_Button_MouseLeave"
-                                                        Click="File_Button_Click"
-                                                        Background="White"
-                                                        Height="auto"
-                                                        Width="auto"
-                                                        Margin="10"
-                                                        BorderThickness="0">
-                                                            <StackPanel Orientation="Vertical" Margin="5">
-                                                                <Image Source="/Resources/document_icon.png" Height="80" Width="80"/>
-                                                                <Label Content="{Binding Name}" FontSize="16"/>
-                                                            </StackPanel>
-                                                            <Button.ContextMenu>
-                                                                <ContextMenu>
-                                                                    <MenuItem 
-                                                                Header="Переименовать файл"/>
-                                                                    <MenuItem 
-                                                                Header="Удалить файл"/>
-                                                                </ContextMenu>
-                                                            </Button.ContextMenu>
-                                                        </Button>
+                                                        <DockPanel>
+                                                            <Button
+                                                                Name="File_Button"
+                                                                Style="{DynamicResource RoundButton}"
+                                                                Template="{StaticResource NoMouseOverButtonTemplate}"
+                                                                MouseEnter="File_Button_MouseEnter"
+                                                                MouseLeave="File_Button_MouseLeave"
+                                                                Click="File_Button_Click"
+                                                                Background="White"
+                                                                Height="auto"
+                                                                Width="auto"
+                                                                Margin="10"
+                                                                BorderThickness="0">
+                                                                <StackPanel Orientation="Vertical" Margin="5">
+                                                                    <Image Source="/Resources/document_icon.png" Height="80" Width="80"/>
+                                                                    <Label Content="{Binding Name}" FontSize="16"/>
+                                                                </StackPanel>
+                                                            </Button>
+                                                            <Button
+                                                                Name="RemoveFile_Button"
+                                                                Template="{StaticResource NoMouseOverButtonTemplate}"
+                                                                Command="{Binding ElementName=ThemesList, Path=DataContext.RemoveFile_Click}"
+                                                                CommandParameter="{Binding}"
+                                                                HorizontalAlignment="Right"
+                                                                VerticalAlignment="Top"
+                                                                Width="35"
+                                                                Height="35"
+                                                                BorderThickness="0"
+                                                                Background="White"
+                                                                MouseEnter="RemoveFile_Button_MouseEnter"
+                                                                MouseLeave="RemoveFile_Button_MouseLeave">
+                                                                <Image Source="/Resources/close_icon.png"/>
+                                                            </Button>
+                                                        </DockPanel>
                                                     </DataTemplate>
                                                 </ItemsControl.ItemTemplate>
                                                 <ItemsControl.Style>

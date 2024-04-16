@@ -183,9 +183,26 @@ namespace EEMC.ViewModels
                 if (fileDialog.ShowDialog() == true)
                 {
                     var filePath = fileDialog.FileName;
-
-                    currentThemeConverted.AddFile(filePath);
+                    try
+                    {
+                        currentThemeConverted.AddFile(filePath);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
                 }
+            }
+            );
+        }
+
+        public ICommand RemoveFile_Click
+        {
+            get => new Commands.DelegateCommand(async (currentFile) =>
+            {
+                ThemeFile currentFileConverted = currentFile as ThemeFile;
+
+                currentFileConverted.RemoveFile();
             }
             );
         }
