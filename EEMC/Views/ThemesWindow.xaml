@@ -85,7 +85,7 @@ TargetType="Button">
                                 CornerRadius="10"
                                 Padding="3"
                                 HorizontalAlignment="Stretch">
-                                <DockPanel Background="White">
+                                <Grid Background="White">
                                     <StackPanel Orientation="Vertical">
                                         <StackPanel Orientation="Horizontal">
                                             <Label Content="{Binding Path=ThemeName}" FontWeight="Bold" FontSize="16"/>
@@ -256,7 +256,7 @@ TargetType="Button">
                                         MouseLeave="RemoveTheme_Button_MouseLeave">
                                         <Image Source="/Resources/close_icon.png"/>
                                     </Button>
-                                </DockPanel>
+                                </Grid>
                             </Border>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
