@@ -35,6 +35,7 @@ namespace EEMC.ViewModels
             {
                 try
                 {
+                    string d = newDescription as string;
                     _chosenTheme.ChangeDescription(newDescription as string);
 
                     _window?.Close();
