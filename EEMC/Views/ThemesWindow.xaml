@@ -103,25 +103,38 @@ TargetType="Button">
                                                 <Image Source="/Resources/modify_icon.png"/>
                                             </Button>
                                         </StackPanel>
-                                        <StackPanel Orientation="Horizontal">
-                                            <StackPanel Orientation="Vertical">
-                                                <Label FontWeight="Bold" FontSize="16">Описание темы:</Label>
-                                                <Label Content="{Binding Path=ThemeDescription}" FontSize="16"/>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <StackPanel Orientation="Vertical" Grid.Column="0">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Label FontWeight="Bold" FontSize="16">Описание темы:</Label>
+                                                    <Button
+                                                        Grid.Column="1"
+                                                        Name="ChangeDescription_Button"
+                                                        Template="{StaticResource NoMouseOverButtonTemplate}"
+                                                        Background="White"
+                                                        BorderThickness="0"
+                                                        Width="35"
+                                                        Height="35"
+                                                        Command="{Binding ElementName=ThemesList, Path=DataContext.ChangeDescriptionTheme_Click}"
+                                                        CommandParameter="{Binding}"
+                                                        MouseEnter="ChangeDescription_Button_MouseEnter"
+                                                        MouseLeave="ChangeDescription_Button_MouseLeave">
+                                                        <Image Source="/Resources/modify_icon.png"/>
+                                                    </Button>
+                                                </StackPanel>
+                                                <Label>
+                                                    <TextBlock 
+                                                        TextWrapping="Wrap"
+                                                        TextTrimming="None"
+                                                        Text="{Binding Path=ThemeDescription}"
+                                                        FontSize="16"/>
+                                                </Label>
                                             </StackPanel>
-                                            <Button
-                                                Name="ChangeDescription_Button"
-                                                Template="{StaticResource NoMouseOverButtonTemplate}"
-                                                Background="White"
-                                                BorderThickness="0"
-                                                Width="35"
-                                                Height="35"
-                                                Command="{Binding ElementName=ThemesList, Path=DataContext.ChangeDescriptionTheme_Click}"
-                                                CommandParameter="{Binding}"
-                                                MouseEnter="ChangeDescription_Button_MouseEnter"
-                                                MouseLeave="ChangeDescription_Button_MouseLeave">
-                                                <Image Source="/Resources/modify_icon.png"/>
-                                            </Button>
-                                        </StackPanel>
+                                        </Grid>
                                         <Grid>
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="auto"/>
