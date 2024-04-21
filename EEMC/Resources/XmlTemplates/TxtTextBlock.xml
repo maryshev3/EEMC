@@ -1,0 +1,6 @@
+﻿<TextBlock
+    TextWrapping="Wrap"
+    MaxWidth="780"
+    TextTrimming="None"
+    Text="TEXT_FROM_TXT"
+    FontSize="16"/>
