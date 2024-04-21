@@ -59,6 +59,7 @@ namespace EEMC.ViewModels
                     if (
                         fileExt 
                             is ".docx"
+                            or ".doc"
                             or ".txt"
                             or ".cpp"
                             or ".h"
@@ -92,6 +93,7 @@ namespace EEMC.ViewModels
 
                             switch (fileExt)
                             {
+                                case ".doc":
                                 case ".docx":
                                     xpsConverter = _wordConverter;
                                     break;

@@ -14,6 +14,7 @@ namespace EEMC.Models
         private static HashSet<string> _supportedExtensions =  new() 
         {
             ".docx",
+            ".doc",
             ".txt",
             ".cpp",
             ".h",
@@ -29,6 +30,7 @@ namespace EEMC.Models
         private static Dictionary<string, string> _filtersMap = new()
         {
             { ".docx", "Word 2007+ file | *.docx" },
+            { ".doc", "Word 2007- file | *.doc" },
             { ".txt", "Text file | *.txt" },
             { ".cpp", "CPP source file | *.cpp" },
             { ".h", "CPP header file | *.h" },
