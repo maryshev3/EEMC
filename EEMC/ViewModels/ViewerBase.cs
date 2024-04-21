@@ -60,6 +60,14 @@ namespace EEMC.ViewModels
                         fileExt 
                             is ".docx"
                             or ".txt"
+                            or ".cpp"
+                            or ".h"
+                            or ".py" 
+                            or ".cs"
+                            or ".json"
+                            or ".xml"
+                            or ".html"
+                            or ".css"
                     )
                     {
                         IsEnabledTW = false;
@@ -87,6 +95,14 @@ namespace EEMC.ViewModels
                                 case ".docx":
                                     xpsConverter = _wordConverter;
                                     break;
+                                case ".cpp":
+                                case ".h":
+                                case ".py":
+                                case ".cs":
+                                case ".json":
+                                case ".xml":
+                                case ".html":
+                                case ".css":
                                 case ".txt":
                                     xpsConverter = _txtConverter;
                                     break;

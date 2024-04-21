@@ -14,14 +14,30 @@ namespace EEMC.Models
         private static HashSet<string> _supportedExtensions =  new() 
         {
             ".docx",
-            ".txt"
+            ".txt",
+            ".cpp",
+            ".h",
+            ".py",
+            ".cs",
+            ".json",
+            ".xml",
+            ".html",
+            ".css"
         };
 
         [JsonIgnore]
         private static Dictionary<string, string> _filtersMap = new()
         {
             { ".docx", "Word 2007+ file | *.docx" },
-            { ".txt", "Text file | *.txt" }
+            { ".txt", "Text file | *.txt" },
+            { ".cpp", "CPP source file | *.cpp" },
+            { ".h", "CPP header file | *.h" },
+            { ".py", "Python source file | *.py" },
+            { ".cs", "C# source file | *.cs" },
+            { ".json", "JSON file | *.json" },
+            { ".xml", "XML file | *.xml" },
+            { ".html", "HTML file | *.html" },
+            { ".css", "CSS file | *.css" }
         };
 
         public string Name { get; set; }

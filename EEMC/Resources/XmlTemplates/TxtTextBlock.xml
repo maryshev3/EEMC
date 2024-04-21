@@ -2,5 +2,6 @@
     TextWrapping="Wrap"
     MaxWidth="780"
     TextTrimming="None"
-    Text="TEXT_FROM_TXT"
-    FontSize="16"/>
+    FontSize="16">
+  TEXT_FROM_TXT
+</TextBlock>

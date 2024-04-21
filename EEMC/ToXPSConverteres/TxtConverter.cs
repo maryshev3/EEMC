@@ -14,6 +14,17 @@ namespace EEMC.ToXPSConverteres
 {
     public class TxtConverter : IXPSConvert
     {
+        private string AdaptForXml(string str)
+        {
+            str = str.Replace("&", "&amp;");
+            str = str.Replace("\"", "&quot;");
+            //str = str.Replace("\'", "&apos;");
+            str = str.Replace("<", "&lt;");
+            str = str.Replace(">", "&gt;");
+         
+            return str;
+        }
+
         private string GetTxtTemplate()
         {
             var assembly = Assembly.GetExecutingAssembly();
@@ -85,7 +96,7 @@ namespace EEMC.ToXPSConverteres
                     }
                     font.Commit();
 
-                    string[] pageContents = File.ReadAllLines(OriginFileName);
+                    string[] pageContents = File.ReadAllLines(OriginFileName).Select(x => AdaptForXml(x)).ToArray();
                     XmlWriter xmlWriter = xpW.XmlWriter;
                     string textBlock = GetTxtTextBlock();
                     string txtTemplate = GetTxtTemplate();
