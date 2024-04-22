@@ -42,6 +42,9 @@ namespace EEMC.ViewModels
         protected XpsDocument _xpsDocument;
 
         static WordConverter _wordConverter = new WordConverter();
+        static TxtConverter _txtConverter = new TxtConverter();
+        static PptConverter _pptConverter = new PptConverter();
+        
         protected static CancellationTokenSource? _currentCancellationSource = null;
 
         public Commands.IAsyncCommand ShowDocument
@@ -52,7 +55,24 @@ namespace EEMC.ViewModels
                 {
                     XpsDocument oldXpsPackage = _xpsDocument;
 
-                    if (Path.GetExtension((ChosenFile as Explorer).NameWithPath) == ".docx")
+                    string fileExt = Path.GetExtension((ChosenFile as Explorer).NameWithPath);
+
+                    if (
+                        fileExt 
+                            is ".docx"
+                            or ".doc"
+                            or ".txt"
+                            or ".cpp"
+                            or ".h"
+                            or ".py" 
+                            or ".cs"
+                            or ".json"
+                            or ".xml"
+                            or ".html"
+                            or ".css"
+                            or ".ppt"
+                            or ".pptx"
+                    )
                     {
                         IsEnabledTW = false;
 
@@ -69,13 +89,40 @@ namespace EEMC.ViewModels
                         }
 
                         _currentCancellationSource = new CancellationTokenSource();
+
                         try
                         {
-                            _xpsDocument = await _wordConverter.ToXpsConvertAsync(
+                            IXPSConvert xpsConverter = default;
+
+                            switch (fileExt)
+                            {
+                                case ".doc":
+                                case ".docx":
+                                    xpsConverter = _wordConverter;
+                                    break;
+                                case ".cpp":
+                                case ".h":
+                                case ".py":
+                                case ".cs":
+                                case ".json":
+                                case ".xml":
+                                case ".html":
+                                case ".css":
+                                case ".txt":
+                                    xpsConverter = _txtConverter;
+                                    break;
+                                case ".ppt":
+                                case ".pptx":
+                                    xpsConverter = _pptConverter;
+                                    break;
+                            }
+
+                            _xpsDocument = await xpsConverter?.ToXpsConvertAsync(
                                 OriginDocumentName,
                                 Path.Combine(Environment.CurrentDirectory, Path.GetFileNameWithoutExtension((ChosenFile as Explorer).Name) + ".xps"),
                                 _currentCancellationSource.Token
                             );
+
                         }
                         catch (Exception ex)
                         {
@@ -85,19 +132,19 @@ namespace EEMC.ViewModels
                         }
                         _currentCancellationSource?.Dispose();
                         _currentCancellationSource = null;
-                    }
 
-                    //Сигнализирует о том, что был вход в одну из ветвей ифа
-                    if (!IsEnabledTW)
-                    {
-                        //null может быть, когда слишком быстро переключаешь окна (одно ещё не загрузилось, а второе уже включаем)
-                        if (_xpsDocument != null)
-                            Document = _xpsDocument.GetFixedDocumentSequence();
+                        //Сигнализирует о том, что было выполнено преобразование в xps
+                        if (!IsEnabledTW)
+                        {
+                            //null может быть, когда слишком быстро переключаешь окна (одно ещё не загрузилось, а второе уже включаем)
+                            if (_xpsDocument != null)
+                                Document = _xpsDocument.GetFixedDocumentSequence();
 
-                        oldXpsPackage?.Close();
+                            oldXpsPackage?.Close();
 
-                        _xpsDocument?.Close();
-                        IsEnabledTW = true;
+                            _xpsDocument?.Close();
+                            IsEnabledTW = true;
+                        }
                     }
                 }
             });

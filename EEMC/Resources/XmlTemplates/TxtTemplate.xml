@@ -1,0 +1,6 @@
+﻿<FixedPage Height="1056" Width="816" xml:lang="en-US"
+ xmlns="http://schemas.microsoft.com/xps/2005/06">
+  <StackPanel Orientation="Vertical" Margin="20">
+    TEXT_BLOCKS
+  </StackPanel>
+</FixedPage>

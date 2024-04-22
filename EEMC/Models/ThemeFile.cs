@@ -13,13 +13,37 @@ namespace EEMC.Models
         [JsonIgnore]
         private static HashSet<string> _supportedExtensions =  new() 
         {
-            ".docx"
+            ".docx",
+            ".doc",
+            ".txt",
+            ".cpp",
+            ".h",
+            ".py",
+            ".cs",
+            ".json",
+            ".xml",
+            ".html",
+            ".css",
+            ".ppt",
+            ".pptx"
         };
 
         [JsonIgnore]
         private static Dictionary<string, string> _filtersMap = new()
         {
-            {".docx", "Word 2007+ file | *.docx"}
+            { ".docx", "Word 2007+ file | *.docx" },
+            { ".doc", "Word 2007- file | *.doc" },
+            { ".txt", "Text file | *.txt" },
+            { ".cpp", "CPP source file | *.cpp" },
+            { ".h", "CPP header file | *.h" },
+            { ".py", "Python source file | *.py" },
+            { ".cs", "C# source file | *.cs" },
+            { ".json", "JSON file | *.json" },
+            { ".xml", "XML file | *.xml" },
+            { ".html", "HTML file | *.html" },
+            { ".css", "CSS file | *.css" },
+            { ".ppt", "PowerPoint 2007- file | *.ppt" },
+            { ".pptx", "PowerPoint 2007+ file | *.pptx" }
         };
 
         public string Name { get; set; }
