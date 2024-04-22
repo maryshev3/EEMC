@@ -43,6 +43,7 @@ namespace EEMC.ViewModels
 
         static WordConverter _wordConverter = new WordConverter();
         static TxtConverter _txtConverter = new TxtConverter();
+        static PptConverter _pptConverter = new PptConverter();
         
         protected static CancellationTokenSource? _currentCancellationSource = null;
 
@@ -69,6 +70,8 @@ namespace EEMC.ViewModels
                             or ".xml"
                             or ".html"
                             or ".css"
+                            or ".ppt"
+                            or ".pptx"
                     )
                     {
                         IsEnabledTW = false;
@@ -107,6 +110,10 @@ namespace EEMC.ViewModels
                                 case ".css":
                                 case ".txt":
                                     xpsConverter = _txtConverter;
+                                    break;
+                                case ".ppt":
+                                case ".pptx":
+                                    xpsConverter = _pptConverter;
                                     break;
                             }
 

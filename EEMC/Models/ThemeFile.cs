@@ -23,7 +23,9 @@ namespace EEMC.Models
             ".json",
             ".xml",
             ".html",
-            ".css"
+            ".css",
+            ".ppt",
+            ".pptx"
         };
 
         [JsonIgnore]
@@ -39,7 +41,9 @@ namespace EEMC.Models
             { ".json", "JSON file | *.json" },
             { ".xml", "XML file | *.xml" },
             { ".html", "HTML file | *.html" },
-            { ".css", "CSS file | *.css" }
+            { ".css", "CSS file | *.css" },
+            { ".ppt", "PowerPoint 2007- file | *.ppt" },
+            { ".pptx", "PowerPoint 2007+ file | *.pptx" }
         };
 
         public string Name { get; set; }
