@@ -87,7 +87,25 @@ namespace EEMC.ViewModels
 
             _courses.AddWatcherHandler(OnDirectoryChanged);
 
+            OpenHomePage();
+        }
+
+        private Visibility _visibilityHomeButton;
+        public Visibility VisibilityHomeButton
+        {
+            get => _visibilityHomeButton;
+            set
+            {
+                _visibilityHomeButton = value;
+                RaisePropertyChanged(() => VisibilityHomeButton);
+            }
+        }
+
+        private void OpenHomePage()
+        {
             CurrentPage = new CoursesList();
+            _chosenCourse = null;
+            VisibilityHomeButton = Visibility.Collapsed;
         }
 
         public async Task ChangeCurrentCourse(Explorer chosenCourse)
@@ -95,6 +113,7 @@ namespace EEMC.ViewModels
             _chosenCourse = chosenCourse;
 
             CurrentPage = new SwitcherCourseView();
+            VisibilityHomeButton = Visibility.Visible;
 
             await _messageBus.SendTo<SwitcherCourseViewVM>(new CourseMessage(_chosenCourse));
         }
@@ -105,6 +124,15 @@ namespace EEMC.ViewModels
                 {
                     await ChangeCurrentCourse(ChosenCourse as Explorer);
                 }
+            );
+        }
+
+        public ICommand OpenHomePage_Click
+        {
+            get => new Commands.DelegateCommand(async (obj) =>
+            {
+                OpenHomePage();
+            }
             );
         }
     }

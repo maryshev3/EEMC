@@ -75,7 +75,26 @@
                 </ContextMenu>
             </Grid.ContextMenu>
 
-            <Grid Grid.Row="0" Background="#efeff5">
+            <StackPanel 
+                Orientation="Vertical"
+                Grid.Row="0"
+                Background="#efeff5">
+                <Button
+                    Command="{Binding Path=OpenHomePage_Click}"
+                    CommandParameter="{Binding}"
+                    Click="HomeButton_Click"
+                    Visibility="{Binding Path=VisibilityHomeButton}"
+                    Background="#efeff5"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    BorderThickness="0"
+                    Name="HomeButton"
+                    Template="{StaticResource NoMouseOverButtonTemplate}"
+                    MouseEnter="HomeButton_MouseEnter"
+                    MouseLeave="HomeButton_MouseLeave"
+                    Margin="5, 2, 2, 2">
+                    <Label HorizontalAlignment="Left" Width="200" FontSize="18" FontWeight="Bold">Домашняя страница</Label>
+                </Button>
                 <Button
                     Command="{Binding Path=AddCourse_Click}"
                     CommandParameter="{Binding}"
@@ -91,7 +110,7 @@
                     BorderBrush="#ebebf1">
                     <Label HorizontalAlignment="Left" Width="200" FontSize="18" FontWeight="Bold">Добавить курс</Label>
                 </Button>
-            </Grid>
+            </StackPanel>
 
             <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1" Height="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type Border}},Path=ActualHeight}">
                 <ItemsControl

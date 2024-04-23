@@ -30,12 +30,16 @@ namespace EEMC.Views
         private Button _oldPressedButton;
         private Button _oldHoveredButton;
 
-        public void UpdateChosenCourse(string courseName)
+        public void UpdateChosenCourse(string? courseName = null)
         {
             if (_oldPressedButton != default)
             {
                 ResetButtonStyle(_oldPressedButton);
+                _oldPressedButton = default;
             }
+
+            if (courseName == null)
+                return;
 
             for (int i = 0; i < CoursesList.Items.Count; i++)
             {
@@ -191,6 +195,23 @@ namespace EEMC.Views
             CourseButton_MouseLeave(sender, e);
 
             Cursor = Cursors.Arrow;
+        }
+
+        private void HomeButton_MouseEnter(object sender, MouseEventArgs e)
+        {
+            HoverEffect(sender, ButtonType.CourseButton);
+
+            Cursor = Cursors.Hand;
+        }
+
+        private void HomeButton_MouseLeave(object sender, MouseEventArgs e)
+        {
+            AddMainButton_MouseLeave(sender, e);
+        }
+
+        private void HomeButton_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateChosenCourse();
         }
     }
 }
