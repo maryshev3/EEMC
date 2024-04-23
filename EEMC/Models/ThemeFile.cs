@@ -25,7 +25,15 @@ namespace EEMC.Models
             ".html",
             ".css",
             ".ppt",
-            ".pptx"
+            ".pptx",
+            ".mp4",
+            ".mp3",
+            ".bmp",
+            ".jpeg",
+            ".png",
+            ".tiff",
+            ".gif",
+            ".icon"
         };
 
         [JsonIgnore]
@@ -43,7 +51,16 @@ namespace EEMC.Models
             { ".html", "HTML file | *.html" },
             { ".css", "CSS file | *.css" },
             { ".ppt", "PowerPoint 2007- file | *.ppt" },
-            { ".pptx", "PowerPoint 2007+ file | *.pptx" }
+            { ".pptx", "PowerPoint 2007+ file | *.pptx" },
+            { ".mp4", "Video mp4 file | *.mp4" },
+            { ".mp3", "Audio mp3 file | *.mp3" },
+            { ".bmp", "Image BMP file | *.bmp" },
+            { ".jpeg", "Image JPEG file | *.jpeg" },
+            { ".jpg", "Image JPG file | *.jpg" },
+            { ".png", "Image PNG file | *.png" },
+            { ".tiff", "Image TIFF file | *.tiff" },
+            { ".gif", "GIF file | *.gif" },
+            { ".icon", "Image ICON file | *.icon" }
         };
 
         public string Name { get; set; }
@@ -51,14 +68,28 @@ namespace EEMC.Models
 
         public bool IsSupportedExtension()
         {
-            string extension = Path.GetExtension(Name);
+            string extension = Path.GetExtension(Name).ToLower();
 
             return _supportedExtensions.Contains(extension);
         }
 
+        public bool IsVideoOrAudio()
+        {
+            string extension = Path.GetExtension(Name).ToLower();
+
+            return extension is ".mp4" or ".mp3";
+        }
+
+        public bool IsImage()
+        {
+            string extension = Path.GetExtension(Name).ToLower();
+
+            return extension is ".bmp" or ".jpeg" or ".jpg" or ".png" or ".tiff" or ".gif" or ".icon";
+        }
+
         public string GetSaveFilter()
         {
-            string extension = Path.GetExtension(Name);
+            string extension = Path.GetExtension(Name).ToLower();
 
             return _filtersMap.ContainsKey(extension) ? _filtersMap[extension] : " | *" + extension;
         }

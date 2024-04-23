@@ -51,7 +51,7 @@ namespace EEMC.ViewBases
         }
     }
 
-    public interface IHover
+    public interface ITextHover
     {
         public Button _oldHoveredButton { get; set; }
 
@@ -78,6 +78,8 @@ namespace EEMC.ViewBases
                     }
                 }
             }
+
+            _oldHoveredButton = default;
         }
 
         public void ConfirmHoverEffect(object sender, ButtonType buttonType)

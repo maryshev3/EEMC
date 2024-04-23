@@ -28,6 +28,9 @@
     <Compile Update="Views\DocumentView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\ImageView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\RemoveCourse.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -44,6 +47,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\ThemesWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\VideoView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -69,6 +75,9 @@
     <Page Update="Views\DocumentView.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Views\ImageView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Views\MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -88,6 +97,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\ThemesWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\VideoView.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
