@@ -18,6 +18,8 @@
     <None Remove="Resources\document_icon.png" />
     <None Remove="Resources\Fonts\tmr.ttf" />
     <None Remove="Resources\modify_icon.png" />
+    <None Remove="Resources\pause_icon.png" />
+    <None Remove="Resources\play_icon.png" />
     <None Remove="Resources\three_points.png" />
     <None Remove="Resources\XmlTemplates\TxtTemplate.xml" />
     <None Remove="Resources\XmlTemplates\TxtTextBlock.xml" />
@@ -65,6 +67,8 @@
     <Resource Include="Resources\course_img2.png" />
     <Resource Include="Resources\document_icon.png" />
     <Resource Include="Resources\modify_icon.png" />
+    <Resource Include="Resources\pause_icon.png" />
+    <Resource Include="Resources\play_icon.png" />
     <Resource Include="Resources\three_points.png" />
     <EmbeddedResource Include="Resources\Fonts\tmr.ttf" />
     <EmbeddedResource Include="Resources\XmlTemplates\TxtTemplate.xml" />

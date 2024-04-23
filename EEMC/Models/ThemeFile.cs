@@ -25,7 +25,8 @@ namespace EEMC.Models
             ".html",
             ".css",
             ".ppt",
-            ".pptx"
+            ".pptx",
+            ".mp4"
         };
 
         [JsonIgnore]
@@ -43,7 +44,8 @@ namespace EEMC.Models
             { ".html", "HTML file | *.html" },
             { ".css", "CSS file | *.css" },
             { ".ppt", "PowerPoint 2007- file | *.ppt" },
-            { ".pptx", "PowerPoint 2007+ file | *.pptx" }
+            { ".pptx", "PowerPoint 2007+ file | *.pptx" },
+            { ".mp4", "Video mp4 file | *.mp4" }
         };
 
         public string Name { get; set; }
@@ -54,6 +56,13 @@ namespace EEMC.Models
             string extension = Path.GetExtension(Name);
 
             return _supportedExtensions.Contains(extension);
+        }
+
+        public bool IsVideoOrAudio()
+        {
+            string extension = Path.GetExtension(Name);
+
+            return extension is ".mp4" or ".jpg" or ".jpeg" or ".png";
         }
 
         public string GetSaveFilter()

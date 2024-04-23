@@ -30,6 +30,7 @@ namespace EEMC
         public ChangeDescriptionThemeVM ChangeDescriptionThemeVM => _provider.GetRequiredService<ChangeDescriptionThemeVM>();
         public RemoveThemeVM RemoveThemeVM => _provider.GetRequiredService<RemoveThemeVM>();
         public DocumentViewVM DocumentViewVM => _provider.GetRequiredService<DocumentViewVM>();
+        public VideoViewVM VideoViewVM => _provider.GetRequiredService<VideoViewVM>();
 
         public static void AddVMs(ServiceCollection services)
         {
@@ -47,6 +48,7 @@ namespace EEMC
             services.AddTransient<ChangeDescriptionThemeVM>();
             services.AddTransient<RemoveThemeVM>();
             services.AddTransient<DocumentViewVM>();
+            services.AddTransient<VideoViewVM>();
         }
 
         public static void AddTemplates(ServiceCollection services)

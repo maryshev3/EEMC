@@ -144,11 +144,22 @@ namespace EEMC.ViewModels
             {
                 ThemeFile currentFileConverted = currentFile as ThemeFile;
 
-                Window window = new DocumentView();
+                Window window = default;
 
-                await _messageBus.SendTo<DocumentViewVM>(new ThemeFileMessage(currentFileConverted));
+                if (currentFileConverted.IsVideoOrAudio())
+                {
+                    window = new VideoView();
 
-                window.ShowDialog();
+                    await _messageBus.SendTo<VideoViewVM>(new ThemeFileMessage(currentFileConverted));
+                }
+                else
+                {
+                    window = new DocumentView();
+
+                    await _messageBus.SendTo<DocumentViewVM>(new ThemeFileMessage(currentFileConverted));
+                }
+
+                window?.ShowDialog();
             }
             );
         }
