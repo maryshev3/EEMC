@@ -21,7 +21,7 @@ namespace EEMC.Views
     /// <summary>
     /// Interaction logic for ThemesWindow.xaml
     /// </summary>
-    public partial class ThemesWindow : Page, IHover
+    public partial class ThemesWindow : Page, ITextHover, IImageHover
     {
         public ThemesWindow()
         {
@@ -32,7 +32,7 @@ namespace EEMC.Views
 
         private void AddTheme_Button_MouseEnter(object sender, MouseEventArgs e)
         {
-            (this as IHover).ConfirmHoverEffect(sender, ButtonType.AddButton);
+            (this as ITextHover).ConfirmHoverEffect(sender, ButtonType.AddButton);
 
             Cursor = Cursors.Hand;
         }
@@ -41,7 +41,7 @@ namespace EEMC.Views
         {
             if (_oldHoveredButton != default)
             {
-                (this as IHover).ResetButtonStyle(_oldHoveredButton);
+                (this as ITextHover).ResetButtonStyle(_oldHoveredButton);
             }
 
             Cursor = Cursors.Arrow;
@@ -49,11 +49,18 @@ namespace EEMC.Views
 
         private void RenameTheme_Button_MouseEnter(object sender, MouseEventArgs e)
         {
+            (this as IImageHover).ConfirmHoverEffect(sender);
+
             Cursor = Cursors.Hand;
         }
 
         private void RenameTheme_Button_MouseLeave(object sender, MouseEventArgs e)
         {
+            if (_oldHoveredButton != default)
+            {
+                (this as IImageHover).ResetButtonStyle(_oldHoveredButton);
+            }
+
             Cursor = Cursors.Arrow;
         }
 
@@ -81,7 +88,7 @@ namespace EEMC.Views
         {
             if (_oldHoveredButton != default)
             {
-                (this as IHover).ResetButtonStyle(_oldHoveredButton);
+                (this as ITextHover).ResetButtonStyle(_oldHoveredButton);
             }
 
             Button button = sender as Button;
@@ -112,7 +119,7 @@ namespace EEMC.Views
 
             if (_oldHoveredButton != default)
             {
-                (this as IHover).ResetButtonStyle(_oldHoveredButton);
+                (this as ITextHover).ResetButtonStyle(_oldHoveredButton);
             }
 
             Cursor = Cursors.Arrow;

@@ -12,6 +12,32 @@
         Height="450"
         Width="800"
         DataContext="{Binding VideoViewVM, Source={StaticResource ViewModelLocator}}">
+    <Window.Resources>
+        <ControlTemplate 
+x:Key="NoMouseOverButtonTemplate"   
+TargetType="Button">
+            <Border Background="{TemplateBinding Background}"  
+    BorderBrush="{TemplateBinding BorderBrush}"  
+    BorderThickness="{TemplateBinding BorderThickness}">
+                <ContentPresenter
+        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"  
+        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger 
+        Property="IsEnabled"  
+        Value="False">
+                    <Setter 
+            Property="Background"  
+            Value="{x:Static SystemColors.ControlLightBrush}"/>
+                    <Setter 
+            Property="Foreground"  
+            Value="{x:Static SystemColors.GrayTextBrush}"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+    </Window.Resources>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -29,10 +55,13 @@
             Grid.Row="1">
             <Button 
                 Name="ManipulateButton"
+                Template="{StaticResource NoMouseOverButtonTemplate}"
                 Height="50"
                 Width="50"
                 BorderThickness="0"
                 Background="White"
+                MouseEnter="ManipulateButton_MouseEnter"
+                MouseLeave="ManipulateButton_MouseLeave"
                 Click="ManipulateButton_Click">
                 <Image/>
             </Button>

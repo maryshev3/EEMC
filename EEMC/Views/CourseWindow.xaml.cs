@@ -20,7 +20,7 @@ namespace EEMC.Views
     /// <summary>
     /// Логика взаимодействия для CourseWindow.xaml
     /// </summary>
-    public partial class CourseWindow : Page, IHover
+    public partial class CourseWindow : Page, ITextHover
     {
         public CourseWindow()
         {
@@ -66,7 +66,7 @@ namespace EEMC.Views
 
         private void Remove_Button_MouseEnter(object sender, MouseEventArgs e)
         {
-            (this as IHover).ConfirmHoverEffect(sender, ButtonType.RemoveButton);
+            (this as ITextHover).ConfirmHoverEffect(sender, ButtonType.RemoveButton);
 
             Cursor = Cursors.Hand;
         }
@@ -75,7 +75,7 @@ namespace EEMC.Views
         {
             if (_oldHoveredButton != default)
             {
-                (this as IHover).ResetButtonStyle(_oldHoveredButton);
+                (this as ITextHover).ResetButtonStyle(_oldHoveredButton);
             }
 
             Cursor = Cursors.Arrow;
@@ -83,7 +83,7 @@ namespace EEMC.Views
 
         private void Rename_Button_MouseEnter(object sender, MouseEventArgs e)
         {
-            (this as IHover).ConfirmHoverEffect(sender, ButtonType.ChangeButton);
+            (this as ITextHover).ConfirmHoverEffect(sender, ButtonType.ChangeButton);
 
             Cursor = Cursors.Hand;
         }
@@ -95,7 +95,7 @@ namespace EEMC.Views
 
         private void AddFile_Button_MouseEnter(object sender, MouseEventArgs e)
         {
-            (this as IHover).ConfirmHoverEffect(sender, ButtonType.AddButton);
+            (this as ITextHover).ConfirmHoverEffect(sender, ButtonType.AddButton);
 
             Cursor = Cursors.Hand;
         }
@@ -107,7 +107,7 @@ namespace EEMC.Views
 
         private void AddFolder_Button_MouseEnter(object sender, MouseEventArgs e)
         {
-            (this as IHover).ConfirmHoverEffect(sender, ButtonType.AddButton);
+            (this as ITextHover).ConfirmHoverEffect(sender, ButtonType.AddButton);
 
             Cursor = Cursors.Hand;
         }

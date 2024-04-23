@@ -19,7 +19,7 @@ namespace EEMC.Views
     /// <summary>
     /// Interaction logic for RemoveCourse.xaml
     /// </summary>
-    public partial class RemoveCourse : UserControl, IHover
+    public partial class RemoveCourse : UserControl, ITextHover
     {
         public Button _oldHoveredButton { get; set; }
 
@@ -30,7 +30,7 @@ namespace EEMC.Views
 
         private void Cancel_Button_MouseEnter(object sender, MouseEventArgs e)
         {
-            (this as IHover).ConfirmHoverEffect(sender, ButtonType.CancelButton);
+            (this as ITextHover).ConfirmHoverEffect(sender, ButtonType.CancelButton);
 
             Cursor = Cursors.Hand;
         }
@@ -42,7 +42,7 @@ namespace EEMC.Views
 
         private void Remove_Button_MouseEnter(object sender, MouseEventArgs e)
         {
-            (this as IHover).ConfirmHoverEffect(sender, ButtonType.RemoveButton);
+            (this as ITextHover).ConfirmHoverEffect(sender, ButtonType.RemoveButton);
 
             Cursor = Cursors.Hand;
         }
@@ -51,7 +51,7 @@ namespace EEMC.Views
         {
             if (_oldHoveredButton != default)
             {
-                (this as IHover).ResetButtonStyle(_oldHoveredButton);
+                (this as ITextHover).ResetButtonStyle(_oldHoveredButton);
             }
 
             Cursor = Cursors.Arrow;

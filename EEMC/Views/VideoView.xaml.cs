@@ -1,4 +1,5 @@
-﻿using EEMC.ViewModels;
+﻿using EEMC.ViewBases;
+using EEMC.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,8 +19,10 @@ namespace EEMC.Views
     /// <summary>
     /// Interaction logic for VideoView.xaml
     /// </summary>
-    public partial class VideoView : Window
+    public partial class VideoView : Window, IImageHover
     {
+        public Button _oldHoveredButton { get; set; }
+
         public VideoView()
         {
             InitializeComponent();
@@ -33,10 +36,22 @@ namespace EEMC.Views
             _pauseIcon.BeginInit();
             _pauseIcon.UriSource = new Uri("pack://application:,,,/Resources/pause_icon.png", UriKind.RelativeOrAbsolute);
             _pauseIcon.EndInit();
+
+            _playHoveredIcon = new BitmapImage();
+            _playHoveredIcon.BeginInit();
+            _playHoveredIcon.UriSource = new Uri("pack://application:,,,/Resources/play_icon_hovered.png", UriKind.RelativeOrAbsolute);
+            _playHoveredIcon.EndInit();
+
+            _pauseHoveredIcon = new BitmapImage();
+            _pauseHoveredIcon.BeginInit();
+            _pauseHoveredIcon.UriSource = new Uri("pack://application:,,,/Resources/pause_icon_hovered.png", UriKind.RelativeOrAbsolute);
+            _pauseHoveredIcon.EndInit();
         }
 
         private BitmapImage _playIcon;
         private BitmapImage _pauseIcon;
+        private BitmapImage _playHoveredIcon;
+        private BitmapImage _pauseHoveredIcon;
 
         private bool _isPlaying;
 
@@ -60,7 +75,7 @@ namespace EEMC.Views
 
             if (_isPlaying)
             {
-                image.Source = _playIcon;
+                image.Source = _playHoveredIcon;
 
                 VideoElement.Pause();
 
@@ -68,12 +83,29 @@ namespace EEMC.Views
             }
             else
             {
-                image.Source = _pauseIcon;
+                image.Source = _pauseHoveredIcon;
 
                 VideoElement.Play();
 
                 _isPlaying = true;
             }
+        }
+
+        private void ManipulateButton_MouseEnter(object sender, MouseEventArgs e)
+        {
+            (this as IImageHover).ConfirmHoverEffect(sender);
+
+            Cursor = Cursors.Hand;
+        }
+
+        private void ManipulateButton_MouseLeave(object sender, MouseEventArgs e)
+        {
+            if (_oldHoveredButton != default)
+            {
+                (this as IImageHover).ResetButtonStyle(_oldHoveredButton);
+            }
+
+            Cursor = Cursors.Arrow;
         }
     }
 }
