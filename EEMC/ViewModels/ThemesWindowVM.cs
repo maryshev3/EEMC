@@ -154,9 +154,18 @@ namespace EEMC.ViewModels
                 }
                 else
                 {
-                    window = new DocumentView();
+                    if (currentFileConverted.IsImage())
+                    {
+                        window = new ImageView();
 
-                    await _messageBus.SendTo<DocumentViewVM>(new ThemeFileMessage(currentFileConverted));
+                        await _messageBus.SendTo<ImageViewVM>(new ThemeFileMessage(currentFileConverted));
+                    }
+                    else
+                    {
+                        window = new DocumentView();
+
+                        await _messageBus.SendTo<DocumentViewVM>(new ThemeFileMessage(currentFileConverted));
+                    }
                 }
 
                 window?.ShowDialog();
