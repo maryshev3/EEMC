@@ -180,7 +180,7 @@ namespace EEMC.Models
         }
 
         /// <summary>Возвращает список полных имён файлов курса</summary>
-        public List<string>? GetAllFiles()
+        public List<string>? GetAllSupportedFiles()
         {
             if (Type == ContentType.File)
                 throw new Exception("Произведена попытка получения списка файлов у файла");
@@ -195,7 +195,7 @@ namespace EEMC.Models
                 if (content == null)
                     continue;
 
-                if (content.Type == ContentType.File)
+                if (content.Type == ContentType.File && content.IsSupportedExtension())
                 {
                     result.Add(content.NameWithPath);
 
@@ -204,7 +204,7 @@ namespace EEMC.Models
 
                 if (content.Type == ContentType.Folder)
                 {
-                    var filesForThis = content.GetAllFiles();
+                    var filesForThis = content.GetAllSupportedFiles();
 
                     if (filesForThis == null || !filesForThis.Any())
                         continue;

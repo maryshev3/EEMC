@@ -1,16 +1,14 @@
-﻿using Aspose.Zip.Saving;
-using Aspose.Zip;
-using EEMC.Models;
+﻿using EEMC.Models;
 using EEMC.ToXPSConverteres;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Xps.Packaging;
+using Ionic.Zip;
 
 namespace EEMC.Services
 {
@@ -79,7 +77,7 @@ namespace EEMC.Services
             return savedPathes;
         }
 
-        public async Task Export(string description = "Описание отсутствует")
+        public async Task<Guid> Export(string description = "Описание отсутствует")
         {
             if (_allCourses == null || _allCourses.Courses == default || !_allCourses.Courses.Any())
                 throw new Exception("Версия экспорта не содержит никаких данных");
@@ -122,15 +120,20 @@ namespace EEMC.Services
             Stack<Task<XpsDocument>> tasks = new();
 
             foreach (var theme in _allThemes)
+            {
+                if (theme.Files == null)
+                    continue;
+
                 foreach (var file in theme.Files)
                     if (file.IsSupportedExtension() && !file.IsVideoOrAudio() && !file.IsImage())
                         tasks.Push(CreateTaskOnConvert(file.NameWithPath, true));
+            }
 
             //Проходимся по всем курсам. Файлы курсов, которые можем конвертировать - конвертируем
             foreach (var course in _allCourses.Courses)
             {
                 //Получаем все файлы курса
-                var filePathes = course.GetAllFiles();
+                var filePathes = course.GetAllSupportedFiles()?.Where(x => !x.Contains("~$"));
 
                 if (filePathes == null)
                     continue;
@@ -149,20 +152,21 @@ namespace EEMC.Services
             }
 
             //Создаём архив версии
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+
             List<string> savedPathes = CreatePathesForSave();
 
-            using (FileStream zipFile = File.Open(Path.Combine(Environment.CurrentDirectory, $"{idVersion}.ce"), FileMode.Create))
-                using (Archive archive = new Archive(new ArchiveEntrySettings(new StoreCompressionSettings())))
-                {
-                    foreach (string savedPath in savedPathes)
-                    {
-                        string fileName = savedPath.Substring(savedPath.LastIndexOf('\\') + 1);
+            using (ZipFile zip = new ZipFile(Encoding.UTF8))
+            {
+                foreach (var dir in savedPathes.Where(x => Directory.Exists(x)))
+                    zip.AddDirectory(dir, dir.Split('\\').Last());
 
-                        archive.CreateEntry(fileName, savedPath);
-                    }
+                zip.AddFiles(savedPathes.Where(x => File.Exists(x)), "");
 
-                    archive.Save(zipFile, new ArchiveSaveOptions() { Encoding = Encoding.ASCII });
-                }
+                zip.Save($"{idVersion}.ce");
+            }
+
+            return idVersion;
         }
     }
 }

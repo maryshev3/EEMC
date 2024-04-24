@@ -3,6 +3,7 @@ using DevExpress.Mvvm.UI;
 using EEMC.Messages;
 using EEMC.Models;
 using EEMC.Services;
+using EEMC.ToXPSConverteres;
 using EEMC.Views;
 using System;
 using System.IO;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 
 namespace EEMC.ViewModels
 {
@@ -52,8 +54,11 @@ namespace EEMC.ViewModels
         private MainWindowVM _mainWindowVM;
         IServiceProvider _serviceProvider;
 
+        private readonly ImportExportService _importExportService;
+
         public CoursesListVM(
             Course courses,
+            ConverterUtils converterUtils,
             MessageBus messageBus,
             IServiceProvider serviceProvider
         )
@@ -61,6 +66,8 @@ namespace EEMC.ViewModels
             _courses = courses;
             _messageBus = messageBus;
             _serviceProvider = serviceProvider;
+
+            _importExportService = new ImportExportService(converterUtils, Theme.ReadAllThemes(), courses);
 
             _courses.AddWatcherHandler(OnDirectoryChanged);
         }
@@ -79,6 +86,29 @@ namespace EEMC.ViewModels
 
                     await _mainWindowVM.ChangeCurrentCourse(ChosenCourse as Explorer);
                 }
+            );
+        }
+
+        private readonly BitmapImage _icon = new BitmapImage(new Uri("pack://application:,,,/Resources/app_icon.png", UriKind.RelativeOrAbsolute));
+
+        public ICommand Export_Click
+        {
+            get => new Commands.DelegateCommand(async (obj) =>
+            {
+                Window window = new Window
+                {
+                    Icon = _icon,
+                    WindowStartupLocation = WindowStartupLocation.CenterScreen,
+                    SizeToContent = SizeToContent.WidthAndHeight,
+                    ResizeMode = ResizeMode.NoResize,
+                    Title = "Создание новой версии",
+                    Content = new ExportWindow()
+                };
+
+                await _messageBus.SendTo<ExportWindowVM>(new WindowMessage(window));
+
+                window.ShowDialog();
+            }
             );
         }
     }
