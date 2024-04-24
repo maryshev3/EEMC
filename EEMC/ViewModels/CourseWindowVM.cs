@@ -33,7 +33,10 @@ namespace EEMC.ViewModels
 
         private readonly MessageBus _messageBus;
 
-        public CourseWindowVM(MessageBus messageBus)
+        public CourseWindowVM(
+            MessageBus messageBus,
+            ConverterUtils converterUtils
+        ) : base(converterUtils)
         {
             _messageBus = messageBus;
 

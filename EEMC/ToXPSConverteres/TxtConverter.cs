@@ -72,14 +72,14 @@ namespace EEMC.ToXPSConverteres
             return result;
         }
 
-        public async Task<XpsDocument> ToXpsConvertAsync(string OriginFileName, string XPSFileName, CancellationToken cancellationToken)
+        public async Task<XpsDocument> ToXpsConvertAsync(string originFileName, string xpsFileName, CancellationToken? cancellationToken = null)
         {
             return await Task<XpsDocument>.Run(() =>
                 {
-                    if (File.Exists(XPSFileName))
-                        File.Delete(XPSFileName);
+                    if (File.Exists(xpsFileName))
+                        File.Delete(xpsFileName);
 
-                    XpsDocument xd = new XpsDocument(XPSFileName, FileAccess.ReadWrite);
+                    XpsDocument xd = new XpsDocument(xpsFileName, FileAccess.ReadWrite);
 
                     IXpsFixedDocumentSequenceWriter xdSW = xd.AddFixedDocumentSequence();
 
@@ -96,7 +96,7 @@ namespace EEMC.ToXPSConverteres
                     }
                     font.Commit();
 
-                    string[] pageContents = File.ReadAllLines(OriginFileName).Select(x => AdaptForXml(x)).ToArray();
+                    string[] pageContents = File.ReadAllLines(originFileName).Select(x => AdaptForXml(x)).ToArray();
                     XmlWriter xmlWriter = xpW.XmlWriter;
                     string textBlock = GetTxtTextBlock();
                     string txtTemplate = GetTxtTemplate();
@@ -120,11 +120,10 @@ namespace EEMC.ToXPSConverteres
 
                     xdW.Commit();
                     xdSW.Commit();
-                    //xd.Close();
 
                     return xd;
                 },
-                cancellationToken
+                cancellationToken ?? new CancellationToken()
             );
         }
     }

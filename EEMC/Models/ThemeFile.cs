@@ -94,9 +94,9 @@ namespace EEMC.Models
             return _filtersMap.ContainsKey(extension) ? _filtersMap[extension] : " | *" + extension;
         }
 
-        public void SaveFile(string savePath)
+        public void SaveFile(string savePath, bool isServiceMode = false)
         {
-            if (savePath.Contains(Environment.CurrentDirectory))
+            if (savePath.Contains(Environment.CurrentDirectory) && !isServiceMode)
                 throw new Exception("Не допускается сохранение в дирректорию программы");
 
             string filePath = Environment.CurrentDirectory + NameWithPath;

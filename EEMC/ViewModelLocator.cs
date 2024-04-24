@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using System.Windows.Documents;
 using System.Collections.Generic;
 using System.IO;
+using EEMC.ToXPSConverteres;
 
 namespace EEMC
 {
@@ -64,6 +65,15 @@ namespace EEMC
             services.AddSingleton<Templates>(templates);
         }
 
+        public static void AddConverteres(ServiceCollection services)
+        {
+            services.AddSingleton<PptConverter>();
+            services.AddSingleton<TxtConverter>();
+            services.AddSingleton<WordConverter>();
+
+            services.AddSingleton<ConverterUtils>();
+        }
+
         public static void Init() 
         {
             var services = new ServiceCollection();
@@ -71,6 +81,8 @@ namespace EEMC
             AddVMs(services);
 
             AddTemplates(services);
+
+            AddConverteres(services);
 
             services.AddSingleton<Course>();
 

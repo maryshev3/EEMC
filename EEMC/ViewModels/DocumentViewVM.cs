@@ -1,6 +1,7 @@
 ﻿using EEMC.Messages;
 using EEMC.Models;
 using EEMC.Services;
+using EEMC.ToXPSConverteres;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,10 @@ namespace EEMC.ViewModels
 
         public ThemeFile themeFile;
 
-        public DocumentViewVM(MessageBus messageBus)
+        public DocumentViewVM(
+            MessageBus messageBus,
+            ConverterUtils converterUtils
+        ) : base(converterUtils)
         {
             _messageBus = messageBus;
 

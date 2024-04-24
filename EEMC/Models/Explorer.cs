@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
@@ -35,6 +36,30 @@ namespace EEMC.Models
             this.NameWithPath = nameWithPath;
             this.Type = type;
             this.Content = content;
+        }
+
+        private static HashSet<string> _supportedExtensions = new()
+        {
+            ".docx",
+            ".doc",
+            ".txt",
+            ".cpp",
+            ".h",
+            ".py",
+            ".cs",
+            ".json",
+            ".xml",
+            ".html",
+            ".css",
+            ".ppt",
+            ".pptx"
+        };
+
+        public bool IsSupportedExtension()
+        {
+            string extension = Path.GetExtension(Name).ToLower();
+
+            return _supportedExtensions.Contains(extension);
         }
 
         public void AddFile(string filePath)
@@ -152,6 +177,43 @@ namespace EEMC.Models
             }
 
             //Будет автоматически вызван пересбор класса Course
+        }
+
+        /// <summary>Возвращает список полных имён файлов курса</summary>
+        public List<string>? GetAllFiles()
+        {
+            if (Type == ContentType.File)
+                throw new Exception("Произведена попытка получения списка файлов у файла");
+
+            if (Content == null || !Content.Any())
+                return null;
+
+            List<string> result = new List<string>();
+
+            foreach (var content in Content)
+            {
+                if (content == null)
+                    continue;
+
+                if (content.Type == ContentType.File)
+                {
+                    result.Add(content.NameWithPath);
+
+                    continue;
+                }
+
+                if (content.Type == ContentType.Folder)
+                {
+                    var filesForThis = content.GetAllFiles();
+
+                    if (filesForThis == null || !filesForThis.Any())
+                        continue;
+
+                    result.AddRange(filesForThis);
+                }
+            }
+
+            return result.Any() ? result : null;
         }
     }
 }

@@ -82,11 +82,6 @@ namespace EEMC.Models
             }
         }
 
-        public ObservableCollection<Explorer>? GetCourseContent(string CourseName) 
-        {
-            return Courses.First(x => x.Name == CourseName).Content;
-        }
-
         public void CreateCourse(string CourseName)
         {
             //Проверка на имя курса

@@ -12,7 +12,7 @@ namespace EEMC.ToXPSConverteres
 {
     public class WordConverter : IXPSConvert
     {
-        public async Task<XpsDocument> ToXpsConvertAsync(string OriginFileName, string XPSFileName, CancellationToken cancellationToken)
+        public async Task<XpsDocument> ToXpsConvertAsync(string OriginFileName, string XPSFileName, CancellationToken? cancellationToken = null)
         {
             return await Task<XpsDocument>.Run(() =>
             {
@@ -36,7 +36,7 @@ namespace EEMC.ToXPSConverteres
                 XpsDocument xpsDoc = new XpsDocument(XPSFileName, System.IO.FileAccess.Read);
 
                 return xpsDoc;
-            }, cancellationToken
+            }, cancellationToken ?? new CancellationToken()
             );
         }
     }

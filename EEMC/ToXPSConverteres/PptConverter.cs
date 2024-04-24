@@ -11,23 +11,23 @@ namespace EEMC.ToXPSConverteres
 {
     public class PptConverter : IXPSConvert
     {
-        public async Task<XpsDocument> ToXpsConvertAsync(string OriginFileName, string XPSFileName, CancellationToken cancellationToken)
+        public async Task<XpsDocument> ToXpsConvertAsync(string originFileName, string xpsFileName, CancellationToken? cancellationToken = null)
         {
             return await Task<XpsDocument>.Run(() =>
             {
                 Application pptApplication = new Microsoft.Office.Interop.PowerPoint.Application();
 
-                Presentation pres = pptApplication.Presentations.Open(OriginFileName, ReadOnly: Microsoft.Office.Core.MsoTriState.msoTrue, WithWindow: Microsoft.Office.Core.MsoTriState.msoFalse);
+                Presentation pres = pptApplication.Presentations.Open(originFileName, ReadOnly: Microsoft.Office.Core.MsoTriState.msoTrue, WithWindow: Microsoft.Office.Core.MsoTriState.msoFalse);
                 
-                pres.SaveAs(XPSFileName, PpSaveAsFileType.ppSaveAsXPS);
+                pres.SaveAs(xpsFileName, PpSaveAsFileType.ppSaveAsXPS);
 
                 pres.Close();
                 pptApplication.Quit();
 
-                XpsDocument xpsDoc = new XpsDocument(XPSFileName, System.IO.FileAccess.Read);
+                XpsDocument xpsDoc = new XpsDocument(xpsFileName, System.IO.FileAccess.Read);
 
                 return xpsDoc;
-            }, cancellationToken
+            }, cancellationToken ?? new CancellationToken()
             );
         }
     }

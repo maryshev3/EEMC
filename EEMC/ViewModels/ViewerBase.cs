@@ -41,10 +41,13 @@ namespace EEMC.ViewModels
 
         protected XpsDocument _xpsDocument;
 
-        static WordConverter _wordConverter = new WordConverter();
-        static TxtConverter _txtConverter = new TxtConverter();
-        static PptConverter _pptConverter = new PptConverter();
-        
+        public ViewerBase(ConverterUtils converterUtils)
+        {
+            _converterUtils = converterUtils;
+        }
+
+        private readonly ConverterUtils _converterUtils;
+
         protected static CancellationTokenSource? _currentCancellationSource = null;
 
         public Commands.IAsyncCommand ShowDocument
@@ -92,36 +95,13 @@ namespace EEMC.ViewModels
 
                         try
                         {
-                            IXPSConvert xpsConverter = default;
-
-                            switch (fileExt)
-                            {
-                                case ".doc":
-                                case ".docx":
-                                    xpsConverter = _wordConverter;
-                                    break;
-                                case ".cpp":
-                                case ".h":
-                                case ".py":
-                                case ".cs":
-                                case ".json":
-                                case ".xml":
-                                case ".html":
-                                case ".css":
-                                case ".txt":
-                                    xpsConverter = _txtConverter;
-                                    break;
-                                case ".ppt":
-                                case ".pptx":
-                                    xpsConverter = _pptConverter;
-                                    break;
-                            }
-
-                            _xpsDocument = await xpsConverter?.ToXpsConvertAsync(
-                                OriginDocumentName,
-                                Path.Combine(Environment.CurrentDirectory, Path.GetFileNameWithoutExtension((ChosenFile as Explorer).Name) + ".xps"),
-                                _currentCancellationSource.Token
-                            );
+                            _xpsDocument = await _converterUtils
+                                .GetInstanceByFileExtension(fileExt)
+                                .ToXpsConvertAsync(
+                                    OriginDocumentName,
+                                    Path.Combine(Environment.CurrentDirectory, Path.GetFileNameWithoutExtension((ChosenFile as Explorer).Name) + ".xps"),
+                                    _currentCancellationSource.Token
+                                );
 
                         }
                         catch (Exception ex)

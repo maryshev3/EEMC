@@ -4,8 +4,8 @@ using System.Windows.Xps.Packaging;
 
 namespace EEMC.ToXPSConverteres
 {
-    interface IXPSConvert
+    public interface IXPSConvert
     {
-        Task<XpsDocument> ToXpsConvertAsync(string OriginFileName, string XPSFileName, CancellationToken cancellationToken);
+        Task<XpsDocument> ToXpsConvertAsync(string originFileName, string xpsFileName, CancellationToken? cancellationToken = null);
     }
 }
