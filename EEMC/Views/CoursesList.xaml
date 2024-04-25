@@ -43,8 +43,12 @@ TargetType="Button">
     </Page.Resources>
 
     <Border CornerRadius="10" Padding="4" Background="#f7f7fa">
-        <StackPanel Orientation="Vertical">
-            <StackPanel Orientation="Horizontal">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal" Grid.Row="0">
                 <Button
                     Style="{DynamicResource RoundButton}"
                     Template="{StaticResource NoMouseOverButtonTemplate}"
@@ -85,7 +89,7 @@ TargetType="Button">
                     <Label>Просмотр версий</Label>
                 </Button>
             </StackPanel>
-            <Grid>
+            <Grid Name="scrollPanel" Grid.Row="1">
                 <Grid.ContextMenu>
                     <ContextMenu>
                         <MenuItem 
@@ -94,7 +98,7 @@ TargetType="Button">
         CommandParameter="{Binding}"/>
                     </ContextMenu>
                 </Grid.ContextMenu>
-                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Height="{Binding ElementName=scrollPanel, Path=ActualHeight}">
                     <ItemsControl
             Name="CourseList"
             ItemsSource="{Binding Path=Courses.Courses, Mode=OneWay}"
@@ -156,6 +160,6 @@ TargetType="Button">
                     </ItemsControl>
                 </ScrollViewer>
             </Grid>
-        </StackPanel>
+        </Grid>
     </Border>
 </Page>
