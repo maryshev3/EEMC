@@ -78,9 +78,24 @@
                     BorderBrush="#ebebf1"
                     Command="{Binding Add}"
                     CommandParameter="{Binding ElementName=CourseTreeView, Path=SelectedItem}"
+                    MouseEnter="AddGroup_Button_MouseEnter"
+                    MouseLeave="AddGroup_Button_MouseLeave"
+                    IsEnabled="True"
+                    Name="AddGroup_Button"
+                    FontSize="16">
+                    <Label>Добавить группу</Label>
+                </Button>
+                <Button
+                    Style="{DynamicResource RoundButton}"
+                    Template="{StaticResource NoMouseOverButtonTemplate}"
+                    Margin="0, 5, 5, 5"
+                    Background="White"
+                    BorderBrush="#ebebf1"
+                    Command="{Binding Add}"
+                    CommandParameter="{Binding ElementName=CourseTreeView, Path=SelectedItem}"
                     MouseEnter="AddFolder_Button_MouseEnter"
                     MouseLeave="AddFolder_Button_MouseLeave"
-                    IsEnabled="True"
+                    IsEnabled="False"
                     Name="AddFolder_Button"
                     FontSize="16">
                     <Label>Добавить раздел</Label>
@@ -95,7 +110,7 @@
                     CommandParameter="{Binding ElementName=CourseTreeView, Path=SelectedItem}"
                     MouseEnter="AddFile_Button_MouseEnter"
                     MouseLeave="AddFile_Button_MouseLeave"
-                    IsEnabled="True"
+                    IsEnabled="False"
                     Name="AddFile_Button"
                     FontSize="16">
                     <Label>Добавить файл</Label>
