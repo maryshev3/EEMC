@@ -61,8 +61,21 @@ TargetType="Button">
                 <Button
                     Style="{DynamicResource RoundButton}"
                     Template="{StaticResource NoMouseOverButtonTemplate}"
+                    Command="{Binding Import_Click}"
+                    Margin="0, 10, 10, 10"
+                    Background="White"
+                    BorderBrush="#ebebf1"
+                    Name="Import_Button"
+                    MouseEnter="Import_Button_MouseEnter"
+                    MouseLeave="Import_Button_MouseLeave"
+                    FontSize="16">
+                    <Label>Импортировать курсы</Label>
+                </Button>
+                <Button
+                    Style="{DynamicResource RoundButton}"
+                    Template="{StaticResource NoMouseOverButtonTemplate}"
                     Command="{Binding Versions_Click}"
-                    Margin="10"
+                    Margin="0, 10, 10, 10"
                     Background="White"
                     BorderBrush="#ebebf1"
                     Name="Versions_Button"

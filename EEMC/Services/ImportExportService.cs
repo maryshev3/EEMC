@@ -168,5 +168,19 @@ namespace EEMC.Services
 
             return idVersion;
         }
+
+        public void Import(string cePath)
+        {
+            if (!File.Exists(cePath))
+                throw new Exception("Не удаётся найти переданный файл с курсами");
+
+            if (Path.GetExtension(cePath) != ".ce")
+                throw new Exception("Переданный файл имеет неверный формат");
+
+            using (ZipFile zip = ZipFile.Read(cePath, options: new ReadOptions() { Encoding = Encoding.UTF8 }))
+            {
+                zip.ExtractAll(Environment.CurrentDirectory, ExtractExistingFileAction.OverwriteSilently);
+            }
+        }
     }
 }
