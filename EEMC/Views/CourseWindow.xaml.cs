@@ -44,8 +44,8 @@ namespace EEMC.Views
 
             if (item == default) 
             {
-                AddFile_Button.IsEnabled = true;
-                AddFolder_Button.IsEnabled = true;
+                AddFile_Button.IsEnabled = false;
+                AddFolder_Button.IsEnabled = false;
 
                 Rename_Button.IsEnabled = false;
                 Remove_Button.IsEnabled = false;
@@ -113,6 +113,18 @@ namespace EEMC.Views
         }
 
         private void AddFolder_Button_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Remove_Button_MouseLeave(sender, e);
+        }
+
+        private void AddGroup_Button_MouseEnter(object sender, MouseEventArgs e)
+        {
+            (this as ITextHover).ConfirmHoverEffect(sender, ButtonType.AddButton);
+
+            Cursor = Cursors.Hand;
+        }
+
+        private void AddGroup_Button_MouseLeave(object sender, MouseEventArgs e)
         {
             Remove_Button_MouseLeave(sender, e);
         }
