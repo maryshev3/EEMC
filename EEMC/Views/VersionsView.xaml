@@ -1,0 +1,63 @@
+﻿<UserControl x:Class="EEMC.Views.VersionsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:EEMC.Views"
+             mc:Ignorable="d"
+             DataContext="{Binding VersionsViewVM, Source={StaticResource ViewModelLocator}}"
+             Background="#f7f7fa">
+
+    <Border Margin="10" CornerRadius="5" BorderThickness="3" BorderBrush="#ebebf1" Background="#f7f7fa">
+        <DataGrid
+            ItemsSource="{Binding Versions}"
+            AutoGenerateColumns="False"
+            CanUserAddRows="False"
+            CanUserDeleteRows="False"
+            CanUserReorderColumns="False"
+            IsReadOnly="True"
+            FontSize="16"
+            BorderBrush="#ebebf1"
+            HorizontalGridLinesBrush="#ebebf1"
+            VerticalGridLinesBrush="#ebebf1"
+            BorderThickness="0"
+            HeadersVisibility="Column">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding Id}"/>
+                <DataGridTextColumn Header="Описание версии" Binding="{Binding Description}"/>
+                <DataGridTextColumn Header="Дата создания" Binding="{Binding CreatedDate}"/>
+            </DataGrid.Columns>
+            <DataGrid.Resources>
+                <Style BasedOn="{StaticResource {x:Type DataGridColumnHeader}}" TargetType="{x:Type DataGridColumnHeader}">
+                    <Setter Property="Background" Value="White"/>
+                    <Setter Property="BorderThickness" Value="1"/>
+                    <Setter Property="BorderBrush" Value="#ebebf1"/>
+                    <Setter Property="Foreground" Value="#81869c"/>
+                    <Setter Property="Padding" Value="5"/>
+                </Style>
+                <Style BasedOn="{StaticResource {x:Type DataGridCell}}" TargetType="{x:Type DataGridCell}">
+                    <Setter Property="Padding" Value="5"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="DataGridCell">
+                                <Border x:Name="border" Padding="{TemplateBinding Padding}">
+                                    <ContentPresenter />
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=IsSelected}" Value="true">
+                                        <Setter TargetName="border" Property="Background" Value="#e0e7fd"/>
+                                    </DataTrigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Foreground" Value="#4b6cdf"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.Resources>
+        </DataGrid>
+    </Border>
+</UserControl>

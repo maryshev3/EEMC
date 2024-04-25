@@ -5,6 +5,7 @@ using EEMC.Models;
 using EEMC.Services;
 using EEMC.ToXPSConverteres;
 using EEMC.Views;
+using Microsoft.Win32;
 using System;
 using System.IO;
 using System.Threading.Tasks;
@@ -106,6 +107,50 @@ namespace EEMC.ViewModels
                 };
 
                 await _messageBus.SendTo<ExportWindowVM>(new WindowMessage(window));
+
+                window.ShowDialog();
+            }
+            );
+        }
+
+        public ICommand Import_Click
+        {
+            get => new Commands.DelegateCommand(async (obj) =>
+            {
+                var fileDialog = new OpenFileDialog();
+                fileDialog.Filter = "Courses exported file | *.ce";
+
+                if (fileDialog.ShowDialog() == true)
+                {
+                    var filePath = fileDialog.FileName;
+                    try
+                    {
+                        _importExportService.Import(filePath);
+
+                        MessageBox.Show("Курсы были успешно импортированы");
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                }
+            }
+            );
+        }
+
+        public ICommand Versions_Click
+        {
+            get => new Commands.DelegateCommand(async (obj) =>
+            {
+                Window window = new Window
+                {
+                    Icon = _icon,
+                    WindowStartupLocation = WindowStartupLocation.CenterScreen,
+                    SizeToContent = SizeToContent.WidthAndHeight,
+                    ResizeMode = ResizeMode.NoResize,
+                    Title = "Просмотр версий",
+                    Content = new VersionsView()
+                };
 
                 window.ShowDialog();
             }
