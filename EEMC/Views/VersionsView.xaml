@@ -8,7 +8,7 @@
              DataContext="{Binding VersionsViewVM, Source={StaticResource ViewModelLocator}}"
              Background="#f7f7fa">
 
-    <Border Margin="10" CornerRadius="5" BorderThickness="3" BorderBrush="#ebebf1" Background="#f7f7fa">
+    <Border Margin="10" CornerRadius="5" BorderThickness="3" BorderBrush="#e0dceb" Background="#f7f7fa">
         <DataGrid
             ItemsSource="{Binding Versions}"
             AutoGenerateColumns="False"
@@ -17,9 +17,9 @@
             CanUserReorderColumns="False"
             IsReadOnly="True"
             FontSize="16"
-            BorderBrush="#ebebf1"
-            HorizontalGridLinesBrush="#ebebf1"
-            VerticalGridLinesBrush="#ebebf1"
+            BorderBrush="#e0dceb"
+            HorizontalGridLinesBrush="#e0dceb"
+            VerticalGridLinesBrush="#e0dceb"
             BorderThickness="0"
             HeadersVisibility="Column">
             <DataGrid.Columns>
@@ -31,7 +31,7 @@
                 <Style BasedOn="{StaticResource {x:Type DataGridColumnHeader}}" TargetType="{x:Type DataGridColumnHeader}">
                     <Setter Property="Background" Value="White"/>
                     <Setter Property="BorderThickness" Value="1"/>
-                    <Setter Property="BorderBrush" Value="#ebebf1"/>
+                    <Setter Property="BorderBrush" Value="#e0dceb"/>
                     <Setter Property="Foreground" Value="#81869c"/>
                     <Setter Property="Padding" Value="5"/>
                 </Style>
