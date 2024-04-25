@@ -111,5 +111,24 @@ namespace EEMC.ViewModels
             }
             );
         }
+
+        public ICommand Versions_Click
+        {
+            get => new Commands.DelegateCommand(async (obj) =>
+            {
+                Window window = new Window
+                {
+                    Icon = _icon,
+                    WindowStartupLocation = WindowStartupLocation.CenterScreen,
+                    SizeToContent = SizeToContent.WidthAndHeight,
+                    ResizeMode = ResizeMode.NoResize,
+                    Title = "Просмотр версий",
+                    Content = new VersionsView()
+                };
+
+                window.ShowDialog();
+            }
+            );
+        }
     }
 }

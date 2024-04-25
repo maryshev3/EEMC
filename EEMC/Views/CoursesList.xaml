@@ -58,6 +58,19 @@ TargetType="Button">
                     FontSize="16">
                     <Label>Экспортировать курсы</Label>
                 </Button>
+                <Button
+                    Style="{DynamicResource RoundButton}"
+                    Template="{StaticResource NoMouseOverButtonTemplate}"
+                    Command="{Binding Versions_Click}"
+                    Margin="10"
+                    Background="White"
+                    BorderBrush="#ebebf1"
+                    Name="Versions_Button"
+                    MouseEnter="Versions_Button_MouseEnter"
+                    MouseLeave="Versions_Button_MouseLeave"
+                    FontSize="16">
+                    <Label>Просмотр версий</Label>
+                </Button>
             </StackPanel>
             <Grid>
                 <Grid.ContextMenu>

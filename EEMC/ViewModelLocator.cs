@@ -34,6 +34,7 @@ namespace EEMC
         public VideoViewVM VideoViewVM => _provider.GetRequiredService<VideoViewVM>();
         public ImageViewVM ImageViewVM => _provider.GetRequiredService<ImageViewVM>();
         public ExportWindowVM ExportWindowVM => _provider.GetRequiredService<ExportWindowVM>();
+        public VersionsViewVM VersionsViewVM => _provider.GetRequiredService<VersionsViewVM>();
 
         public static void AddVMs(ServiceCollection services)
         {
@@ -54,6 +55,7 @@ namespace EEMC
             services.AddTransient<VideoViewVM>();
             services.AddTransient<ImageViewVM>();
             services.AddTransient<ExportWindowVM>();
+            services.AddTransient<VersionsViewVM>();
         }
 
         public static void AddTemplates(ServiceCollection services)

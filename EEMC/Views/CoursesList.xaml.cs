@@ -44,5 +44,17 @@ namespace EEMC.Views
 
             Cursor = Cursors.Arrow;
         }
+
+        private void Versions_Button_MouseEnter(object sender, MouseEventArgs e)
+        {
+            (this as ITextHover).ConfirmHoverEffect(sender, ButtonType.CourseButton);
+
+            Cursor = Cursors.Hand;
+        }
+
+        private void Versions_Button_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Export_Button_MouseLeave(sender, e);
+        }
     }
 }

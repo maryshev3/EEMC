@@ -52,6 +52,9 @@
     <Compile Update="Views\ThemesWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\VersionsView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\VideoView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -103,6 +106,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\ThemesWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\VersionsView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\VideoView.xaml">
