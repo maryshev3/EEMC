@@ -43,7 +43,7 @@ TargetType="Button">
         </ControlTemplate>
     </Page.Resources>
 
-    <Border CornerRadius="10" Padding="4" Background="#f7f7fa">
+    <Border CornerRadius="10" Padding="4" Background="#f9f9f9">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -74,7 +74,7 @@ TargetType="Button">
                 Name="ThemesList"
                 ItemsSource="{Binding Path=CurrentCourse.Themes, Mode=OneWay}"
                 Padding="0"
-                Background="#f7f7fa">
+                Background="#f9f9f9">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Border

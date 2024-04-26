@@ -55,7 +55,7 @@
         </ControlTemplate>
     </Page.Resources>
 
-    <Border CornerRadius="10" Padding="4" Background="#f7f7fa">
+    <Border CornerRadius="10" Padding="4" Background="#f9f9f9">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="200"/>
@@ -154,7 +154,7 @@
                     SelectedItemChanged="CourseTreeView_SelectedItemChanged"
                     IsEnabled="{Binding Path=IsEnabledTW, Mode=TwoWay}"
                     BorderThickness="0"
-                    Background="#f7f7fa">
+                    Background="#f9f9f9">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="SelectedItemChanged">
                                 <i:InvokeCommandAction Command="{Binding ShowDocument}" CommandParameter="{Binding ElementName=CourseTreeView, Path=SelectedItem}"/>

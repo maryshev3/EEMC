@@ -193,7 +193,7 @@
                                                     <Grid
                                         Background="#efeff5">
                                                         <Border
-                                            Background="#f7f7fa" 
+                                            Background="#f9f9f9" 
                                             BorderBrush="#efeff5"
                                             BorderThickness ="1" 
                                             CornerRadius="10, 10, 10, 10"

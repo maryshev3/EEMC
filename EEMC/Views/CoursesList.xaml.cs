@@ -64,5 +64,35 @@ namespace EEMC.Views
         {
             Export_Button_MouseLeave(sender, e);
         }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            int i = 0;
+
+            foreach (var item in CourseList.Items)
+            {
+                ContentPresenter c = (ContentPresenter)CourseList.ItemContainerGenerator.ContainerFromItem(item);
+                Button button = c.ContentTemplate.FindName("CourseButton", c) as Button;
+
+                Grid buttonGrid = button.Content as Grid;
+                foreach (var child in buttonGrid.Children) 
+                {
+                    if (child is Border)
+                    {
+                        Border childBorder = child as Border;
+
+                        childBorder.Background = new ImageBrush(
+                            new BitmapImage(
+                                new Uri($"pack://application:,,,/Resources/course_img{i % 5}.png", UriKind.RelativeOrAbsolute)
+                            )
+                        );
+
+                        break;
+                    }
+                }
+
+                i++;
+            }
+        }
     }
 }
