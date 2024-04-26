@@ -83,7 +83,7 @@ namespace EEMC.Views
 
                         childBorder.Background = new ImageBrush(
                             new BitmapImage(
-                                new Uri($"pack://application:,,,/Resources/course_img{i % 5}.png", UriKind.RelativeOrAbsolute)
+                                new Uri($"pack://application:,,,/Resources/course_img{i % 8}.png", UriKind.RelativeOrAbsolute)
                             )
                         );
 
