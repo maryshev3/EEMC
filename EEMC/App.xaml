@@ -34,7 +34,7 @@
                             <EventTrigger RoutedEvent="Unchecked">
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <ColorAnimation Storyboard.TargetName="Border" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" To="#f7f7fa" Duration="0:0:0.1" />
+                                        <ColorAnimation Storyboard.TargetName="Border" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" To="#f9f9f9" Duration="0:0:0.1" />
                                         <ThicknessAnimation Storyboard.TargetName="Ellipse" Storyboard.TargetProperty="Margin" To="2 1 2 1" Duration="0:0:0.1" />
                                     </Storyboard>
                                 </BeginStoryboard>

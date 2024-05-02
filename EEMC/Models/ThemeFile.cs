@@ -29,6 +29,7 @@ namespace EEMC.Models
             ".mp4",
             ".mp3",
             ".bmp",
+            ".jpg",
             ".jpeg",
             ".png",
             ".tiff",

@@ -6,9 +6,9 @@
              xmlns:local="clr-namespace:EEMC.Views"
              mc:Ignorable="d"
              DataContext="{Binding VersionsViewVM, Source={StaticResource ViewModelLocator}}"
-             Background="#f7f7fa">
+             Background="#f9f9f9">
 
-    <Border Margin="10" CornerRadius="5" BorderThickness="3" BorderBrush="#e0dceb" Background="#f7f7fa">
+    <Border Margin="10" CornerRadius="5" BorderThickness="3" BorderBrush="#a4b3ca" Background="#f9f9f9">
         <DataGrid
             ItemsSource="{Binding Versions}"
             AutoGenerateColumns="False"
@@ -17,9 +17,9 @@
             CanUserReorderColumns="False"
             IsReadOnly="True"
             FontSize="16"
-            BorderBrush="#e0dceb"
-            HorizontalGridLinesBrush="#e0dceb"
-            VerticalGridLinesBrush="#e0dceb"
+            BorderBrush="#a4b3ca"
+            HorizontalGridLinesBrush="#a4b3ca"
+            VerticalGridLinesBrush="#a4b3ca"
             BorderThickness="0"
             HeadersVisibility="Column">
             <DataGrid.Columns>
@@ -31,7 +31,7 @@
                 <Style BasedOn="{StaticResource {x:Type DataGridColumnHeader}}" TargetType="{x:Type DataGridColumnHeader}">
                     <Setter Property="Background" Value="White"/>
                     <Setter Property="BorderThickness" Value="1"/>
-                    <Setter Property="BorderBrush" Value="#e0dceb"/>
+                    <Setter Property="BorderBrush" Value="#a4b3ca"/>
                     <Setter Property="Foreground" Value="#81869c"/>
                     <Setter Property="Padding" Value="5"/>
                 </Style>
