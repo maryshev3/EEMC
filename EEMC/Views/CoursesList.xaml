@@ -53,15 +53,44 @@ TargetType="Button">
                 <Button
                     Style="{DynamicResource RoundButton}"
                     Template="{StaticResource NoMouseOverButtonTemplate}"
-                    Command="{Binding Export_Click}"
+                    Command="{Binding EnableExportChoose_Click}"
+                    Margin="10"
+                    Background="White"
+                    BorderBrush="#a4b3ca"
+                    Name="EnableExportChoose_Button"
+                    MouseEnter="EnableExportChoose_Button_MouseEnter"
+                    MouseLeave="EnableExportChoose_Button_MouseLeave"
+                    FontSize="16"
+                    Visibility="{Binding NegativeVisibilityExportChoose}">
+                    <Label>Выбрать курсы для экспорта</Label>
+                </Button>
+                <Button
+                    Style="{DynamicResource RoundButton}"
+                    Template="{StaticResource NoMouseOverButtonTemplate}"
+                    Click="Export_Button_Click"
                     Margin="10"
                     Background="White"
                     BorderBrush="#a4b3ca"
                     Name="Export_Button"
                     MouseEnter="Export_Button_MouseEnter"
                     MouseLeave="Export_Button_MouseLeave"
-                    FontSize="16">
-                    <Label>Экспортировать курсы</Label>
+                    FontSize="16"
+                    Visibility="{Binding VisibilityExportChoose}">
+                    <Label>Экспортировать выбранные</Label>
+                </Button>
+                <Button
+                    Style="{DynamicResource RoundButton}"
+                    Template="{StaticResource NoMouseOverButtonTemplate}"
+                    Command="{Binding CancelExportChoose_Click}"
+                    Margin="10"
+                    Background="White"
+                    BorderBrush="#a4b3ca"
+                    Name="CancelExportChoose_Button"
+                    MouseEnter="CancelExportChoose_Button_MouseEnter"
+                    MouseLeave="CancelExportChoose_Button_MouseLeave"
+                    FontSize="16"
+                    Visibility="{Binding VisibilityExportChoose}">
+                    <Label>Отменить выбор</Label>
                 </Button>
                 <Button
                     Style="{DynamicResource RoundButton}"
@@ -73,7 +102,8 @@ TargetType="Button">
                     Name="Import_Button"
                     MouseEnter="Import_Button_MouseEnter"
                     MouseLeave="Import_Button_MouseLeave"
-                    FontSize="16">
+                    FontSize="16"
+                    Visibility="{Binding NegativeVisibilityExportChoose}">
                     <Label>Импортировать курсы</Label>
                 </Button>
                 <Button
@@ -86,7 +116,8 @@ TargetType="Button">
                     Name="Versions_Button"
                     MouseEnter="Versions_Button_MouseEnter"
                     MouseLeave="Versions_Button_MouseLeave"
-                    FontSize="16">
+                    FontSize="16"
+                    Visibility="{Binding NegativeVisibilityExportChoose}">
                     <Label>Просмотр версий</Label>
                 </Button>
             </StackPanel>
@@ -112,51 +143,61 @@ TargetType="Button">
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Button
-                                    Name="CourseButton"
-                                    Style="{DynamicResource RoundButton}"
-                                    Command="{Binding ElementName=CourseList, Path=DataContext.OpenCourse_Click}"
-                                    CommandParameter="{Binding}"
-                                    Background="White"
-                                    Height="140"
-                                    Width="220"
-                                    Margin="10"
-                                    Padding="0"
-                                    HorizontalContentAlignment="Center"
-                                    BorderThickness="1"
-                                    BorderBrush="#a4b3ca">
-                                    <Grid Margin="0">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="100"/>
-                                            <RowDefinition Height="40"/>
-                                        </Grid.RowDefinitions>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="220"/>
-                                        </Grid.ColumnDefinitions>
-                                        <Border BorderThickness="0" Grid.Row="0" CornerRadius="10,10,0,0">
-                                            <Border.Background>
-                                                <ImageBrush ImageSource="/Resources/course_img1.png" Stretch="Fill"/>
-                                            </Border.Background>
-                                        </Border>
-                                        <TextBlock Grid.Row="1" Margin="0,0,0,0" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding Path=Name}" FontSize="16"/>
-                                    </Grid>
-                                    <Button.ContextMenu>
-                                        <ContextMenu>
-                                            <MenuItem 
+                                <StackPanel Orientation="Horizontal">
+                                    <Button
+                                        Name="CourseButton"
+                                        Style="{DynamicResource RoundButton}"
+                                        Command="{Binding ElementName=CourseList, Path=DataContext.OpenCourse_Click}"
+                                        CommandParameter="{Binding}"
+                                        Background="White"
+                                        Height="140"
+                                        Width="220"
+                                        Margin="10"
+                                        Padding="0"
+                                        HorizontalContentAlignment="Center"
+                                        BorderThickness="1"
+                                        BorderBrush="#a4b3ca"
+                                        IsEnabled="{Binding ElementName=CourseList, Path=DataContext.IsEnabledCourseButton}">
+                                        <Grid Margin="0">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="100"/>
+                                                <RowDefinition Height="40"/>
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="220"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Border BorderThickness="0" Grid.Row="0" CornerRadius="10,10,0,0">
+                                                <Border.Background>
+                                                    <ImageBrush ImageSource="/Resources/course_img1.png" Stretch="Fill"/>
+                                                </Border.Background>
+                                            </Border>
+                                            <TextBlock Grid.Row="1" Margin="0,0,0,0" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding Path=Name}" FontSize="16"/>
+                                        </Grid>
+                                        <Button.ContextMenu>
+                                            <ContextMenu>
+                                                <MenuItem 
                             Header="Добавить курс"
                             Command="{Binding Path=DataContext.AddCourse_Click, Source={x:Reference Name=CourseList}}"
                             CommandParameter="{Binding}"/>
-                                            <MenuItem 
+                                                <MenuItem 
                             Header="Переименовать курс"
                             Command="{Binding Path=DataContext.RenameCourse_Click, Source={x:Reference Name=CourseList}}"
                             CommandParameter="{Binding}"/>
-                                            <MenuItem 
+                                                <MenuItem 
                             Header="Удалить курс"
                             Command="{Binding Path=DataContext.RemoveCourse_Click, Source={x:Reference Name=CourseList}}"
                             CommandParameter="{Binding}"/>
-                                        </ContextMenu>
-                                    </Button.ContextMenu>
-                                </Button>
+                                            </ContextMenu>
+                                        </Button.ContextMenu>
+                                    </Button>
+                                    <CheckBox
+                                        Width="35"
+                                        Height="35"
+                                        Name="CheckBoxCourse"
+                                        VerticalAlignment="Top"
+                                        Margin="-30, 15, 0, 0"
+                                        Visibility="{Binding ElementName=CourseList, Path=DataContext.VisibilityExportChoose}"/>
+                                </StackPanel>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>

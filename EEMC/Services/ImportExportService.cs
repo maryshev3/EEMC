@@ -16,19 +16,19 @@ namespace EEMC.Services
     {
         private readonly ConverterUtils _converterUtils;
 
-        private readonly Theme[] _allThemes;
-        private readonly Course _allCourses;
+        private readonly Theme[] _themes;
+        private readonly List<Explorer> _courses;
 
         public ImportExportService(
             ConverterUtils converterUtils,
-            Theme[] allThemes,
-            Course allCourses
+            Theme[] themes,
+            List<Explorer> courses
         ) 
         {
             _converterUtils = converterUtils;
 
-            _allThemes = allThemes;
-            _allCourses = allCourses;
+            _themes = themes;
+            _courses = courses;
         }
 
         private Task<XpsDocument> CreateTaskOnConvert(string originNameWithPath, bool isTheme)
@@ -65,10 +65,14 @@ namespace EEMC.Services
         {
             List<string> savedPathes = new();
 
-            savedPathes.Add(Path.Combine(Environment.CurrentDirectory, "Курсы"));
+            foreach (var course in _courses)
+                AddIfExist(savedPathes, Path.Combine(Environment.CurrentDirectory, "Курсы", course.Name));
 
             AddIfExist(savedPathes, Path.Combine(Environment.CurrentDirectory, "Курсы конвертированные"));
-            AddIfExist(savedPathes, Path.Combine(Environment.CurrentDirectory, "Файлы тем"));
+
+            foreach (var theme in _themes.DistinctBy(x => x.CourseName))
+                AddIfExist(savedPathes, Path.Combine(Environment.CurrentDirectory, "Файлы тем", theme.CourseName));
+
             AddIfExist(savedPathes, Path.Combine(Environment.CurrentDirectory, "Файлы тем конвертированные"));
             AddIfExist(savedPathes, Path.Combine(Environment.CurrentDirectory, "themes.json"));
             AddIfExist(savedPathes, Path.Combine(Environment.CurrentDirectory, "templates.json"));
@@ -79,7 +83,7 @@ namespace EEMC.Services
 
         public async Task<Guid> Export(string description = "Описание отсутствует")
         {
-            if (_allCourses == null || _allCourses.Courses == default || !_allCourses.Courses.Any())
+            if (_courses == default || !_courses.Any())
                 throw new Exception("Версия экспорта не содержит никаких данных");
 
             //Создаём сервисную информацию (дата создания, ид версии, описание (параметр метода))
@@ -119,7 +123,7 @@ namespace EEMC.Services
             //Проходимся по всем темам. Файлы тем, которые можем конвертировать - конвертируем
             Stack<Task<XpsDocument>> tasks = new();
 
-            foreach (var theme in _allThemes)
+            foreach (var theme in _themes)
             {
                 if (theme.Files == null)
                     continue;
@@ -130,7 +134,7 @@ namespace EEMC.Services
             }
 
             //Проходимся по всем курсам. Файлы курсов, которые можем конвертировать - конвертируем
-            foreach (var course in _allCourses.Courses)
+            foreach (var course in _courses)
             {
                 //Получаем все файлы курса
                 var filePathes = course.GetAllSupportedFiles()?.Where(x => !x.Contains("~$"));
@@ -159,7 +163,16 @@ namespace EEMC.Services
             using (ZipFile zip = new ZipFile(Encoding.UTF8))
             {
                 foreach (var dir in savedPathes.Where(x => Directory.Exists(x)))
-                    zip.AddDirectory(dir, dir.Split('\\').Last());
+                {
+                    var dirCataloges = dir.Split('\\');
+
+                    zip.AddDirectory(
+                        dir,
+                        dirCataloges.Last().Contains("конвертированные") 
+                            ? dirCataloges.Last() 
+                            : new StringBuilder().Append(dirCataloges[dirCataloges.Length - 2]).Append('\\').Append(dirCataloges.Last()).ToString()
+                    );
+                }
 
                 zip.AddFiles(savedPathes.Where(x => File.Exists(x)), "");
 
@@ -169,13 +182,15 @@ namespace EEMC.Services
             return idVersion;
         }
 
-        public void Import(string cePath)
+        public static void Import(string cePath)
         {
             if (!File.Exists(cePath))
                 throw new Exception("Не удаётся найти переданный файл с курсами");
 
             if (Path.GetExtension(cePath) != ".ce")
                 throw new Exception("Переданный файл имеет неверный формат");
+
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
             using (ZipFile zip = ZipFile.Read(cePath, options: new ReadOptions() { Encoding = Encoding.UTF8 }))
             {

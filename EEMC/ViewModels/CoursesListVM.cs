@@ -7,6 +7,7 @@ using EEMC.ToXPSConverteres;
 using EEMC.Views;
 using Microsoft.Win32;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
@@ -59,7 +60,6 @@ namespace EEMC.ViewModels
 
         public CoursesListVM(
             Course courses,
-            ConverterUtils converterUtils,
             MessageBus messageBus,
             IServiceProvider serviceProvider
         )
@@ -67,8 +67,6 @@ namespace EEMC.ViewModels
             _courses = courses;
             _messageBus = messageBus;
             _serviceProvider = serviceProvider;
-
-            _importExportService = new ImportExportService(converterUtils, Theme.ReadAllThemes(), courses);
 
             _courses.AddWatcherHandler(OnDirectoryChanged);
         }
@@ -92,10 +90,56 @@ namespace EEMC.ViewModels
 
         private readonly BitmapImage _icon = new BitmapImage(new Uri("pack://application:,,,/Resources/app_icon.png", UriKind.RelativeOrAbsolute));
 
-        public ICommand Export_Click
+        private Visibility _visibilityExportChoose = Visibility.Collapsed;
+        public Visibility VisibilityExportChoose
+        {
+            get => _visibilityExportChoose;
+            set
+            {
+                _visibilityExportChoose = value;
+
+                RaisePropertyChanged(() => VisibilityExportChoose);
+
+                RaisePropertyChanged(() => NegativeVisibilityExportChoose);
+
+                RaisePropertyChanged(() => IsEnabledCourseButton);
+            }
+        }
+
+        public Visibility NegativeVisibilityExportChoose
+        {
+            get => _visibilityExportChoose == Visibility.Collapsed ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        public bool IsEnabledCourseButton
+        {
+            get => _visibilityExportChoose == Visibility.Collapsed;
+        }
+
+        public ICommand EnableExportChoose_Click
         {
             get => new Commands.DelegateCommand(async (obj) =>
             {
+                VisibilityExportChoose = Visibility.Visible;
+            }
+            );
+        }
+
+        public ICommand CancelExportChoose_Click
+        {
+            get => new Commands.DelegateCommand(async (obj) =>
+            {
+                VisibilityExportChoose = Visibility.Collapsed;
+            }
+            );
+        }
+
+        public ICommand Export_Click
+        {
+            get => new Commands.DelegateCommand(async (chosenCourses) =>
+            {
+                List<Explorer> chosenCoursesConverted = chosenCourses as List<Explorer>;
+
                 Window window = new Window
                 {
                     Icon = _icon,
@@ -106,7 +150,7 @@ namespace EEMC.ViewModels
                     Content = new ExportWindow()
                 };
 
-                await _messageBus.SendTo<ExportWindowVM>(new WindowMessage(window));
+                await _messageBus.SendTo<ExportWindowVM>(new WindowExplorersMessage(window, chosenCoursesConverted));
 
                 window.ShowDialog();
             }
@@ -125,7 +169,7 @@ namespace EEMC.ViewModels
                     var filePath = fileDialog.FileName;
                     try
                     {
-                        _importExportService.Import(filePath);
+                        ImportExportService.Import(filePath);
 
                         MessageBox.Show("Курсы были успешно импортированы");
                     }
