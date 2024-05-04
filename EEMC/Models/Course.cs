@@ -64,7 +64,20 @@ namespace EEMC.Models
             if (e.Name.Contains("~$"))
                 return;
 
-            Courses = CourseBuilder.Build(new ExplorerBuilder())._courses;
+            //bool wereBuilded = false;
+            //while (!wereBuilded)
+            //{
+            //    try
+            //    {
+                    Courses = CourseBuilder.Build(new ExplorerBuilder())._courses;
+            //    }
+            //    catch 
+            //    {
+            //        continue;
+            //    }
+
+            //    wereBuilded = true;
+            //}
         }
 
         public Course(ObservableCollection<Explorer>? Courses) 

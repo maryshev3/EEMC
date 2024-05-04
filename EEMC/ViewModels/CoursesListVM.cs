@@ -169,7 +169,7 @@ namespace EEMC.ViewModels
                     var filePath = fileDialog.FileName;
                     try
                     {
-                        ImportExportService.Import(filePath);
+                        ImportExportService.Import(filePath, _courses);
 
                         MessageBox.Show("Курсы были успешно импортированы");
                     }

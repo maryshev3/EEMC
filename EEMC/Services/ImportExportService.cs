@@ -74,9 +74,8 @@ namespace EEMC.Services
                 AddIfExist(savedPathes, Path.Combine(Environment.CurrentDirectory, "Файлы тем", theme.CourseName));
 
             AddIfExist(savedPathes, Path.Combine(Environment.CurrentDirectory, "Файлы тем конвертированные"));
+
             AddIfExist(savedPathes, Path.Combine(Environment.CurrentDirectory, "themes.json"));
-            AddIfExist(savedPathes, Path.Combine(Environment.CurrentDirectory, "templates.json"));
-            AddIfExist(savedPathes, Path.Combine(Environment.CurrentDirectory, "versions.json"));
 
             return savedPathes;
         }
@@ -155,6 +154,19 @@ namespace EEMC.Services
                 doc.Close();
             }
 
+            //Переформировываем themes.json для загрузки в архив
+            string themesJsonPath = Path.Combine(Environment.CurrentDirectory, "themes.json");
+            string tmpThemesJsonPath = Path.Combine(Environment.CurrentDirectory, "themes_tmp.json");
+            if (File.Exists(themesJsonPath))
+            {
+                //Временно переименовываем themes.json в themes_tmp.json
+                File.Move(themesJsonPath, tmpThemesJsonPath);
+
+                //Формируем themes.json сохранённые
+                string json = JsonConvert.SerializeObject(_themes);
+                File.WriteAllText(themesJsonPath, json);
+            }
+
             //Создаём архив версии
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
@@ -179,10 +191,17 @@ namespace EEMC.Services
                 zip.Save($"{idVersion}.ce");
             }
 
+            if (File.Exists(themesJsonPath))
+            {
+                //Удаляем текущий themes.json и переименовываем временный обратно
+                File.Delete(themesJsonPath);
+                File.Move(tmpThemesJsonPath, themesJsonPath);
+            }
+
             return idVersion;
         }
 
-        public static void Import(string cePath)
+        public static void Import(string cePath, Course courses)
         {
             if (!File.Exists(cePath))
                 throw new Exception("Не удаётся найти переданный файл с курсами");
@@ -190,11 +209,34 @@ namespace EEMC.Services
             if (Path.GetExtension(cePath) != ".ce")
                 throw new Exception("Переданный файл имеет неверный формат");
 
+            //Удаляем старые курсы и темы
+            foreach (var course in courses.Courses)
+                course.Remove();
+
+            if (Directory.Exists("./Файлы тем конвертированные"))
+                Directory.Delete("./Файлы тем конвертированные", true);
+
+            if (Directory.Exists("./Курсы конвертированные"))
+                Directory.Delete("./Курсы конвертированные", true);
+
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
             using (ZipFile zip = ZipFile.Read(cePath, options: new ReadOptions() { Encoding = Encoding.UTF8 }))
             {
                 zip.ExtractAll(Environment.CurrentDirectory, ExtractExistingFileAction.OverwriteSilently);
+            }
+
+            //Иммитируем пересбор курсов
+            string tmpDir = Path.Combine(Environment.CurrentDirectory, "Курсы", "tmpf");
+
+            if (!Directory.Exists(tmpDir))
+            {
+                Directory.CreateDirectory(tmpDir);
+                Directory.Delete(tmpDir);
+            }
+            else
+            {
+                Directory.Delete(tmpDir, true);
             }
         }
     }
