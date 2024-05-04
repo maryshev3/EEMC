@@ -38,7 +38,7 @@ namespace EEMC.Services
                 ? originNameWithPath.Replace("Файлы тем", "Файлы тем конвертированные")
                 : originNameWithPath.Replace("Курсы", "Курсы конвертированные");
 
-            string savePathXpsFile = Environment.CurrentDirectory + savePathOriginFile.Substring(0, savePathOriginFile.LastIndexOf('.')) + ".xps";
+            string savePathXpsFile = Environment.CurrentDirectory + savePathOriginFile + ".xps";
 
             //Создаём дирректорию для сохранения файла
             FileInfo fileInfo = new FileInfo(savePathXpsFile);
@@ -80,10 +80,22 @@ namespace EEMC.Services
             return savedPathes;
         }
 
+        private static void RemoveConvertedPathes()
+        {
+            if (Directory.Exists("./Файлы тем конвертированные"))
+                Directory.Delete("./Файлы тем конвертированные", true);
+
+            if (Directory.Exists("./Курсы конвертированные"))
+                Directory.Delete("./Курсы конвертированные", true);
+        }
+
         public async Task<Guid> Export(string description = "Описание отсутствует")
         {
             if (_courses == default || !_courses.Any())
                 throw new Exception("Версия экспорта не содержит никаких данных");
+
+            //Удаляем старые конвертированные файлы
+            RemoveConvertedPathes();
 
             //Создаём сервисную информацию (дата создания, ид версии, описание (параметр метода))
             DateTimeOffset exportDate = DateTimeOffset.Now;
@@ -213,11 +225,7 @@ namespace EEMC.Services
             foreach (var course in courses.Courses)
                 course.Remove();
 
-            if (Directory.Exists("./Файлы тем конвертированные"))
-                Directory.Delete("./Файлы тем конвертированные", true);
-
-            if (Directory.Exists("./Курсы конвертированные"))
-                Directory.Delete("./Курсы конвертированные", true);
+            RemoveConvertedPathes();
 
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
