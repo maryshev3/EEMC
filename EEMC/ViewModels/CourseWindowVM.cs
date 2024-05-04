@@ -48,7 +48,28 @@ namespace EEMC.ViewModels
 
         private readonly BitmapImage _icon = new BitmapImage(new Uri("pack://application:,,,/Resources/app_icon.png", UriKind.RelativeOrAbsolute));
 
-        public ICommand Add
+        public ICommand AddGroup
+        {
+            get => new Commands.DelegateCommand(async (obj) =>
+            {
+                Window window = new Window
+                {
+                    Icon = _icon,
+                    WindowStartupLocation = WindowStartupLocation.CenterScreen,
+                    SizeToContent = SizeToContent.WidthAndHeight,
+                    ResizeMode = ResizeMode.NoResize,
+                    Title = "Добавление группы",
+                    Content = new AddFolder()
+                };
+
+                await _messageBus.SendTo<AddFolderVM>(new ExplorerWindowMessage(window, _currentCourse));
+
+                window.ShowDialog();
+            }
+            );
+        }
+
+        public ICommand AddFolder
         {
             get => new Commands.DelegateCommand(async (ChosenFolder) =>
             {
