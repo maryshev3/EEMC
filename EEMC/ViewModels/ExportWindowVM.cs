@@ -29,21 +29,23 @@ namespace EEMC.ViewModels
             }
         }
 
-        private readonly ImportExportService _importExportService;
+        private readonly ConverterUtils _converterUtils;
+        private List<Explorer> _courses;
 
         public ExportWindowVM(
             MessageBus messageBus,
-            Course courses,
             ConverterUtils converterUtils
         )
         {
-            _importExportService = new ImportExportService(converterUtils, Theme.ReadAllThemes(), courses);
+            //_importExportService = new ImportExportService(converterUtils, Theme.ReadAllThemes(), courses);
+            _converterUtils = converterUtils;
 
             _messageBus = messageBus;
 
-            _messageBus.Receive<WindowMessage>(this, async (message) =>
+            _messageBus.Receive<WindowExplorersMessage>(this, async (message) =>
             {
                 _window = message.Window;
+                _courses = message.ExplorerList;
             }
             );
         }
@@ -54,11 +56,22 @@ namespace EEMC.ViewModels
                 {
                     IsEnabledWindow = false;
 
+                    ImportExportService importExportService = new(
+                        _converterUtils,
+                        Theme.ReadAllThemes().Where(
+                            x => 
+                            _courses.Select(y => y.Name).ToHashSet().Contains(x.CourseName)
+                            && !x.IsHiden
+                        )
+                        .ToArray(),
+                        _courses
+                    );
+
                     string descriptionConverted = description as string;
 
                     Guid id = String.IsNullOrWhiteSpace(descriptionConverted) 
-                        ? await _importExportService.Export()
-                        : await _importExportService.Export(descriptionConverted);
+                        ? await importExportService.Export()
+                        : await importExportService.Export(descriptionConverted);
 
                     MessageBox.Show($"Текущая коллекция курсов была успешно экспортирована. ID версии: {id}");
 

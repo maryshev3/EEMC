@@ -1,4 +1,6 @@
-﻿using EEMC.ViewBases;
+﻿using EEMC.Models;
+using EEMC.ViewBases;
+using EEMC.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -93,6 +95,53 @@ namespace EEMC.Views
 
                 i++;
             }
+        }
+
+        private void EnableExportChoose_Button_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Export_Button_MouseEnter(sender, e);
+        }
+
+        private void EnableExportChoose_Button_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Export_Button_MouseLeave(sender, e);
+        }
+
+        private void CancelExportChoose_Button_MouseEnter(object sender, MouseEventArgs e)
+        {
+            (this as ITextHover).ConfirmHoverEffect(sender, ButtonType.CancelButton);
+
+            Cursor = Cursors.Hand;
+        }
+
+        private void CancelExportChoose_Button_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Export_Button_MouseLeave(sender, e);
+        }
+
+        private void Export_Button_Click(object sender, RoutedEventArgs e)
+        {
+            //Формируем список выбранным курсов для экспорта
+            List<Explorer> courses = new();
+
+            foreach (var item in CourseList.Items)
+            {
+                ContentPresenter c = (ContentPresenter)CourseList.ItemContainerGenerator.ContainerFromItem(item);
+                CheckBox checkBox = c.ContentTemplate.FindName("CheckBoxCourse", c) as CheckBox;
+
+                if (checkBox.IsChecked == true)
+                {
+                    courses.Add(checkBox.DataContext as Explorer);
+                }
+            }
+
+            //Вызываем экспорт выбранных курсов
+            var dc = this.DataContext as CoursesListVM;
+
+            dc.Export_Click.Execute(courses);
+
+            //Возвращаем окно в изначальное положение
+            dc.VisibilityExportChoose = Visibility.Collapsed;
         }
     }
 }
