@@ -58,7 +58,8 @@
     <Border CornerRadius="10" Padding="4" Background="#f9f9f9">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="auto" MinWidth="200" MaxWidth="350"/>
+                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
@@ -67,7 +68,7 @@
             </Grid.RowDefinitions>
             <StackPanel 
                 Grid.Row="0"
-                Grid.ColumnSpan="2"
+                Grid.ColumnSpan="3"
                 Orientation="Horizontal"
                 Margin="0, 0, 0, 5">
                 <Button
@@ -168,7 +169,9 @@
                     </TreeView>
                 </ScrollViewer>
             </Border>
-            <Grid Grid.Column="1" Grid.Row="1" Margin="0, 1, 0, 0">
+            <GridSplitter Grid.Column="1" Grid.Row="1" ShowsPreview="False" Width="3"
+            HorizontalAlignment="Center" VerticalAlignment="Stretch" />
+            <Grid Grid.Column="2" Grid.Row="1" Margin="0, 1, 0, 0">
                 <DocumentViewer Document="{Binding Document}"/>
             </Grid>
         </Grid>
