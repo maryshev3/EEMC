@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Xps.Packaging;
 using Ionic.Zip;
+using System.Reflection;
 
 namespace EEMC.Services
 {
@@ -89,14 +90,11 @@ namespace EEMC.Services
                 Directory.Delete("./Курсы конвертированные", true);
         }
 
-        public async Task<Guid> Export(string description = "Описание отсутствует")
+        /// <summary>
+        /// Возвращает id версии, обновляет файл версий
+        /// </summary>
+        private Guid UpdateVersionsFile(string versionName, string savedFolder)
         {
-            if (_courses == default || !_courses.Any())
-                throw new Exception("Версия экспорта не содержит никаких данных");
-
-            //Удаляем старые конвертированные файлы
-            RemoveConvertedPathes();
-
             //Создаём сервисную информацию (дата создания, ид версии, описание (параметр метода))
             DateTimeOffset exportDate = DateTimeOffset.Now;
             Guid idVersion = Guid.NewGuid();
@@ -110,10 +108,12 @@ namespace EEMC.Services
 
                 versions = JsonConvert.DeserializeObject<List<Models.Version>>(json);
                 versions.Add(
-                    new Models.Version() {
+                    new Models.Version()
+                    {
                         Id = idVersion,
                         CreatedDate = exportDate,
-                        Description = description
+                        VersionName = versionName,
+                        SavedFolder = savedFolder
                     }
                 );
             }
@@ -123,13 +123,27 @@ namespace EEMC.Services
                     {
                         Id = idVersion,
                         CreatedDate = exportDate,
-                        Description = description
+                        VersionName = versionName,
+                        SavedFolder = savedFolder
                     }
                 };
 
             string serJson = JsonConvert.SerializeObject(versions);
 
             File.WriteAllText(versionsJsonPath, serJson);
+
+            return idVersion;
+        }
+        
+        private async Task ExportCourses(string versionName, string savedFolder)
+        {
+            if (_courses == default || !_courses.Any())
+                throw new Exception("Версия экспорта не содержит никаких данных");
+
+            //Удаляем старые конвертированные файлы
+            RemoveConvertedPathes();
+
+            Guid idVersion = UpdateVersionsFile(versionName, savedFolder);
 
             //Проходимся по всем темам. Файлы тем, которые можем конвертировать - конвертируем
             Stack<Task<XpsDocument>> tasks = new();
@@ -200,7 +214,12 @@ namespace EEMC.Services
 
                 zip.AddFiles(savedPathes.Where(x => File.Exists(x)), "");
 
-                zip.Save($"{idVersion}.ce");
+                StringBuilder savePath = new StringBuilder();
+
+                savePath.Append(savedFolder);
+                savePath.Append($"\\{idVersion}.ce");
+
+                zip.Save(savePath.ToString());
             }
 
             if (File.Exists(themesJsonPath))
@@ -209,8 +228,40 @@ namespace EEMC.Services
                 File.Delete(themesJsonPath);
                 File.Move(tmpThemesJsonPath, themesJsonPath);
             }
+        }
 
-            return idVersion;
+        /// <summary>
+        /// Экспортирует выбранные курсы в папку savedFolder вместе с программой-просмотрщкиком
+        /// </summary>
+        /// <param name="versionName">Название версии экспорта</param>
+        /// <param name="savedFolder">Папка для сохранения программы-просмотрщика (уже вместе с названием версии)</param>
+        /// <returns></returns>
+        public async Task Export(string versionName, string savedFolder)
+        {
+            //Создаём папку, куда будет экспортирована версия-просмотрщик
+            if (Directory.Exists(savedFolder))
+            {
+                throw new Exception("Папка для создания версии уже существует (удалите её или переименуйте");
+            }
+
+            Directory.CreateDirectory(savedFolder);
+
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+
+            var assembly = Assembly.GetExecutingAssembly();
+            var a = assembly.GetManifestResourceNames();
+            var resourceName = "EEMC.Resources.viewer.zip";
+
+            using (Stream stream = assembly.GetManifestResourceStream(resourceName))
+            {
+                using (ZipFile zip = ZipFile.Read(stream, options: new ReadOptions() { Encoding = Encoding.GetEncoding(866) }))
+                {
+                    zip.ExtractAll(savedFolder, ExtractExistingFileAction.Throw);
+                }
+            }
+
+            //Создаём версию курсов
+            await ExportCourses(versionName, savedFolder);
         }
 
         public static void Import(string cePath, Course courses)

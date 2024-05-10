@@ -10,6 +10,7 @@ using EEMC.Services;
 using EEMC.Messages;
 using EEMC.Models;
 using EEMC.ToXPSConverteres;
+using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace EEMC.ViewModels
 {
@@ -52,9 +53,18 @@ namespace EEMC.ViewModels
 
         public ICommand Export_Click
         {
-            get => new Commands.DelegateCommand(async (description) =>
+            get => new Commands.DelegateCommand(async (versionName) =>
                 {
                     IsEnabledWindow = false;
+
+                    string versionNameConverted = versionName as string;
+
+                    if (String.IsNullOrWhiteSpace(versionNameConverted))
+                    {
+                        MessageBox.Show("Не введено название версии или оно состоит только из пробелов");
+
+                        return;
+                    }
 
                     ImportExportService importExportService = new(
                         _converterUtils,
@@ -67,13 +77,28 @@ namespace EEMC.ViewModels
                         _courses
                     );
 
-                    string descriptionConverted = description as string;
+                    CommonOpenFileDialog ofd = new() { IsFolderPicker = true };
+                    if (ofd.ShowDialog() == CommonFileDialogResult.Ok) 
+                    {
+                        string folder = ofd.FileName;
+                        
+                        StringBuilder savedFolder = new StringBuilder();
 
-                    Guid id = String.IsNullOrWhiteSpace(descriptionConverted) 
-                        ? await importExportService.Export()
-                        : await importExportService.Export(descriptionConverted);
+                        savedFolder.Append(folder);
+                        savedFolder.Append("\\");
+                        savedFolder.Append(versionNameConverted);
 
-                    MessageBox.Show($"Текущая коллекция курсов была успешно экспортирована. ID версии: {id}");
+                        try
+                        {
+                            await importExportService.Export(versionNameConverted, savedFolder.ToString());
+
+                            MessageBox.Show("Текущая коллекция курсов была успешно экспортирована");
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.ToString());
+                        }
+                    }
 
                     IsEnabledWindow = true;
 
