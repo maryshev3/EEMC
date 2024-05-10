@@ -5,6 +5,7 @@
     <TargetFramework>net6.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>Resources\app_icon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -36,6 +37,10 @@
     <None Remove="Resources\three_points_hovered.png" />
     <None Remove="Resources\XmlTemplates\TxtTemplate.xml" />
     <None Remove="Resources\XmlTemplates\TxtTextBlock.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\app_icon.ico" />
   </ItemGroup>
 
   <ItemGroup>
