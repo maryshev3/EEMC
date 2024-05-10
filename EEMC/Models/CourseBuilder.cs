@@ -9,6 +9,17 @@ namespace EEMC.Models
 {
     public static class CourseBuilder
     {
+        private static readonly string _imagePathTemplate = "/Resources/course_img{NUM_OF_IMG}.png";
+        private static readonly int _imagesCount = 9;
+        private static readonly Random _random = new Random();
+
+        private static string GenerateImagePath()
+        {
+            int numOfImg = _random.Next(0, _imagesCount - 1);
+
+            return _imagePathTemplate.Replace("{NUM_OF_IMG}", numOfImg.ToString());
+        }
+
         public static Course Build(ExplorerBuilder ExplorerBuilder) 
         {
             try
@@ -23,14 +34,59 @@ namespace EEMC.Models
                         )
                     );
 
+                var coursesMap = course.Courses.ToDictionary(x => x.Name);
+                Explorer[] coursesWithoutImage = default;
+                CourseImage[] courseImages = default;
+
+                //Заполняем данные об изображениях курсов
+                if (File.Exists("./course_img.json"))
+                {
+                    string courseImgJson = File.ReadAllText("./course_img.json");
+
+                    courseImages = JsonConvert.DeserializeObject<CourseImage[]>(courseImgJson);
+
+                    foreach (var courseImage in courseImages)
+                    {
+                        if (coursesMap.ContainsKey(courseImage.CourseName))
+                        {
+                            coursesMap[courseImage.CourseName].ImagePath = courseImage.ImagePath;
+                        }
+                    }
+
+                    coursesWithoutImage = course.Courses.Where(x => x.ImagePath == default).ToArray();
+                }
+                else
+                {
+                    coursesWithoutImage = course.Courses.ToArray();
+                }
+
+                if (
+                    coursesWithoutImage.Any()
+                    || !coursesWithoutImage.Any() && courseImages != default && courseImages.Length != course.Courses.Count
+                )
+                {
+                    foreach (var courseWithoutImage in coursesWithoutImage)
+                        courseWithoutImage.ImagePath = GenerateImagePath();
+
+                    string courseImgJson = JsonConvert.SerializeObject(
+                        course.Courses.Select(
+                            x => new CourseImage()
+                            {
+                                CourseName = x.Name,
+                                ImagePath = x.ImagePath
+                            }
+                        )
+                    );
+
+                    File.WriteAllText("./course_img.json", courseImgJson);
+                }
+
                 //Формируем "темы" курса
                 //Считываем из json существующие темы
                 string json = File.ReadAllText("./themes.json");
 
                 Theme[] themes = JsonConvert.DeserializeObject<Theme[]>(json);
                 var themesGrouped = themes.GroupBy(x => x.CourseName);
-
-                var coursesMap = course.Courses.ToDictionary(x => x.Name);
 
                 foreach (var item in themesGrouped)
                 {

@@ -19,17 +19,20 @@ namespace EEMC.Services
 
         private readonly Theme[] _themes;
         private readonly List<Explorer> _courses;
+        private readonly CourseImage[] _courseImages;
 
         public ImportExportService(
             ConverterUtils converterUtils,
             Theme[] themes,
-            List<Explorer> courses
+            List<Explorer> courses,
+            CourseImage[] courseImages
         ) 
         {
             _converterUtils = converterUtils;
 
             _themes = themes;
             _courses = courses;
+            _courseImages = courseImages;
         }
 
         private Task<XpsDocument> CreateTaskOnConvert(string originNameWithPath, bool isTheme)
@@ -77,6 +80,8 @@ namespace EEMC.Services
             AddIfExist(savedPathes, Path.Combine(Environment.CurrentDirectory, "Файлы тем конвертированные"));
 
             AddIfExist(savedPathes, Path.Combine(Environment.CurrentDirectory, "themes.json"));
+
+            AddIfExist(savedPathes, Path.Combine(Environment.CurrentDirectory, "course_img.json"));
 
             return savedPathes;
         }
@@ -193,6 +198,17 @@ namespace EEMC.Services
                 File.WriteAllText(themesJsonPath, json);
             }
 
+            //Переформировываем course_img.json для загрузки в архив
+            string courseImgPath = Path.Combine(Environment.CurrentDirectory, "course_img.json");
+            string tmpCourseImgPath = Path.Combine(Environment.CurrentDirectory, "course_img_tmp.json");
+            if (File.Exists(courseImgPath))
+            {
+                File.Move(courseImgPath, tmpCourseImgPath);
+
+                string json = JsonConvert.SerializeObject(_courseImages);
+                File.WriteAllText(courseImgPath, json);
+            }
+
             //Создаём архив версии
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
@@ -227,6 +243,13 @@ namespace EEMC.Services
                 //Удаляем текущий themes.json и переименовываем временный обратно
                 File.Delete(themesJsonPath);
                 File.Move(tmpThemesJsonPath, themesJsonPath);
+            }
+
+            if (File.Exists(courseImgPath))
+            {
+                //Удаляем текущий themes.json и переименовываем временный обратно
+                File.Delete(courseImgPath);
+                File.Move(tmpCourseImgPath, courseImgPath);
             }
         }
 

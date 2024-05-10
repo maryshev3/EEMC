@@ -11,6 +11,8 @@ using EEMC.Messages;
 using EEMC.Models;
 using EEMC.ToXPSConverteres;
 using Microsoft.WindowsAPICodePack.Dialogs;
+using Newtonsoft.Json;
+using System.IO;
 
 namespace EEMC.ViewModels
 {
@@ -69,12 +71,17 @@ namespace EEMC.ViewModels
                     ImportExportService importExportService = new(
                         _converterUtils,
                         Theme.ReadAllThemes().Where(
-                            x => 
-                            _courses.Select(y => y.Name).ToHashSet().Contains(x.CourseName)
-                            && !x.IsHiden
-                        )
-                        .ToArray(),
-                        _courses
+                                x => 
+                                _courses.Select(y => y.Name).ToHashSet().Contains(x.CourseName)
+                                && !x.IsHiden
+                            )
+                            .ToArray(),
+                        _courses,
+                        JsonConvert.DeserializeObject<CourseImage[]>(
+                                File.ReadAllText("./course_img.json")
+                            )
+                            .Where(x => _courses.Select(y => y.Name).ToHashSet().Contains(x.CourseName))
+                            .ToArray()
                     );
 
                     CommonOpenFileDialog ofd = new() { IsFolderPicker = true };
