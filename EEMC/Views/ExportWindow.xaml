@@ -46,7 +46,7 @@ TargetType="Button">
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
                 FontSize="16">
-                Описание новой версии:
+                Название версии:
                 </TextBlock>
                 <TextBox
                     Margin="0"
