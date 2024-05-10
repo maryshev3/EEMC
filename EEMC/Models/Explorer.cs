@@ -22,6 +22,11 @@ namespace EEMC.Models
             set => _name = value;
         }
 
+        /// <summary>
+        /// Заполнено для курсов. Является ссылкой на изображение в CoursesList
+        /// </summary>
+        public string? ImagePath { get; set; }
+
         public string NameWithPath;
 
         public ContentType Type;

@@ -110,6 +110,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="course_img.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="templates.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
