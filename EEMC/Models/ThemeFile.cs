@@ -34,7 +34,8 @@ namespace EEMC.Models
             ".png",
             ".tiff",
             ".gif",
-            ".icon"
+            ".icon",
+            ".pdf"
         };
 
         [JsonIgnore]
@@ -61,7 +62,8 @@ namespace EEMC.Models
             { ".png", "Image PNG file | *.png" },
             { ".tiff", "Image TIFF file | *.tiff" },
             { ".gif", "GIF file | *.gif" },
-            { ".icon", "Image ICON file | *.icon" }
+            { ".icon", "Image ICON file | *.icon" },
+            { ".pdf", "PDF file | *.pdf" }
         };
 
         public string Name { get; set; }
@@ -79,6 +81,21 @@ namespace EEMC.Models
             string extension = Path.GetExtension(Name).ToLower();
 
             return extension is ".mp4" or ".mp3";
+        }
+
+        public bool IsText()
+        {
+            string extension = Path.GetExtension(Name).ToLower();
+
+            return extension is ".docx" or ".doc" or ".txt" or ".cpp" or ".h" or ".py"
+                or ".cs" or ".json" or ".xml" or ".html" or ".css" or ".ppt" or ".pptx";
+        }
+
+        public bool IsPdf()
+        {
+            string extension = Path.GetExtension(Name).ToLower();
+
+            return extension == ".pdf";
         }
 
         public bool IsImage()
