@@ -159,7 +159,7 @@ namespace EEMC.Services
                     continue;
 
                 foreach (var file in theme.Files)
-                    if (file.IsSupportedExtension() && !file.IsVideoOrAudio() && !file.IsImage())
+                    if (file.IsText())
                         tasks.Push(CreateTaskOnConvert(file.NameWithPath, true));
             }
 

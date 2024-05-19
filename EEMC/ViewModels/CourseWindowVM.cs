@@ -184,5 +184,49 @@ namespace EEMC.ViewModels
             }
             );
         }
+
+        private static readonly string _defaultUriString = "about:blank";
+        private Uri _pdfPath = new Uri(_defaultUriString);
+        public Uri PdfPath 
+        {
+            get => _pdfPath;
+            set
+            {
+                _pdfPath = value;
+                RaisePropertyChanged(() => PdfPath);
+                RaisePropertyChanged(() => PdfViewVisibility);
+                RaisePropertyChanged(() => XpsViewVisibility);
+            }
+        }
+
+        public Visibility PdfViewVisibility
+        {
+            get => _pdfPath.OriginalString != _defaultUriString ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        public Visibility XpsViewVisibility
+        {
+            get => _pdfPath.OriginalString == _defaultUriString ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        public ICommand ShowFile_Click
+        {
+            get => new Commands.DelegateCommand(async (chosenFile) =>
+            {
+                Explorer chosenFileConverted = chosenFile as Explorer;
+
+                if (chosenFileConverted.IsText())
+                {
+                    PdfPath = new Uri(_defaultUriString);
+                    await this.ShowDocument.ExecuteAsync(chosenFile);
+                }
+
+                if (chosenFileConverted.IsPdf())
+                {
+                    PdfPath = new Uri(Environment.CurrentDirectory + chosenFileConverted.NameWithPath);
+                }
+            }
+            );
+        }
     }
 }

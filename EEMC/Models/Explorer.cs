@@ -43,28 +43,19 @@ namespace EEMC.Models
             this.Content = content;
         }
 
-        private static HashSet<string> _supportedExtensions = new()
-        {
-            ".docx",
-            ".doc",
-            ".txt",
-            ".cpp",
-            ".h",
-            ".py",
-            ".cs",
-            ".json",
-            ".xml",
-            ".html",
-            ".css",
-            ".ppt",
-            ".pptx"
-        };
-
-        public bool IsSupportedExtension()
+        public bool IsText()
         {
             string extension = Path.GetExtension(Name).ToLower();
 
-            return _supportedExtensions.Contains(extension);
+            return extension is ".docx" or ".doc" or ".txt" or ".cpp" or ".h" or ".py"
+                or ".cs" or ".json" or ".xml" or ".html" or ".css" or ".ppt" or ".pptx";
+        }
+
+        public bool IsPdf()
+        {
+            string extension = Path.GetExtension(Name).ToLower();
+
+            return extension == ".pdf";
         }
 
         public void AddFile(string filePath)
@@ -200,7 +191,7 @@ namespace EEMC.Models
                 if (content == null)
                     continue;
 
-                if (content.Type == ContentType.File && content.IsSupportedExtension())
+                if (content.Type == ContentType.File && content.IsText())
                 {
                     result.Add(content.NameWithPath);
 

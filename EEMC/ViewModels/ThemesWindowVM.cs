@@ -162,9 +162,17 @@ namespace EEMC.ViewModels
                     }
                     else
                     {
-                        window = new DocumentView();
+                        if (currentFileConverted.IsPdf())
+                        {
+                            window = new PdfView();
 
-                        await _messageBus.SendTo<DocumentViewVM>(new ThemeFileMessage(currentFileConverted));
+                            await _messageBus.SendTo<PdfViewVM>(new ThemeFileMessage(currentFileConverted));
+                        }
+                        else 
+                        {
+                            window = new DocumentView();
+
+                            await _messageBus.SendTo<DocumentViewVM>(new ThemeFileMessage(currentFileConverted)); }
                     }
                 }
 
