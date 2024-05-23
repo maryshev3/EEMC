@@ -35,7 +35,8 @@ namespace EEMC.Models
             ".tiff",
             ".gif",
             ".icon",
-            ".pdf"
+            ".pdf",
+            ".exe"
         };
 
         [JsonIgnore]
@@ -63,11 +64,20 @@ namespace EEMC.Models
             { ".tiff", "Image TIFF file | *.tiff" },
             { ".gif", "GIF file | *.gif" },
             { ".icon", "Image ICON file | *.icon" },
-            { ".pdf", "PDF file | *.pdf" }
+            { ".pdf", "PDF file | *.pdf" },
+            { ".exe", "Executable file | *.exe" }
         };
 
         public string Name { get; set; }
+        public string NameWithoutExtension 
+        {
+            get => Path.GetFileNameWithoutExtension(Name);
+        }
         public string NameWithPath { get; set; }
+        public string ImagePath
+        {
+            get => IsExecutable() ? "/Resources/test_icon.png" : "/Resources/document_icon.png";
+        }
 
         public bool IsSupportedExtension()
         {
@@ -103,6 +113,13 @@ namespace EEMC.Models
             string extension = Path.GetExtension(Name).ToLower();
 
             return extension is ".bmp" or ".jpeg" or ".jpg" or ".png" or ".tiff" or ".gif" or ".icon";
+        }
+
+        public bool IsExecutable()
+        {
+            string extension = Path.GetExtension(Name).ToLower();
+
+            return extension == ".exe";
         }
 
         public string GetSaveFilter()

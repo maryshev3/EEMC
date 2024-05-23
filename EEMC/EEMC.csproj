@@ -33,6 +33,7 @@
     <None Remove="Resources\pause_icon_hovered.png" />
     <None Remove="Resources\play_icon.png" />
     <None Remove="Resources\play_icon_hovered.png" />
+    <None Remove="Resources\test_icon.png" />
     <None Remove="Resources\three_points.png" />
     <None Remove="Resources\three_points_hovered.png" />
     <None Remove="Resources\viewer.zip" />
@@ -104,6 +105,7 @@
     <Resource Include="Resources\pause_icon_hovered.png" />
     <Resource Include="Resources\play_icon.png" />
     <Resource Include="Resources\play_icon_hovered.png" />
+    <Resource Include="Resources\test_icon.png" />
     <Resource Include="Resources\three_points.png" />
     <Resource Include="Resources\three_points_hovered.png" />
     <EmbeddedResource Include="Resources\Fonts\tmr.ttf" />

@@ -170,9 +170,17 @@ namespace EEMC.ViewModels
                         }
                         else 
                         {
-                            window = new DocumentView();
+                            if (currentFileConverted.IsExecutable())
+                            {
+                                System.Diagnostics.Process.Start(Environment.CurrentDirectory + currentFileConverted.NameWithPath);
+                            }
+                            else
+                            {
+                                window = new DocumentView();
 
-                            await _messageBus.SendTo<DocumentViewVM>(new ThemeFileMessage(currentFileConverted)); }
+                                await _messageBus.SendTo<DocumentViewVM>(new ThemeFileMessage(currentFileConverted));
+                            }
+                        }
                     }
                 }
 

@@ -181,12 +181,18 @@ TargetType="Button">
                                                                 Click="File_Button_Click"
                                                                 Background="White"
                                                                 Height="auto"
-                                                                Width="auto"
+                                                                MaxWidth="220"
                                                                 Margin="10"
                                                                 BorderThickness="0">
                                                                 <StackPanel Orientation="Vertical" Margin="5">
-                                                                    <Image Source="/Resources/document_icon.png" Height="80" Width="80"/>
-                                                                    <Label Content="{Binding Name}" FontSize="16"/>
+                                                                    <Image Source="{Binding ImagePath}" Height="80" Width="80"/>
+                                                                    <TextBlock
+                                                                        Margin="5"
+                                                                        TextWrapping="Wrap"
+                                                                        TextTrimming="None"
+                                                                        HorizontalAlignment="Center"
+                                                                        Text="{Binding NameWithoutExtension}"
+                                                                        FontSize="16"/>
                                                                 </StackPanel>
                                                             </Button>
                                                             <Button

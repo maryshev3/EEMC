@@ -22,6 +22,11 @@ namespace EEMC.Models
             set => _name = value;
         }
 
+        public string NameWithoutExtension
+        {
+            get => Path.GetFileNameWithoutExtension(Name);
+        }
+
         /// <summary>
         /// Заполнено для курсов. Является ссылкой на изображение в CoursesList
         /// </summary>

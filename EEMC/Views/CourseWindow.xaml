@@ -164,7 +164,7 @@
                         </i:Interaction.Triggers>
                         <TreeView.ItemTemplate>
                             <HierarchicalDataTemplate ItemsSource="{Binding Content}">
-                                <TextBlock Text="{Binding Name}" FontSize="18"/>
+                                <TextBlock Text="{Binding NameWithoutExtension}" FontSize="18"/>
                             </HierarchicalDataTemplate>
                         </TreeView.ItemTemplate>
                     </TreeView>
