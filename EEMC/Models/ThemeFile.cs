@@ -36,7 +36,7 @@ namespace EEMC.Models
             ".gif",
             ".icon",
             ".pdf",
-            ".tt"
+            ".ctt"
         };
 
         [JsonIgnore]
@@ -65,7 +65,7 @@ namespace EEMC.Models
             { ".gif", "GIF file | *.gif" },
             { ".icon", "Image ICON file | *.icon" },
             { ".pdf", "PDF file | *.pdf" },
-            { ".tt", "Theme test file | *.tt" }
+            { ".ctt", "Course theme test file | *.ctt" }
         };
 
         public string Name { get; set; }
@@ -119,7 +119,7 @@ namespace EEMC.Models
         {
             string extension = Path.GetExtension(Name).ToLower();
 
-            return extension == ".tt";
+            return extension == ".ctt";
         }
 
         public string GetSaveFilter()

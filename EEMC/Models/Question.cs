@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -28,6 +29,14 @@ namespace EEMC.Models
                 OnPropertyChanged("DisplayedShortQuestionText");
             }
         }
+
+        [JsonIgnore]
+        public string TextFileName
+        {
+            get => $"{QuestionNumber}_{ShortQuestionText}.rtf";
+        }
+
+        [JsonIgnore]
         public string DisplayedShortQuestionText 
         {
             get 
@@ -43,6 +52,7 @@ namespace EEMC.Models
                 return result.ToString();
             }
         }
+        [JsonIgnore]
         public FlowDocument QuestionText { get; set; }
         public string Answer { get; set; }
     }

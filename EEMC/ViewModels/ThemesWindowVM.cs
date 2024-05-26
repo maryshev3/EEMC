@@ -65,9 +65,19 @@ namespace EEMC.ViewModels
 
         public ICommand AddTest_Click
         {
-            get => new Commands.DelegateCommand((obj) =>
+            get => new Commands.DelegateCommand(async (currentTheme) =>
             {
-                Window window = new CreateTest();
+                Window window = new Window
+                {
+                    Icon = _icon,
+                    WindowStartupLocation = WindowStartupLocation.CenterScreen,
+                    SizeToContent = SizeToContent.WidthAndHeight,
+                    ResizeMode = ResizeMode.NoResize,
+                    Title = "Создание теста",
+                    Content = new EnterTestName()
+                };
+
+                await _messageBus.SendTo<EnterTestNameVM>(new ThemeWindowMessage(window, currentTheme as Theme));
 
                 window.ShowDialog();
             }

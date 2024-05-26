@@ -203,6 +203,8 @@ namespace EEMC.Views
             {
                 MessageBox.Show("Нельзя сохранять пустой тест");
             }
+
+            dc.SaveTest.Execute(new object());
         }
 
         private void Down_Button_MouseEnter(object sender, MouseEventArgs e)

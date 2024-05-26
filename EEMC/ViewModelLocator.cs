@@ -37,6 +37,7 @@ namespace EEMC
         public ExportWindowVM ExportWindowVM => _provider.GetRequiredService<ExportWindowVM>();
         public VersionsViewVM VersionsViewVM => _provider.GetRequiredService<VersionsViewVM>();
         public CreateTestVM CreateTestVM => _provider.GetRequiredService<CreateTestVM>();
+        public EnterTestNameVM EnterTestNameVM => _provider.GetRequiredService<EnterTestNameVM>();
 
         public static void AddVMs(ServiceCollection services)
         {
@@ -60,6 +61,7 @@ namespace EEMC
             services.AddTransient<ExportWindowVM>();
             services.AddTransient<VersionsViewVM>();
             services.AddTransient<CreateTestVM>();
+            services.AddTransient<EnterTestNameVM>();
         }
 
         public static void AddTemplates(ServiceCollection services)

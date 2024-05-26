@@ -10,7 +10,6 @@ namespace EEMC.Models
     public class Test
     {
         public string TestName { get; set; }
-        public string TestDescription { get; set; }
         public ObservableCollection<Question> Questions { get; set; }
 
         public Test() 

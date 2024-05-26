@@ -1,5 +1,7 @@
 ﻿using DevExpress.Mvvm;
+using EEMC.Messages;
 using EEMC.Models;
+using EEMC.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -27,10 +29,24 @@ namespace EEMC.ViewModels
             }
         }
 
-        public CreateTestVM()
+        private readonly MessageBus _messageBus;
+        private Window? _window;
+        private Theme? _chosenTheme;
+
+        public CreateTestVM(MessageBus messageBus)
         {
             ThisTest = new Test();
             SelectedQuestion = ThisTest.Questions.First();
+
+            _messageBus = messageBus;
+
+            _messageBus.Receive<ThemeWindowStringMessage>(this, async (message) =>
+            {
+                _window = message.Window;
+                _chosenTheme = message.Theme;
+                ThisTest.TestName = message.String;
+            }
+            );
         }
 
         private void NotifyWhenListModified()
@@ -114,6 +130,32 @@ namespace EEMC.ViewModels
                 ThisTest.Down(SelectedQuestion);
 
                 RaisePropertyChanged(() => Questions);
+            });
+        }
+
+        public ICommand SaveTest
+        {
+            get => new Commands.DelegateCommand((obj) =>
+            {
+                //Делаем валидацию текущего теста
+                var validResponse = TestService.ValidateForSave(ThisTest);
+
+                if (!validResponse.IsValid)
+                {
+                    MessageBox.Show(validResponse.ValidErrorText);
+
+                    return;
+                }
+
+                //Создаём файл текста
+                string filePath = TestService.Save(ThisTest);
+
+                //Относим его к теме
+                _chosenTheme?.AddFile(filePath);
+
+                MessageBox.Show($"Тест \"{ThisTest.TestName}\" успешно создан");
+
+                _window?.Close();
             });
         }
     }

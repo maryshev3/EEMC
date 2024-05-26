@@ -254,7 +254,7 @@ TargetType="Button">
                                             </ItemsControl>
                                         </Grid>
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
-                                            <Label FontSize="16">Не отображать при импорте?</Label>
+                                            <Label FontSize="16">Скрыть при экспорте?</Label>
                                             <CheckBox
                                                 Width="35"
                                                 Height="35"
