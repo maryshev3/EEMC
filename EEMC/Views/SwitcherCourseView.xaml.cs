@@ -39,7 +39,7 @@ namespace EEMC.Views
                 ResetButtonStyle(_oldPressedButton);
             }
 
-            Button button = SwitcherButtons.Children[(type == SwitcherTypes.Materials) ? 0 : 1] as Button;
+            Button button = SwitcherButtons.Children[(type == SwitcherTypes.Materials) ? 1 : 0] as Button;
 
             var text = button.Content as Label;
 
@@ -57,7 +57,7 @@ namespace EEMC.Views
 
             if (vm != null)
             {
-                if (vm.CurrentPage is ThemesWindow)
+                if (vm.CurrentPage == null || vm.CurrentPage is ThemesWindow)
                 {
                     vm.OpenThemesWindow().Wait();
                     UpdateChosenSwitcher(SwitcherTypes.Lessons);

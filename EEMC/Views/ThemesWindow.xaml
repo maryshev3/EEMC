@@ -110,7 +110,7 @@ TargetType="Button">
                                             </Grid.ColumnDefinitions>
                                             <StackPanel Orientation="Vertical" Grid.Column="0">
                                                 <StackPanel Orientation="Horizontal">
-                                                    <Label FontWeight="Bold" FontSize="16">Описание темы:</Label>
+                                                    <Label FontWeight="Bold" FontSize="16">Аннотация:</Label>
                                                     <Button
                                                         Grid.Column="1"
                                                         Name="ChangeDescription_Button"
