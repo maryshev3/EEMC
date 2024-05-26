@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -242,6 +243,14 @@ namespace EEMC.Views
         private void Remove_Button_MouseLeave(object sender, MouseEventArgs e)
         {
             Down_Button_MouseLeave(sender, e);
+        }
+
+        private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
+        {
+            if (int.TryParse(e.Text, out int buf))
+                e.Handled = false;
+            else
+                e.Handled = true;
         }
     }
 }

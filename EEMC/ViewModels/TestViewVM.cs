@@ -113,6 +113,20 @@ namespace EEMC.ViewModels
         {
             get => new Commands.DelegateCommand((obj) =>
             {
+                var notInputedQuestions = _test.Questions.Where(x => String.IsNullOrWhiteSpace(x.UserAnswer));
+                if (notInputedQuestions.Any())
+                {
+                    StringBuilder errorMessage = new();
+                    errorMessage.AppendLine("У следующих вопросов забыли написать ответ:");
+
+                    foreach (var item in notInputedQuestions)
+                        errorMessage.AppendLine(item.DisplayedShortQuestionText);
+
+                    MessageBox.Show(errorMessage.ToString());
+
+                    return;
+                }
+
                 _timer.Change(0, 0);
                 _stopwatch.Stop();
 
@@ -124,8 +138,8 @@ namespace EEMC.ViewModels
 
         private string ConclusionString()
         {
-            int totalCount = _test.Questions.Count;
-            int rightCount = _test.Questions.Where(x => x.ResultStatus == ResultQuestionStatus.CorrectAnswered).Count();
+            int totalCount = _test.Questions.Sum(x => x.QuestionWeight.Value);
+            int rightCount = _test.Questions.Where(x => x.ResultStatus == ResultQuestionStatus.CorrectAnswered).Sum(x => x.QuestionWeight.Value);
 
             int precission = (rightCount * 100) / totalCount;
 
@@ -133,7 +147,7 @@ namespace EEMC.ViewModels
 
             resultString.AppendLine("Статистика по прохождению теста:");
 
-            resultString.Append($"Вы ответили верно на {rightCount} вопросов из {totalCount}. ");
+            resultString.Append($"Вы набрали {rightCount} баллов из {totalCount}. ");
             resultString.AppendLine(
                 precission < 60 
                     ? "Очень плохой результат:("

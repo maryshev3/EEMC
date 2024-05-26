@@ -28,6 +28,7 @@ namespace EEMC.Models
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+        public int? QuestionWeight { get; set; }
         public int QuestionNumber { get; set; }
 
         private string _shortQuestionText;

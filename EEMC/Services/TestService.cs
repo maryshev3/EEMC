@@ -58,6 +58,14 @@ namespace EEMC.Services
                     return response;
                 }
 
+                if (question.QuestionWeight == null)
+                {
+                    response.IsValid = false;
+                    response.ValidErrorText = $"У вопроса \"{question.DisplayedShortQuestionText}\" не введена оценка по баллам";
+
+                    return response;
+                }
+
                 if (question.QuestionText == null || question.QuestionText.Blocks.Count == 0)
                 {
                     response.IsValid = false;

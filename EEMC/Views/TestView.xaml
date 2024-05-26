@@ -158,6 +158,15 @@ HorizontalAlignment="Center" VerticalAlignment="Stretch" />
                         <Grid Name="gridInScroll">
                             <Label Content="{Binding StopwatchString}" HorizontalAlignment="Right" FontSize="14"/>
                             <StackPanel Orientation="Vertical">
+                                <StackPanel Orientation="Horizontal">
+                                    <Label
+                                        Content="Количество баллов за задание: "
+                                        FontWeight="Bold"
+                                        FontSize="16"/>
+                                    <Label
+                                        Content="{Binding SelectedQuestion.QuestionWeight}"
+                                        FontSize="16"/>
+                                </StackPanel>
                                 <Label
                                     Content="Задание:"
                                     FontWeight="Bold"

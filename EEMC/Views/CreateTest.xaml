@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         DataContext="{Binding CreateTestVM, Source={StaticResource ViewModelLocator}}"
         Icon="/Resources/app_icon.png"
-        Title="Создание теста" Height="450" Width="800">
+        Title="Создание теста" Height="500" Width="820">
 
     <Window.Resources>
         <Style TargetType="Button" x:Key="RoundButton">
@@ -232,6 +232,18 @@
                                 </Button>
                             </DockPanel>
                             <StackPanel Orientation="Vertical" Grid.Row="1">
+                                <Label
+                                    Content="Количество баллов за задание: "
+                                    FontWeight="Bold"
+                                    FontSize="16"/>
+                                <TextBox
+                                    Margin="0, 5, 0, 5"
+                                    Name="NumTextBox"
+                                    Text="{Binding SelectedQuestion.QuestionWeight}"
+                                    PreviewTextInput="NumberValidationTextBox"
+                                    FontSize="16"
+                                    Background="#f9f9f9"
+                                    BorderThickness="0, 0, 0, 1"/>
                                 <Label
                                     Content="Введите краткий текст вопроса:"
                                     FontWeight="Bold"
