@@ -72,7 +72,12 @@ namespace EEMC.Views
 
         }
 
-        private void EndTest_Button_Click(object sender, RoutedEventArgs e)
+        private void Conclusion_Button_MouseEnter(object sender, MouseEventArgs e)
+        {
+
+        }
+
+        private void Conclusion_Button_MouseLeave(object sender, MouseEventArgs e)
         {
 
         }

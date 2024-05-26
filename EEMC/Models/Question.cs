@@ -28,7 +28,6 @@ namespace EEMC.Models
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
         public int QuestionNumber { get; set; }
 
         private string _shortQuestionText;
@@ -93,7 +92,7 @@ namespace EEMC.Models
         [JsonIgnore]
         public ResultQuestionStatus ResultStatus
         {
-            get => Answer == UserAnswer
+            get => Answer.Trim().ToLower() == UserAnswer.Trim().ToLower()
                 ? ResultQuestionStatus.CorrectAnswered
                 : ResultQuestionStatus.IncorrectAnswered;
         }
@@ -111,8 +110,8 @@ namespace EEMC.Models
         {
             get => ResultStatus switch
             {
-                ResultQuestionStatus.IncorrectAnswered => "/Resources/answered_good_icon.png",
-                ResultQuestionStatus.CorrectAnswered => "/Resources/answered_incorrect_icon.png"
+                ResultQuestionStatus.CorrectAnswered => "/Resources/answered_good_icon.png",
+                ResultQuestionStatus.IncorrectAnswered => "/Resources/answered_incorrect_icon.png"
             };
         }
     }

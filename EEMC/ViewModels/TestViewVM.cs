@@ -4,8 +4,11 @@ using EEMC.Models;
 using EEMC.Services;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -30,6 +33,8 @@ namespace EEMC.ViewModels
             }
         }
 
+
+        private Timer _timer;
         public TestViewVM(MessageBus messageBus) 
         {
             _messageBus = messageBus;
@@ -42,6 +47,11 @@ namespace EEMC.ViewModels
                 RaisePropertyChanged(() => Questions);
             }
             );
+
+            this._timer = new Timer(
+            new TimerCallback((s) => RaisePropertyChanged(() => StopwatchString)),
+            null, 1000, 1000);
+            _stopwatch.Start();
         }
 
         public ICommand OpenQuestion
@@ -57,14 +67,27 @@ namespace EEMC.ViewModels
             });
         }
 
-        private bool _isProcessingTest;
+        private bool _isProcessingTest = true;
         public bool IsProcessingTest
         {
             get => _isProcessingTest;
             set
             {
                 _isProcessingTest = value;
+                RaisePropertyChanged(() => IsProcessingTest);
+                RaisePropertyChanged(() => IsNotProcessingTest);
+                RaisePropertyChanged(() => AnswerText);
+                RaisePropertyChanged(() => ProcessingVisibility);
+                RaisePropertyChanged(() => ResultingVisibility);
             }
+        }
+        public bool IsNotProcessingTest
+        {
+            get => !_isProcessingTest;
+        }
+        public string AnswerText
+        {
+            get => IsProcessingTest ? "Верный ответ на вопрос:" : "Ваш ответ на вопрос:";
         }
         public Visibility ProcessingVisibility
         {
@@ -75,11 +98,66 @@ namespace EEMC.ViewModels
             get => IsProcessingTest ? Visibility.Collapsed : Visibility.Visible;
         }
 
+        private readonly Stopwatch _stopwatch = new Stopwatch();
+        public string StopwatchString
+        {
+            get 
+            {
+                TimeSpan ts = _stopwatch.Elapsed;
+
+                return String.Format("{0:00}:{1:00}:{2:00}", ts.Hours, ts.Minutes, ts.Seconds);
+            } 
+        }
+
         public ICommand EndTest
         {
             get => new Commands.DelegateCommand((obj) =>
             {
-                
+                _timer.Change(0, 0);
+                _stopwatch.Stop();
+
+                IsProcessingTest = false;
+
+                MessageBox.Show(ConclusionString());
+            });
+        }
+
+        private string ConclusionString()
+        {
+            int totalCount = _test.Questions.Count;
+            int rightCount = _test.Questions.Where(x => x.ResultStatus == ResultQuestionStatus.CorrectAnswered).Count();
+
+            int precission = (rightCount * 100) / totalCount;
+
+            StringBuilder resultString = new StringBuilder();
+
+            resultString.AppendLine("Статистика по прохождению теста:");
+
+            resultString.Append($"Вы ответили верно на {rightCount} вопросов из {totalCount}. ");
+            resultString.AppendLine(
+                precission < 60 
+                    ? "Очень плохой результат:("
+                    : (
+                        precission < 70 
+                            ? "На тройку пойдёт"
+                            : (
+                                precission < 90 
+                                    ? "Хороший результат"
+                                    : "Молодец!"
+                            )
+                    )
+            );
+
+            resultString.AppendLine($"Общее затраченное время: {StopwatchString}");
+
+            return resultString.ToString();
+        }
+
+        public ICommand Conclusion
+        {
+            get => new Commands.DelegateCommand((obj) =>
+            {
+                MessageBox.Show(ConclusionString());
             });
         }
     }
