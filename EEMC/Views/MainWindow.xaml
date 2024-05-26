@@ -98,6 +98,40 @@
                     <Label FontSize="18" FontWeight="Bold">Домашняя страница</Label>
                 </Button>
                 <Button
+    Command="{Binding Path=RenameCourse_Click}"
+    CommandParameter="{Binding}"
+    Click="HomeButton_Click"
+    Visibility="{Binding Path=VisibilityHomeButton}"
+    Background="#efeff5"
+    HorizontalAlignment="Stretch"
+    HorizontalContentAlignment="Left"
+    VerticalAlignment="Center"
+    BorderThickness="0"
+    Name="RenameButton"
+    Template="{StaticResource NoMouseOverButtonTemplate}"
+    MouseEnter="RenameButton_MouseEnter"
+    MouseLeave="HomeButton_MouseLeave"
+    Margin="5, 2, 2, 2">
+                    <Label FontSize="18" FontWeight="Bold">Переименовать курс</Label>
+                </Button>
+                <Button
+    Command="{Binding Path=RemoveCourse_Click}"
+    CommandParameter="{Binding}"
+    Click="HomeButton_Click"
+    Visibility="{Binding Path=VisibilityHomeButton}"
+    Background="#efeff5"
+    HorizontalAlignment="Stretch"
+    HorizontalContentAlignment="Left"
+    VerticalAlignment="Center"
+    BorderThickness="0"
+    Name="RemoveButton"
+    Template="{StaticResource NoMouseOverButtonTemplate}"
+    MouseEnter="RemoveButton_MouseEnter"
+    MouseLeave="HomeButton_MouseLeave"
+    Margin="5, 2, 2, 2">
+                    <Label FontSize="18" FontWeight="Bold">Удалить курс</Label>
+                </Button>
+                <Button
                     Command="{Binding Path=AddCourse_Click}"
                     CommandParameter="{Binding}"
                     Background="#efeff5"
