@@ -36,6 +36,8 @@ namespace EEMC.ViewModels
         public CreateTestVM(MessageBus messageBus)
         {
             ThisTest = new Test();
+            ThisTest.InitWithQuestion();
+
             SelectedQuestion = ThisTest.Questions.First();
 
             _messageBus = messageBus;

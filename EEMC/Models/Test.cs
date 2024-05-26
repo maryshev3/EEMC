@@ -12,7 +12,7 @@ namespace EEMC.Models
         public string TestName { get; set; }
         public ObservableCollection<Question> Questions { get; set; }
 
-        public Test() 
+        public void InitWithQuestion()
         {
             Questions = new ObservableCollection<Question>();
 

@@ -11,6 +11,9 @@
   <ItemGroup>
     <None Remove="Resources\AddImage.jpg" />
     <None Remove="Resources\AddImage.png" />
+    <None Remove="Resources\answered_good_icon.png" />
+    <None Remove="Resources\answered_incorrect_icon.png" />
+    <None Remove="Resources\answered_unknown_icon.png" />
     <None Remove="Resources\app_icon.jpg" />
     <None Remove="Resources\app_icon.png" />
     <None Remove="Resources\close_icon.png" />
@@ -41,6 +44,7 @@
     <None Remove="Resources\up_icon.png" />
     <None Remove="Resources\up_icon_hovered.png" />
     <None Remove="Resources\viewer.zip" />
+    <None Remove="Resources\wait_answer_icon.png" />
     <None Remove="Resources\XmlTemplates\TxtTemplate.xml" />
     <None Remove="Resources\XmlTemplates\TxtTextBlock.xml" />
   </ItemGroup>
@@ -90,6 +94,9 @@
 
   <ItemGroup>
     <Resource Include="Resources\AddImage.png" />
+    <Resource Include="Resources\answered_good_icon.png" />
+    <Resource Include="Resources\answered_incorrect_icon.png" />
+    <Resource Include="Resources\answered_unknown_icon.png" />
     <Resource Include="Resources\app_icon.png" />
     <Resource Include="Resources\close_icon.png" />
     <Resource Include="Resources\close_icon_hovered.png" />
@@ -116,6 +123,7 @@
     <Resource Include="Resources\three_points_hovered.png" />
     <Resource Include="Resources\up_icon.png" />
     <Resource Include="Resources\up_icon_hovered.png" />
+    <Resource Include="Resources\wait_answer_icon.png" />
     <EmbeddedResource Include="Resources\Fonts\tmr.ttf" />
     <EmbeddedResource Include="Resources\XmlTemplates\TxtTemplate.xml" />
   </ItemGroup>

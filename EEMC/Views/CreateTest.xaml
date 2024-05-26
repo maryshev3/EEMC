@@ -134,7 +134,7 @@
                                         Padding="5"
                                         Margin="4"
                                         BorderBrush="#efeff5">
-                                        <Label Name="lble" Content="{Binding Path=DisplayedShortQuestionText}"/>
+                                        <Label Content="{Binding Path=DisplayedShortQuestionText}"/>
                                     </Button>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>

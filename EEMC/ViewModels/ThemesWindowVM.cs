@@ -193,7 +193,11 @@ namespace EEMC.ViewModels
                         {
                             if (currentFileConverted.IsTest())
                             {
-                                //System.Diagnostics.Process.Start(Environment.CurrentDirectory + currentFileConverted.NameWithPath);
+                                Test test = TestService.Load(Environment.CurrentDirectory + currentFileConverted.NameWithPath);
+
+                                window = new TestView();
+
+                                await _messageBus.SendTo<TestViewVM>(new TestMessage(test));
                             }
                             else
                             {

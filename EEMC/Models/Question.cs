@@ -9,6 +9,18 @@ using System.Windows.Documents;
 
 namespace EEMC.Models
 {
+    public enum ProcessingQuestionStatus
+    {
+        NotAnswered,
+        Answered
+    }
+
+    public enum ResultQuestionStatus
+    {
+        CorrectAnswered,
+        IncorrectAnswered
+    }
+
     public class Question : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
@@ -55,5 +67,53 @@ namespace EEMC.Models
         [JsonIgnore]
         public FlowDocument QuestionText { get; set; }
         public string Answer { get; set; }
+
+        //Этот блок для прохождения теста
+        private string _userAnswer;
+        [JsonIgnore]
+        public string UserAnswer
+        {
+            get => _userAnswer;
+            set
+            {
+                _userAnswer = value;
+                OnPropertyChanged("ProcessingStatus");
+                OnPropertyChanged("ResultStatus");
+                OnPropertyChanged("ProcessingImage");
+                OnPropertyChanged("ResultImage");
+            }
+        }
+        [JsonIgnore]
+        public ProcessingQuestionStatus ProcessingStatus
+        {
+            get => String.IsNullOrWhiteSpace(UserAnswer)
+                ? ProcessingQuestionStatus.NotAnswered
+                : ProcessingQuestionStatus.Answered;
+        }
+        [JsonIgnore]
+        public ResultQuestionStatus ResultStatus
+        {
+            get => Answer == UserAnswer
+                ? ResultQuestionStatus.CorrectAnswered
+                : ResultQuestionStatus.IncorrectAnswered;
+        }
+        [JsonIgnore]
+        public string ProcessingImage
+        {
+            get => ProcessingStatus switch
+            {
+                ProcessingQuestionStatus.NotAnswered => "/Resources/wait_answer_icon.png",
+                ProcessingQuestionStatus.Answered => "/Resources/answered_unknown_icon.png"
+            };
+        }
+        [JsonIgnore]
+        public string ResultImage
+        {
+            get => ResultStatus switch
+            {
+                ResultQuestionStatus.IncorrectAnswered => "/Resources/answered_good_icon.png",
+                ResultQuestionStatus.CorrectAnswered => "/Resources/answered_incorrect_icon.png"
+            };
+        }
     }
 }

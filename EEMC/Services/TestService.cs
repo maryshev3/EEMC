@@ -119,7 +119,7 @@ namespace EEMC.Services
                 }
             }
 
-            //Сохраняем получившееся в архив в кастомном .tt формате
+            //Сохраняем получившееся в архив в кастомном .ctt формате
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
             using (ZipFile zip = new ZipFile(Encoding.UTF8))
@@ -129,7 +129,59 @@ namespace EEMC.Services
                 zip.Save(resultFilePath);
             }
 
+            //Удаляем временную папку
+            Directory.Delete(savePath, true);
+
             return resultFilePath;
+        }
+
+        public static Test Load(string pathTest)
+        {
+            string savePath = Path.Combine(Environment.CurrentDirectory, "tmp_test");
+
+            //Пересоздаём временную папку
+            if (Directory.Exists(savePath))
+                Directory.Delete(savePath, true);
+
+            Directory.CreateDirectory(savePath);
+
+            //Временно разархивируем архив
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+
+            using (ZipFile zip = ZipFile.Read(pathTest, options: new ReadOptions() { Encoding = Encoding.UTF8 }))
+            {
+                zip.ExtractAll(savePath, ExtractExistingFileAction.OverwriteSilently);
+            }
+
+            //Заполняем объект Test
+            string json = File.ReadAllText(Path.Combine(savePath, "test.json"));
+
+            Test test = JsonConvert.DeserializeObject<Test>(json);
+
+            foreach (var question in test.Questions)
+            {
+                //question.QuestionText;
+                using (FileStream fileStream = new FileStream(Path.Combine(savePath, question.TextFileName), FileMode.Open))
+                {
+                    question.QuestionText = new FlowDocument();
+
+                    var content = new TextRange(question.QuestionText.ContentStart, question.QuestionText.ContentEnd);
+
+                    if (content.CanLoad(DataFormats.Rtf))
+                    {
+                        content.Load(fileStream, DataFormats.Rtf);
+                    }
+                    else
+                    {
+                        throw new Exception($"Не удаётся загрузить содержимое теста");
+                    }
+                }
+            }
+
+            //Удаляем временную папку
+            Directory.Delete(savePath, true);
+
+            return test;
         }
     }
 }
