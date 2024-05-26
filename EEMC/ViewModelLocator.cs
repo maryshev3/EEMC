@@ -36,6 +36,9 @@ namespace EEMC
         public PdfViewVM PdfViewVM => _provider.GetRequiredService<PdfViewVM>();
         public ExportWindowVM ExportWindowVM => _provider.GetRequiredService<ExportWindowVM>();
         public VersionsViewVM VersionsViewVM => _provider.GetRequiredService<VersionsViewVM>();
+        public CreateTestVM CreateTestVM => _provider.GetRequiredService<CreateTestVM>();
+        public EnterTestNameVM EnterTestNameVM => _provider.GetRequiredService<EnterTestNameVM>();
+        public TestViewVM TestViewVM => _provider.GetRequiredService<TestViewVM>();
 
         public static void AddVMs(ServiceCollection services)
         {
@@ -58,6 +61,9 @@ namespace EEMC
             services.AddTransient<PdfViewVM>();
             services.AddTransient<ExportWindowVM>();
             services.AddTransient<VersionsViewVM>();
+            services.AddTransient<CreateTestVM>();
+            services.AddTransient<EnterTestNameVM>();
+            services.AddTransient<TestViewVM>();
         }
 
         public static void AddTemplates(ServiceCollection services)

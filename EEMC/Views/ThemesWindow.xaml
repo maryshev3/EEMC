@@ -142,23 +142,40 @@ TargetType="Button">
                                                 <RowDefinition Height="*"/>
                                             </Grid.RowDefinitions>
                                             <Label FontSize="16" FontWeight="Bold" Grid.Row="0">Файлы:</Label>
-                                            <Button
-                                                Grid.Row="1"
-                                                Style="{DynamicResource RoundButton}"
-                                                Template="{StaticResource NoMouseOverButtonTemplate}"
-                                                Margin="5, 5, 5, 5"
-                                                Background="White"
-                                                BorderBrush="#a4b3ca"
-                                                HorizontalAlignment="Left"
-                                                Command="{Binding ElementName=ThemesList, Path=DataContext.AddFile_Click}"
-                                                CommandParameter="{Binding}"
-                                                MouseEnter="AddThemeFile_Button_MouseEnter"
-                                                MouseLeave="AddThemeFile_Button_MouseLeave"
-                                                IsEnabled="True"
-                                                Name="AddThemeFile_Button"
-                                                FontSize="16">
-                                                <Label>Добавить файл</Label>
-                                            </Button>
+                                            <StackPanel Orientation="Horizontal" Grid.Row="1">
+                                                <Button
+                                                    Style="{DynamicResource RoundButton}"
+                                                    Template="{StaticResource NoMouseOverButtonTemplate}"
+                                                    Margin="5, 5, 5, 5"
+                                                    Background="White"
+                                                    BorderBrush="#a4b3ca"
+                                                    HorizontalAlignment="Left"
+                                                    Command="{Binding ElementName=ThemesList, Path=DataContext.AddFile_Click}"
+                                                    CommandParameter="{Binding}"
+                                                    MouseEnter="AddThemeFile_Button_MouseEnter"
+                                                    MouseLeave="AddThemeFile_Button_MouseLeave"
+                                                    IsEnabled="True"
+                                                    Name="AddThemeFile_Button"
+                                                    FontSize="16">
+                                                    <Label>Добавить файл</Label>
+                                                </Button>
+                                                <Button
+                                                    Style="{DynamicResource RoundButton}"
+                                                    Template="{StaticResource NoMouseOverButtonTemplate}"
+                                                    Margin="5, 5, 5, 5"
+                                                    Background="White"
+                                                    BorderBrush="#a4b3ca"
+                                                    HorizontalAlignment="Left"
+                                                    Command="{Binding ElementName=ThemesList, Path=DataContext.AddTest_Click}"
+                                                    CommandParameter="{Binding}"
+                                                    MouseEnter="AddTest_Button_MouseEnter"
+                                                    MouseLeave="AddTest_Button_MouseLeave"
+                                                    IsEnabled="True"
+                                                    Name="AddTest_Button"
+                                                    FontSize="16">
+                                                    <Label>Добавить тест</Label>
+                                                </Button>
+                                            </StackPanel>
                                             <ItemsControl
                                                 Grid.Row="2"
                                                 Name="CourseList"
@@ -181,12 +198,18 @@ TargetType="Button">
                                                                 Click="File_Button_Click"
                                                                 Background="White"
                                                                 Height="auto"
-                                                                Width="auto"
+                                                                MaxWidth="220"
                                                                 Margin="10"
                                                                 BorderThickness="0">
                                                                 <StackPanel Orientation="Vertical" Margin="5">
-                                                                    <Image Source="/Resources/document_icon.png" Height="80" Width="80"/>
-                                                                    <Label Content="{Binding Name}" FontSize="16"/>
+                                                                    <Image Source="{Binding ImagePath}" Height="80" Width="80"/>
+                                                                    <TextBlock
+                                                                        Margin="5"
+                                                                        TextWrapping="Wrap"
+                                                                        TextTrimming="None"
+                                                                        HorizontalAlignment="Center"
+                                                                        Text="{Binding NameWithoutExtension}"
+                                                                        FontSize="16"/>
                                                                 </StackPanel>
                                                             </Button>
                                                             <Button
@@ -231,7 +254,7 @@ TargetType="Button">
                                             </ItemsControl>
                                         </Grid>
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
-                                            <Label FontSize="16">Не отображать при импорте?</Label>
+                                            <Label FontSize="16">Скрыть при экспорте?</Label>
                                             <CheckBox
                                                 Width="35"
                                                 Height="35"

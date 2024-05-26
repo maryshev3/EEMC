@@ -63,6 +63,27 @@ namespace EEMC.ViewModels
             );
         }
 
+        public ICommand AddTest_Click
+        {
+            get => new Commands.DelegateCommand(async (currentTheme) =>
+            {
+                Window window = new Window
+                {
+                    Icon = _icon,
+                    WindowStartupLocation = WindowStartupLocation.CenterScreen,
+                    SizeToContent = SizeToContent.WidthAndHeight,
+                    ResizeMode = ResizeMode.NoResize,
+                    Title = "Создание теста",
+                    Content = new EnterTestName()
+                };
+
+                await _messageBus.SendTo<EnterTestNameVM>(new ThemeWindowMessage(window, currentTheme as Theme));
+
+                window.ShowDialog();
+            }
+            );
+        }
+
         public ICommand RenameTheme_Click
         {
             get => new Commands.DelegateCommand(async (currentTheme) =>
@@ -170,9 +191,21 @@ namespace EEMC.ViewModels
                         }
                         else 
                         {
-                            window = new DocumentView();
+                            if (currentFileConverted.IsTest())
+                            {
+                                Test test = TestService.Load(Environment.CurrentDirectory + currentFileConverted.NameWithPath);
 
-                            await _messageBus.SendTo<DocumentViewVM>(new ThemeFileMessage(currentFileConverted)); }
+                                window = new TestView();
+
+                                await _messageBus.SendTo<TestViewVM>(new TestMessage(test));
+                            }
+                            else
+                            {
+                                window = new DocumentView();
+
+                                await _messageBus.SendTo<DocumentViewVM>(new ThemeFileMessage(currentFileConverted));
+                            }
+                        }
                     }
                 }
 

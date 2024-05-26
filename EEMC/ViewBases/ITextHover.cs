@@ -55,9 +55,9 @@ namespace EEMC.ViewBases
     {
         public Button _oldHoveredButton { get; set; }
 
-        public void ResetButtonStyle(Button button)
+        public void ResetButtonStyle(Button button, bool isQuestion = false)
         {
-            button.Background = System.Windows.Media.Brushes.White;
+            button.Background = isQuestion ? (SolidColorBrush)(new BrushConverter().ConvertFrom("#efeff5")) : System.Windows.Media.Brushes.White;
 
             if (button.Content is Label)
             {
