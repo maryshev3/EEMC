@@ -63,6 +63,17 @@ namespace EEMC.ViewModels
             );
         }
 
+        public ICommand AddTest_Click
+        {
+            get => new Commands.DelegateCommand((obj) =>
+            {
+                Window window = new CreateTest();
+
+                window.ShowDialog();
+            }
+            );
+        }
+
         public ICommand RenameTheme_Click
         {
             get => new Commands.DelegateCommand(async (currentTheme) =>
@@ -170,9 +181,9 @@ namespace EEMC.ViewModels
                         }
                         else 
                         {
-                            if (currentFileConverted.IsExecutable())
+                            if (currentFileConverted.IsTest())
                             {
-                                System.Diagnostics.Process.Start(Environment.CurrentDirectory + currentFileConverted.NameWithPath);
+                                //System.Diagnostics.Process.Start(Environment.CurrentDirectory + currentFileConverted.NameWithPath);
                             }
                             else
                             {

@@ -26,6 +26,8 @@
     <None Remove="Resources\course_img7.png" />
     <None Remove="Resources\document_icon.png" />
     <None Remove="Resources\document_icon_hovered.png" />
+    <None Remove="Resources\down_icon.png" />
+    <None Remove="Resources\down_icon_hovered.png" />
     <None Remove="Resources\Fonts\tmr.ttf" />
     <None Remove="Resources\modify_icon.png" />
     <None Remove="Resources\modify_icon_hovered.png" />
@@ -36,6 +38,8 @@
     <None Remove="Resources\test_icon.png" />
     <None Remove="Resources\three_points.png" />
     <None Remove="Resources\three_points_hovered.png" />
+    <None Remove="Resources\up_icon.png" />
+    <None Remove="Resources\up_icon_hovered.png" />
     <None Remove="Resources\viewer.zip" />
     <None Remove="Resources\XmlTemplates\TxtTemplate.xml" />
     <None Remove="Resources\XmlTemplates\TxtTextBlock.xml" />
@@ -99,6 +103,8 @@
     <Resource Include="Resources\course_img7.png" />
     <Resource Include="Resources\document_icon.png" />
     <Resource Include="Resources\document_icon_hovered.png" />
+    <Resource Include="Resources\down_icon.png" />
+    <Resource Include="Resources\down_icon_hovered.png" />
     <Resource Include="Resources\modify_icon.png" />
     <Resource Include="Resources\modify_icon_hovered.png" />
     <Resource Include="Resources\pause_icon.png" />
@@ -108,6 +114,8 @@
     <Resource Include="Resources\test_icon.png" />
     <Resource Include="Resources\three_points.png" />
     <Resource Include="Resources\three_points_hovered.png" />
+    <Resource Include="Resources\up_icon.png" />
+    <Resource Include="Resources\up_icon_hovered.png" />
     <EmbeddedResource Include="Resources\Fonts\tmr.ttf" />
     <EmbeddedResource Include="Resources\XmlTemplates\TxtTemplate.xml" />
   </ItemGroup>

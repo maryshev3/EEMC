@@ -179,5 +179,15 @@ namespace EEMC.Views
         {
             RenameTheme_Button_MouseLeave(sender, e);
         }
+
+        private void AddTest_Button_MouseEnter(object sender, MouseEventArgs e)
+        {
+            AddTheme_Button_MouseEnter(sender, e);
+        }
+
+        private void AddTest_Button_MouseLeave(object sender, MouseEventArgs e)
+        {
+            AddTheme_Button_MouseLeave(sender, e);
+        }
     }
 }
