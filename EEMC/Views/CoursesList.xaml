@@ -60,8 +60,9 @@ TargetType="Button">
                     MouseEnter="EnableExportChoose_Button_MouseEnter"
                     MouseLeave="EnableExportChoose_Button_MouseLeave"
                     FontSize="16"
-                    Visibility="{Binding NegativeVisibilityExportChoose}">
-                    <Label>Выбрать курсы для экспорта</Label>
+                    Visibility="{Binding NegativeVisibilityExportChoose}"
+                    ToolTip="Выбрать курсы для экспорта">
+                    <Label>Экспортировать курсы</Label>
                 </Button>
                 <Button
                     Style="{DynamicResource RoundButton}"
@@ -73,9 +74,10 @@ TargetType="Button">
                     Name="Export_Button"
                     MouseEnter="Export_Button_MouseEnter"
                     MouseLeave="Export_Button_MouseLeave"
+                    ToolTip="Создать версию ЭУМК для просмотра, куда будут включены выбранные курсы"
                     FontSize="16"
                     Visibility="{Binding VisibilityExportChoose}">
-                    <Label>Экспортировать выбранные</Label>
+                    <Label>Экспорт</Label>
                 </Button>
                 <Button
                     Style="{DynamicResource RoundButton}"
@@ -101,6 +103,7 @@ TargetType="Button">
                     Name="Import_Button"
                     MouseEnter="Import_Button_MouseEnter"
                     MouseLeave="Import_Button_MouseLeave"
+                    ToolTip="Загрузить все курсы из файла .ce (текущее содержимое будет полностью заменено)"
                     FontSize="16"
                     Visibility="{Binding NegativeVisibilityExportChoose}">
                     <Label>Импортировать курсы</Label>
