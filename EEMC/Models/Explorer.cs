@@ -108,14 +108,64 @@ namespace EEMC.Models
             }
 
             var allThemes = Theme.ReadAllThemes().ToList();
+            int? lastNum = allThemes.Where(x => x.CourseName == Name)?.MaxBy(x => x.ThemeNumber)?.ThemeNumber;
 
             allThemes.Add(
                 new Theme()
                 {
                     CourseName = Name,
-                    ThemeName = themeName
+                    ThemeName = themeName,
+                    ThemeNumber = lastNum == null ? 1 : lastNum.Value + 1
                 }
             );
+
+            Theme.RewriteAllThemes(allThemes.ToArray());
+        }
+
+        public bool IsEnabledDown(Theme theme)
+        {
+            return theme.ThemeNumber < Themes.Count;
+        }
+
+        public bool IsEnabledUp(Theme theme)
+        {
+            return theme.ThemeNumber > 1;
+        }
+
+        /// <summary>
+        /// Повышает номер вопроса в общем списке (понижает в визуальном плане)
+        /// </summary>
+        public void Down(Theme theme)
+        {
+            if (!IsEnabledDown(theme))
+                throw new Exception("Невозможно поднять вверх по списку");
+
+            var allThemes = Theme.ReadAllThemes().ToList();
+
+            Theme upper = allThemes.Where(x => x.CourseName == theme.CourseName).First(x => x.ThemeNumber == theme.ThemeNumber + 1);
+            Theme thisTheme = allThemes.Where(x => x.CourseName == theme.CourseName && x.ThemeName == theme.ThemeName).First();
+
+            upper.ThemeNumber--;
+            thisTheme.ThemeNumber++;
+
+            Theme.RewriteAllThemes(allThemes.ToArray());
+        }
+
+        /// <summary>
+        /// Понижает номер вопроса в общем списке (повышает в визуальном плане)
+        /// </summary>
+        public void Up(Theme theme)
+        {
+            if (!IsEnabledUp(theme))
+                throw new Exception("Невозможно спустить вниз по списку");
+
+            var allThemes = Theme.ReadAllThemes().ToList();
+
+            Theme downer = allThemes.Where(x => x.CourseName == theme.CourseName).First(x => x.ThemeNumber == theme.ThemeNumber - 1);
+            Theme thisTheme = allThemes.Where(x => x.CourseName == theme.CourseName && x.ThemeName == theme.ThemeName).First();
+
+            downer.ThemeNumber++;
+            thisTheme.ThemeNumber--;
 
             Theme.RewriteAllThemes(allThemes.ToArray());
         }

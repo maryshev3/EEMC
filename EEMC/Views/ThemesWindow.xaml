@@ -86,9 +86,59 @@ TargetType="Button">
                                 Padding="3"
                                 HorizontalAlignment="Stretch">
                                 <Grid Background="White">
-                                    <StackPanel Orientation="Vertical">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <DockPanel>
+                                        <Button
+    HorizontalAlignment="Right"
+    Width="35"
+    Height="35"
+    BorderThickness="0"
+    Background="White"
+    Name="Down_Button"
+                                            Command="{Binding ElementName=ThemesList, Path=DataContext.Down}"
+                                            CommandParameter="{Binding}"
+                                            MouseEnter="Down_Button_MouseEnter"
+                                            MouseLeave="Down_Button_MouseLeave"
+    Visibility="{Binding DownVisibility}"
+    Template="{StaticResource NoMouseOverButtonTemplate}">
+                                            <Image Source="/Resources/down_icon.png"/>
+                                        </Button>
+                                        <Button
+    HorizontalAlignment="Right"
+    Width="35"
+    Height="35"
+    BorderThickness="0"
+    Background="White"
+    Name="Up_Button"
+                                            Command="{Binding ElementName=ThemesList, Path=DataContext.Up}"
+                                            CommandParameter="{Binding}"
+                                            MouseEnter="Up_Button_MouseEnter"
+                                            MouseLeave="Up_Button_MouseLeave"
+    Visibility="{Binding UpVisibility}"
+    Template="{StaticResource NoMouseOverButtonTemplate}">
+                                            <Image Source="/Resources/up_icon.png"/>
+                                        </Button>
+                                        <Button
+                                        Name="RemoveTheme_Button"
+                                        Template="{StaticResource NoMouseOverButtonTemplate}"
+                                        Command="{Binding ElementName=ThemesList, Path=DataContext.RemoveTheme_Click}"
+                                        CommandParameter="{Binding}"
+                                        HorizontalAlignment="Right"
+                                        Width="35"
+                                        Height="35"
+                                        BorderThickness="0"
+                                        Background="White"
+                                        MouseEnter="RemoveTheme_Button_MouseEnter"
+                                        MouseLeave="RemoveTheme_Button_MouseLeave">
+                                        <Image Source="/Resources/close_icon.png"/>
+                                    </Button>
+                                    </DockPanel>
+                                    <StackPanel Orientation="Vertical" Grid.Row="1">
                                         <StackPanel Orientation="Horizontal">
-                                            <Label Content="{Binding Path=ThemeName}" FontWeight="Bold" FontSize="16"/>
+                                            <Label Content="{Binding Path=NameWithNumber}" FontWeight="Bold" FontSize="16"/>
                                             <Button
                                                 Name="RenameTheme_Button"
                                                 Template="{StaticResource NoMouseOverButtonTemplate}"
@@ -110,7 +160,7 @@ TargetType="Button">
                                             </Grid.ColumnDefinitions>
                                             <StackPanel Orientation="Vertical" Grid.Column="0">
                                                 <StackPanel Orientation="Horizontal">
-                                                    <Label FontWeight="Bold" FontSize="16">Описание темы:</Label>
+                                                    <Label FontWeight="Bold" FontSize="16">Аннотация:</Label>
                                                     <Button
                                                         Grid.Column="1"
                                                         Name="ChangeDescription_Button"
@@ -264,21 +314,6 @@ TargetType="Button">
                                                 CommandParameter="{Binding}"/>
                                         </StackPanel>
                                     </StackPanel>
-                                    <Button
-                                        Name="RemoveTheme_Button"
-                                        Template="{StaticResource NoMouseOverButtonTemplate}"
-                                        Command="{Binding ElementName=ThemesList, Path=DataContext.RemoveTheme_Click}"
-                                        CommandParameter="{Binding}"
-                                        HorizontalAlignment="Right"
-                                        VerticalAlignment="Top"
-                                        Width="35"
-                                        Height="35"
-                                        BorderThickness="0"
-                                        Background="White"
-                                        MouseEnter="RemoveTheme_Button_MouseEnter"
-                                        MouseLeave="RemoveTheme_Button_MouseLeave">
-                                        <Image Source="/Resources/close_icon.png"/>
-                                    </Button>
                                 </Grid>
                             </Border>
                         </DataTemplate>

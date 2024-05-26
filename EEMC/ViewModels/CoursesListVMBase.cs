@@ -53,6 +53,11 @@ namespace EEMC.ViewModels
         {
             get => new Commands.DelegateCommand(async (chosenCourse) =>
             {
+                Explorer? explorer = chosenCourse as Explorer;
+
+                if (explorer == null)
+                    explorer = _chosenCourse;
+
                 Window window = new Window
                 {
                     Icon = _icon,
@@ -63,7 +68,7 @@ namespace EEMC.ViewModels
                     Content = new RenameCourse()
                 };
 
-                await _messageBus.SendTo<RenameCourseVM>(new ExplorerWindowMessage(window, chosenCourse as Explorer));
+                await _messageBus.SendTo<RenameCourseVM>(new ExplorerWindowMessage(window, explorer));
 
                 window.ShowDialog();
             }
@@ -74,6 +79,11 @@ namespace EEMC.ViewModels
         {
             get => new Commands.DelegateCommand(async (chosenCourse) =>
             {
+                Explorer? explorer = chosenCourse as Explorer;
+
+                if (explorer == null)
+                    explorer = _chosenCourse;
+
                 Window window = new Window
                 {
                     Icon = _icon,
@@ -84,7 +94,7 @@ namespace EEMC.ViewModels
                     Content = new RemoveCourse()
                 };
 
-                await _messageBus.SendTo<RemoveCourseVM>(new ExplorerWindowMessage(window, chosenCourse as Explorer));
+                await _messageBus.SendTo<RemoveCourseVM>(new ExplorerWindowMessage(window, explorer));
 
                 window.ShowDialog();
             }

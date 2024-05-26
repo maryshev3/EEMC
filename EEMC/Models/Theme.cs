@@ -6,13 +6,21 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace EEMC.Models
 {
     public class Theme
     {
+        [JsonIgnore]
+        public Visibility UpVisibility { get => ThemeNumber != 1 ? Visibility.Visible : Visibility.Collapsed; }
+        [JsonIgnore]
+        public Visibility DownVisibility { get => ThemeNumber != ReadAllThemes().Where(x => x.CourseName == CourseName).Count() ? Visibility.Visible : Visibility.Collapsed; }
         public string ThemeName { get; set; }
+        [JsonIgnore]
+        public string NameWithNumber { get => $"{ThemeNumber}. {ThemeName}"; }
         public string ThemeDescription { get; set; }
+        public int ThemeNumber { get; set; }
         public ObservableCollection<ThemeFile>? Files { get; set; }
         public Boolean IsHiden { get; set; }
         //Воспринимать как внешний ключ к Course
@@ -29,7 +37,7 @@ namespace EEMC.Models
 
         public static void RewriteAllThemes(Theme[] themes)
         {
-            string json = JsonConvert.SerializeObject(themes);
+            string json = JsonConvert.SerializeObject(themes.OrderBy(x => x.ThemeNumber));
 
             File.WriteAllText("./themes.json", json);
 
@@ -80,6 +88,12 @@ namespace EEMC.Models
             var allThemes = Theme.ReadAllThemes();
 
             var allThemesFiltered = allThemes.Where(x => x.ThemeName != ThemeName || x.CourseName != CourseName).ToArray();
+            var couresTheme = allThemesFiltered.Where(x => x.CourseName == CourseName && x.ThemeNumber > ThemeNumber);
+
+            foreach (var theme in couresTheme)
+            {
+                theme.ThemeNumber--;
+            }
 
             Theme.RewriteAllThemes(allThemesFiltered);
         }

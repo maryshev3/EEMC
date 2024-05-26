@@ -47,19 +47,6 @@
             <Border BorderThickness="0, 0, 0, 2" BorderBrush="#a4b3ca">
                 <StackPanel Orientation="Horizontal" Name="SwitcherButtons">
                     <Button
-                        Name="MaterialButton"
-                        MouseEnter="MaterialButton_MouseEnter"
-                        MouseLeave="MaterialButton_MouseLeave"
-                        Click="MaterialButton_Click"
-                        Command="{Binding OpenFiles_Click}"
-                        Background="#f9f9f9"
-                        FontSize="16"
-                        BorderThickness="0"
-                        Margin="0, 0, 10, 0"
-                        Template="{StaticResource NoMouseOverButtonTemplate}">
-                        <Label FontWeight="SemiBold">Полезные материалы</Label>
-                    </Button>
-                    <Button
                         Name="LessonsButton"
                         MouseEnter="LessonsButton_MouseEnter"
                         MouseLeave="LessonsButton_MouseLeave"
@@ -70,7 +57,20 @@
                         BorderThickness="0"
                         Padding="10"
                         Template="{StaticResource NoMouseOverButtonTemplate}">
-                        <Label FontWeight="SemiBold">Просмотр занятий</Label>
+                        <Label FontWeight="SemiBold">Содержание курса</Label>
+                    </Button>
+                    <Button
+    Name="MaterialButton"
+    MouseEnter="MaterialButton_MouseEnter"
+    MouseLeave="MaterialButton_MouseLeave"
+    Click="MaterialButton_Click"
+    Command="{Binding OpenFiles_Click}"
+    Background="#f9f9f9"
+    FontSize="16"
+    BorderThickness="0"
+    Margin="0, 0, 10, 0"
+    Template="{StaticResource NoMouseOverButtonTemplate}">
+                        <Label FontWeight="SemiBold">Методическое обеспечение</Label>
                     </Button>
                 </StackPanel>
             </Border>

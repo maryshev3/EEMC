@@ -267,5 +267,25 @@ namespace EEMC.ViewModels
             }
             );
         }
+
+        public ICommand Up
+        {
+            get => new Commands.DelegateCommand((theme) =>
+            {
+                Theme themeConverted = theme as Theme;
+
+                _currentCourse.Up(themeConverted);
+            });
+        }
+
+        public ICommand Down
+        {
+            get => new Commands.DelegateCommand((theme) =>
+            {
+                Theme themeConverted = theme as Theme;
+
+                _currentCourse.Down(themeConverted);
+            });
+        }
     }
 }

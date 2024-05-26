@@ -213,5 +213,15 @@ namespace EEMC.Views
         {
             UpdateChosenCourse();
         }
+
+        private void RenameButton_MouseEnter(object sender, MouseEventArgs e)
+        {
+            HoverEffect(sender, ButtonType.ChangeButton);
+        }
+
+        private void RemoveButton_MouseEnter(object sender, MouseEventArgs e)
+        {
+            HoverEffect(sender, ButtonType.RemoveButton);
+        }
     }
 }

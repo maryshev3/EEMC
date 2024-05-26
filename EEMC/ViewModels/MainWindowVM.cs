@@ -50,8 +50,12 @@ namespace EEMC.ViewModels
 
             if (_chosenCourse == null || fileExt == "" && e.ChangeType == WatcherChangeTypes.Deleted && e.Name == _chosenCourse.Name)
             {
+                if (_chosenCourse != null)
+                    await _messageBus.SendTo<SwitcherCourseViewVM>(new CourseMessage(_chosenCourse));
+
                 _chosenCourse = null;
-                await _messageBus.SendTo<SwitcherCourseViewVM>(new CourseMessage(_chosenCourse));
+                
+                OpenHomePage();
             }
 
             if (e.Name.Contains("~$"))
@@ -103,9 +107,12 @@ namespace EEMC.ViewModels
 
         private void OpenHomePage()
         {
-            CurrentPage = new CoursesList();
-            _chosenCourse = null;
-            VisibilityHomeButton = Visibility.Collapsed;
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                CurrentPage = new CoursesList();
+                _chosenCourse = null;
+                VisibilityHomeButton = Visibility.Collapsed;
+            });
         }
 
         public async Task ChangeCurrentCourse(Explorer chosenCourse)
@@ -122,6 +129,7 @@ namespace EEMC.ViewModels
         {
             get => new Commands.DelegateCommand(async (ChosenCourse) => 
                 {
+                    
                     await ChangeCurrentCourse(ChosenCourse as Explorer);
                 }
             );
