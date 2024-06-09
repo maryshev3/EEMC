@@ -7,7 +7,7 @@
         xmlns:viewmodels="clr-namespace:EEMC.ViewModels"
         d:DataContext="{d:DesignInstance Type=viewmodels:MainWindowVM}"
         mc:Ignorable="d"
-        Title="ЭУМК Конструктор"
+        Title="Конструктор ЭУМК"
         Icon="/Resources/app_icon.png"
         WindowStartupLocation="CenterScreen"
         Height="640"
