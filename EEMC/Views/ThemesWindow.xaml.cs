@@ -1,4 +1,5 @@
 ﻿using EEMC.Models;
+using EEMC.Services;
 using EEMC.ViewBases;
 using EEMC.ViewModels;
 using System;
@@ -208,6 +209,28 @@ namespace EEMC.Views
         private void Up_Button_MouseLeave(object sender, MouseEventArgs e)
         {
             RenameTheme_Button_MouseLeave(sender, e);
+        }
+
+        private void ScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
+        {
+            var dc = this.DataContext as ThemesWindowVM;
+            var scroll = sender as ScrollViewer;
+
+            if (scroll.VerticalOffset != 0)
+                ScrollSaver.ScrollPosition = scroll.VerticalOffset;
+
+            ScrollSaver.CurrentCourseName = dc.CurrentCourse.Name;
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            var dc = this.DataContext as ThemesWindowVM;
+
+            if (dc.CurrentCourse.Name == ScrollSaver.CurrentCourseName)
+            {
+                thisScroll.ScrollToVerticalOffset(ScrollSaver.ScrollPosition);
+                thisScroll.UpdateLayout();
+            }
         }
     }
 }

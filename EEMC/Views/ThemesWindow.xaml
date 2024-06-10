@@ -8,7 +8,8 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Name="ThemeWindow"
       DataContext="{Binding ThemesWindowVM, Source={StaticResource ViewModelLocator}}"
-      Title="ThemesWindow">
+      Title="ThemesWindow"
+      Loaded="Page_Loaded">
 
     <Page.Resources>
         <Style TargetType="Button" x:Key="RoundButton">
@@ -69,7 +70,7 @@ TargetType="Button">
                     <Label>Добавить тему</Label>
                 </Button>
             </StackPanel>
-            <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1">
+            <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1" ScrollChanged="ScrollViewer_ScrollChanged" Name="thisScroll">
                 <ItemsControl
                 Name="ThemesList"
                 ItemsSource="{Binding Path=CurrentCourse.Themes, Mode=OneWay}"
