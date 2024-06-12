@@ -32,6 +32,7 @@
     <None Remove="Resources\down_icon.png" />
     <None Remove="Resources\down_icon_hovered.png" />
     <None Remove="Resources\Fonts\tmr.ttf" />
+    <None Remove="Resources\image_loading.png" />
     <None Remove="Resources\modify_icon.png" />
     <None Remove="Resources\modify_icon_hovered.png" />
     <None Remove="Resources\pause_icon.png" />
@@ -126,6 +127,10 @@
     <Resource Include="Resources\wait_answer_icon.png" />
     <EmbeddedResource Include="Resources\Fonts\tmr.ttf" />
     <EmbeddedResource Include="Resources\XmlTemplates\TxtTemplate.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <SplashScreen Include="Resources\image_loading.png" />
   </ItemGroup>
 
   <ItemGroup>

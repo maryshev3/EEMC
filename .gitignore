@@ -6,3 +6,7 @@
 /EEMC/Properties/PublishProfiles/FolderProfile.pubxml
 /EEMC/Properties/PublishProfiles/FolderProfile.pubxml.user
 /EEMC/EEMC.csproj.user
+/Setup/Debug
+/CustomUninstaller/bin/Debug
+/CustomUninstaller/obj/Debug
+/packages

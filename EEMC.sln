@@ -3,9 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33801.468
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EEMC", "EEMC\EEMC.csproj", "{C18C8AC1-4C32-4460-B58C-0931E3635C55}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EEMC", "EEMC\EEMC.csproj", "{C18C8AC1-4C32-4460-B58C-0931E3635C55}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{840FD2ED-8593-4D3F-866E-58CB365F3684}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test", "Test\Test.csproj", "{840FD2ED-8593-4D3F-866E-58CB365F3684}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup", "Setup\Setup.vdproj", "{BA81A1A0-A635-4703-A723-2DE0D9BACB36}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomUninstaller", "CustomUninstaller\CustomUninstaller.csproj", "{26CE06E6-8E20-4135-9EAD-102F09FB7105}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,12 @@ Global
 		{840FD2ED-8593-4D3F-866E-58CB365F3684}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{840FD2ED-8593-4D3F-866E-58CB365F3684}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{840FD2ED-8593-4D3F-866E-58CB365F3684}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA81A1A0-A635-4703-A723-2DE0D9BACB36}.Debug|Any CPU.ActiveCfg = Debug
+		{BA81A1A0-A635-4703-A723-2DE0D9BACB36}.Release|Any CPU.ActiveCfg = Release
+		{26CE06E6-8E20-4135-9EAD-102F09FB7105}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26CE06E6-8E20-4135-9EAD-102F09FB7105}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26CE06E6-8E20-4135-9EAD-102F09FB7105}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26CE06E6-8E20-4135-9EAD-102F09FB7105}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
