@@ -56,6 +56,8 @@ namespace EEMC.Views
         private void Question_Button_MouseEnter(object sender, MouseEventArgs e)
         {
             HoverEffect(sender, ButtonType.CourseButton);
+
+            Cursor = Cursors.Hand;
         }
 
         private void Question_Button_MouseLeave(object sender, MouseEventArgs e)
@@ -63,6 +65,8 @@ namespace EEMC.Views
             if (_oldHoveredButton != default && _oldHoveredButton != _oldPressedButton)
             {
                 ResetButtonStyle(_oldHoveredButton);
+
+                Cursor = Cursors.Arrow;
             }
         }
 
