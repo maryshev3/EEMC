@@ -132,11 +132,19 @@ namespace EEMC.Views
 
             ThemeFile file = button.DataContext as ThemeFile;
 
+            ThemesWindowVM dc = ThemeWindow.DataContext as ThemesWindowVM;
+
+            if (file.IsTest())
+            {
+                dc.ShowFile_Click.Execute(file);
+
+                return;
+            }
+
             if (file.IsSupportedExtension())
             {
                 //Формируем контекстное меню для файла
                 ContextMenu cm = new();
-                ThemesWindowVM dc = ThemeWindow.DataContext as ThemesWindowVM;
 
                 MenuItem openItem = new();
                 openItem.Header = "Просмотреть файл";
@@ -152,13 +160,11 @@ namespace EEMC.Views
                 cm.Items.Add(downloadItem);
 
                 cm.IsOpen = true;
-            }
-            else
-            {
-                ThemesWindowVM dc = ThemeWindow.DataContext as ThemesWindowVM;
 
-                dc.DownloadFile_Click.Execute(file);
+                return;
             }
+
+            dc.DownloadFile_Click.Execute(file);
         }
 
         private void AddThemeFile_Button_MouseEnter(object sender, MouseEventArgs e)

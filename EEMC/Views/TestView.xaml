@@ -179,7 +179,7 @@ HorizontalAlignment="Center" VerticalAlignment="Stretch" />
                                     Width="{Binding ElementName=gridInScroll, Path=ActualWidth}"
                                     VerticalScrollBarVisibility="Auto"
                                     HorizontalScrollBarVisibility="Auto"
-                                    IsEnabled="false"
+                                    IsReadOnly="true"
                                     FontSize="16"
                                     Background="#f9f9f9"
                                     BorderThickness="1"/>
@@ -190,7 +190,7 @@ HorizontalAlignment="Center" VerticalAlignment="Stretch" />
                                 <TextBox
                                     Margin="0, 5, 0, 5"
                                     Text="{Binding SelectedQuestion.UserAnswer}"
-                                    IsEnabled="{Binding Path=IsProcessingTest}"
+                                    IsReadOnly="{Binding Path=IsNotProcessingTest}"
                                     FontSize="16"
                                     Background="#f9f9f9"
                                     BorderThickness="0, 0, 0, 1"/>
@@ -204,7 +204,7 @@ HorizontalAlignment="Center" VerticalAlignment="Stretch" />
                                     Text="{Binding SelectedQuestion.Answer}"
                                     FontSize="16"
                                     Background="#f9f9f9"
-                                    IsEnabled="false"
+                                    IsReadOnly="true"
                                     Visibility="{Binding ResultingVisibility}"
                                     BorderThickness="0, 0, 0, 1"/>
                             </StackPanel>
