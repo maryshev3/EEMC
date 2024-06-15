@@ -217,11 +217,15 @@ namespace EEMC.Views
         private void RenameButton_MouseEnter(object sender, MouseEventArgs e)
         {
             HoverEffect(sender, ButtonType.ChangeButton);
+
+            Cursor = Cursors.Hand;
         }
 
         private void RemoveButton_MouseEnter(object sender, MouseEventArgs e)
         {
             HoverEffect(sender, ButtonType.RemoveButton);
+
+            Cursor = Cursors.Hand;
         }
     }
 }

@@ -98,6 +98,21 @@
                     <Label FontSize="18" FontWeight="Bold">Домашняя страница</Label>
                 </Button>
                 <Button
+    Command="{Binding Path=Guid_Click}"
+    CommandParameter="{Binding}"
+    Visibility="{Binding Path=NegativeVisibilityHomeButton}"
+    Background="#efeff5"
+    HorizontalAlignment="Stretch"
+    HorizontalContentAlignment="Left"
+    VerticalAlignment="Center"
+    BorderThickness="0"
+    Template="{StaticResource NoMouseOverButtonTemplate}"
+    MouseEnter="HomeButton_MouseEnter"
+    MouseLeave="HomeButton_MouseLeave"
+    Margin="5, 2, 2, 2">
+                    <Label FontSize="18" FontWeight="Bold">Инструкция</Label>
+                </Button>
+                <Button
     Command="{Binding Path=RenameCourse_Click}"
     CommandParameter="{Binding}"
     Click="HomeButton_Click"
@@ -253,12 +268,12 @@
                                                                 <Button
                                                     Command="{Binding Path=AddCourse_Click}"
                                                     CommandParameter="{Binding}"
-                                                    Background="#efeff5"
                                                     BorderThickness="0"
                                                     Grid.Row="1"
+                                                                    Background="#f9f9f9"
                                                     Margin="10"
                                                     Width="30">
-                                                                    <Image Source="/Resources/AddImage.png"/>
+                                                                    <Image Source="/Resources/add_icon.png"/>
                                                                 </Button>
                                                             </Grid>
                                                         </Border>

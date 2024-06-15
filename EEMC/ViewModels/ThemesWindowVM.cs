@@ -42,6 +42,17 @@ namespace EEMC.ViewModels
 
         private readonly BitmapImage _icon = new BitmapImage(new Uri("pack://application:,,,/Resources/app_icon.png", UriKind.RelativeOrAbsolute));
 
+        public ICommand Guid_Click
+        {
+            get => new Commands.DelegateCommand(async (obj) =>
+            {
+                var window = new GuidTheme();
+
+                window.ShowDialog();
+            }
+            );
+        }
+
         public ICommand AddTheme_Click
         {
             get => new Commands.DelegateCommand(async (obj) =>

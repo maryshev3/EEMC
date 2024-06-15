@@ -9,8 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Guids\guid_for_main.xps" />
+    <None Remove="Guids\guid_for_theme.xps" />
     <None Remove="Resources\AddImage.jpg" />
-    <None Remove="Resources\AddImage.png" />
+    <None Remove="Resources\add_icon.png" />
     <None Remove="Resources\answered_good_icon.png" />
     <None Remove="Resources\answered_incorrect_icon.png" />
     <None Remove="Resources\answered_unknown_icon.png" />
@@ -94,7 +96,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Resources\AddImage.png" />
+    <Content Include="Guids\guid_for_main.xps">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Guids\guid_for_theme.xps">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="Resources\add_icon.png" />
     <Resource Include="Resources\answered_good_icon.png" />
     <Resource Include="Resources\answered_incorrect_icon.png" />
     <Resource Include="Resources\answered_unknown_icon.png" />
