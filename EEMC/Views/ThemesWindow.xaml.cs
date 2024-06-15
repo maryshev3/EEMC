@@ -238,5 +238,22 @@ namespace EEMC.Views
                 thisScroll.UpdateLayout();
             }
         }
+
+        private void Guid_Button_MouseEnter(object sender, MouseEventArgs e)
+        {
+            (this as ITextHover).ConfirmHoverEffect(sender, ButtonType.CourseButton);
+
+            Cursor = Cursors.Hand;
+        }
+
+        private void Guid_Button_MouseLeave(object sender, MouseEventArgs e)
+        {
+            if (_oldHoveredButton != default)
+            {
+                (this as ITextHover).ResetButtonStyle(_oldHoveredButton);
+            }
+
+            Cursor = Cursors.Arrow;
+        }
     }
 }

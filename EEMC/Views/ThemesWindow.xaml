@@ -69,6 +69,20 @@ TargetType="Button">
                     FontSize="16">
                     <Label>Добавить тему</Label>
                 </Button>
+                <Button
+    Style="{DynamicResource RoundButton}"
+    Template="{StaticResource NoMouseOverButtonTemplate}"
+    Margin="0, 5, 5, 5"
+    Background="White"
+    BorderBrush="#a4b3ca"
+    Command="{Binding Guid_Click}"
+    MouseEnter="Guid_Button_MouseEnter"
+    MouseLeave="Guid_Button_MouseLeave"
+    IsEnabled="True"
+    Name="Guid_Button"
+    FontSize="16">
+                    <Label>Посмотреть инструкцию</Label>
+                </Button>
             </StackPanel>
             <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1" ScrollChanged="ScrollViewer_ScrollChanged" Name="thisScroll">
                 <ItemsControl

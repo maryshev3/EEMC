@@ -102,7 +102,24 @@ namespace EEMC.ViewModels
             {
                 _visibilityHomeButton = value;
                 RaisePropertyChanged(() => VisibilityHomeButton);
+                RaisePropertyChanged(() => NegativeVisibilityHomeButton);
             }
+        }
+
+        public Visibility NegativeVisibilityHomeButton
+        {
+            get => _visibilityHomeButton == Visibility.Collapsed ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        public ICommand Guid_Click
+        {
+            get => new Commands.DelegateCommand(async (obj) =>
+            {
+                var window = new GuidMain();
+
+                window.ShowDialog();
+            }
+            );
         }
 
         private void OpenHomePage()
