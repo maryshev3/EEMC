@@ -253,12 +253,12 @@
                                                                 <Button
                                                     Command="{Binding Path=AddCourse_Click}"
                                                     CommandParameter="{Binding}"
-                                                    Background="#efeff5"
                                                     BorderThickness="0"
                                                     Grid.Row="1"
+                                                                    Background="#f9f9f9"
                                                     Margin="10"
                                                     Width="30">
-                                                                    <Image Source="/Resources/AddImage.png"/>
+                                                                    <Image Source="/Resources/add_icon.png"/>
                                                                 </Button>
                                                             </Grid>
                                                         </Border>
