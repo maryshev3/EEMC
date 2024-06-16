@@ -1,5 +1,4 @@
-﻿using DevExpress.Mvvm;
-using EEMC.Messages;
+﻿using EEMC.Messages;
 using EEMC.Models;
 using EEMC.Services;
 using EEMC.Views;
@@ -13,19 +12,21 @@ using System.Windows.Input;
 
 namespace EEMC.ViewModels
 {
-    public class EnterTestNameVM : ViewModelBase
+    public class EnterTotalTestNameVM
     {
         private readonly MessageBus _messageBus;
         private Window? _window;
+        private ThemeToTests[]? _themeToTests;
         private Theme? _chosenTheme;
 
-        public EnterTestNameVM(MessageBus messageBus)
+        public EnterTotalTestNameVM(MessageBus messageBus)
         {
             _messageBus = messageBus;
 
-            _messageBus.Receive<ThemeWindowMessage>(this, async (message) =>
+            _messageBus.Receive<ThemeToTestsWindowThemeMessage>(this, async (message) =>
             {
                 _window = message.Window;
+                _themeToTests = message.ThemeToTests;
                 _chosenTheme = message.Theme;
             }
             );
@@ -51,16 +52,16 @@ namespace EEMC.ViewModels
                         return;
                     }
 
-                    if (_chosenTheme.Files != null && _chosenTheme.Files.Where(x => x.IsTest()).Select(x => x.Name).Contains(testNameConverted))
+                    if (_chosenTheme.Files != null && _chosenTheme.Files.Where(x => x.IsTotalTest()).Select(x => x.Name).Contains(testNameConverted))
                     {
                         MessageBox.Show("Тест с таким названием уже есть в теме");
                         return;
                     }
 
                     //Открываем формы создания теста и отправляем введенное название теста
-                    Window window = new CreateTest();
+                    Window window = new AddTotalTest();
 
-                    await _messageBus.SendTo<CreateTestVM>(new ThemeWindowStringMessage(window, _chosenTheme, testNameConverted));
+                    await _messageBus.SendTo<AddTotalTestVM>(new ThemeWindowStringTestsMessage(window, _chosenTheme, testNameConverted, _themeToTests));
 
                     window.ShowDialog();
 

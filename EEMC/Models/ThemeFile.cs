@@ -36,7 +36,8 @@ namespace EEMC.Models
             ".gif",
             ".icon",
             ".pdf",
-            ".ctt"
+            ".ctt",
+            ".ttt"
         };
 
         [JsonIgnore]
@@ -65,7 +66,8 @@ namespace EEMC.Models
             { ".gif", "GIF file | *.gif" },
             { ".icon", "Image ICON file | *.icon" },
             { ".pdf", "PDF file | *.pdf" },
-            { ".ctt", "Course theme test file | *.ctt" }
+            { ".ctt", "Course theme test file | *.ctt" },
+            { ".ttt", "Total theme test file | *.ttt" }
         };
 
         public string Name { get; set; }
@@ -113,6 +115,13 @@ namespace EEMC.Models
             string extension = Path.GetExtension(Name).ToLower();
 
             return extension is ".bmp" or ".jpeg" or ".jpg" or ".png" or ".tiff" or ".gif" or ".icon";
+        }
+
+        public bool IsTotalTest()
+        {
+            string extension = Path.GetExtension(Name).ToLower();
+
+            return extension == ".ttt";
         }
 
         public bool IsTest()

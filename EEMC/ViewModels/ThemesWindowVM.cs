@@ -170,6 +170,52 @@ namespace EEMC.ViewModels
             );
         }
 
+        public ICommand CreateTotalTest_Click
+        {
+            get => new Commands.DelegateCommand(async (currentTheme) =>
+            {
+                Theme currentThemeConverted = currentTheme as Theme;
+
+                //Найдём тесты со всех предыдущих тем
+                var lastThemes = CurrentCourse.Themes.Where(x => x.ThemeNumber <= currentThemeConverted.ThemeNumber);
+                var groupedTests = lastThemes
+                    .Where(x => x.Files != null)
+                    .Select(
+                        x => new ThemeToTests {
+                            Theme = x,
+                            Tests = x.Files
+                                .Where(y => y.IsTest())
+                                .Select(y => TestService.Load(Environment.CurrentDirectory + y.NameWithPath))
+                                .ToArray() 
+                        }
+                    )
+                    .Where(x => x.Tests.Any())
+                    .ToArray();
+
+                if (!groupedTests.Any())
+                {
+                    MessageBox.Show("В этой теме или более ранних отсутствуют тесты для создания итогового контроля");
+
+                    return;
+                }
+
+                Window window = new Window
+                {
+                    Icon = _icon,
+                    WindowStartupLocation = WindowStartupLocation.CenterScreen,
+                    SizeToContent = SizeToContent.WidthAndHeight,
+                    ResizeMode = ResizeMode.NoResize,
+                    Title = "Создание итогового теста",
+                    Content = new EnterTotalTestName()
+                };
+
+                await _messageBus.SendTo<EnterTotalTestNameVM>(new ThemeToTestsWindowThemeMessage(groupedTests, currentThemeConverted, window));
+
+                window.ShowDialog();
+            }
+            );
+        }
+
         public ICommand ShowFile_Click
         {
             get => new Commands.DelegateCommand(async (currentFile) =>

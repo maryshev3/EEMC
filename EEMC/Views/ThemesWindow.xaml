@@ -240,6 +240,21 @@ TargetType="Button">
                                                     FontSize="16">
                                                     <Label>Добавить тест</Label>
                                                 </Button>
+                                                <Button
+                                                    Style="{DynamicResource RoundButton}"
+                                                    Template="{StaticResource NoMouseOverButtonTemplate}"
+                                                    Margin="5, 5, 5, 5"
+                                                    Background="White"
+                                                    BorderBrush="#a4b3ca"
+                                                    HorizontalAlignment="Left"
+                                                    Command="{Binding ElementName=ThemesList, Path=DataContext.CreateTotalTest_Click}"
+                                                    CommandParameter="{Binding}"
+                                                    MouseEnter="AddTest_Button_MouseEnter"
+                                                    MouseLeave="AddTest_Button_MouseLeave"
+                                                    IsEnabled="True"
+                                                    FontSize="16">
+                                                    <Label>Добавить итоговый тест</Label>
+                                                </Button>
                                             </StackPanel>
                                             <ItemsControl
                                                 Grid.Row="2"

@@ -24,13 +24,61 @@ namespace EEMC.Services
 
     public static class TestService
     {
+        public static ValidateResponse ValidateForTotalTest(ThemeToTests[] themeToTests)
+        {
+            var response = new ValidateResponse();
+
+            var chosens = themeToTests.Where(x => x.IsChosenTheme);
+
+            if (!chosens.Any())
+            {
+                response.IsValid = false;
+                response.ValidErrorText = "Не было выбрано ни одной темы для итогового теста";
+
+                return response;
+            }
+
+            foreach (var chosen in chosens)
+            {
+                int count = default;
+
+                if (!int.TryParse(chosen.CountString, out count))
+                {
+                    response.IsValid = false;
+                    response.ValidErrorText = $"Введённое количество вопросов для темы {chosen.Theme.ThemeName} не является целым числом";
+
+                    return response;
+                }
+
+                if (count <= 0)
+                {
+                    response.IsValid = false;
+                    response.ValidErrorText = $"Введённое количество вопросов для темы {chosen.Theme.ThemeName} должно быть положительным";
+
+                    return response;
+                }
+
+                if (count > chosen.QuestionsCount)
+                {
+                    response.IsValid = false;
+                    response.ValidErrorText = $"Введённое количество вопросов для темы {chosen.Theme.ThemeName} не должно превышать общее количество вопросов";
+
+                    return response;
+                }
+            }
+
+            response.IsValid = true;
+
+            return response;
+        }
+
         /// <summary>
         /// Делает валидацию теста на возможность его сохранения
         /// </summary>
         /// <returns>True - если тест прошёл валидацию, False - иначе</returns>
         public static ValidateResponse ValidateForSave(Test test)
         {
-            ValidateResponse response = new ValidateResponse();
+            var response = new ValidateResponse();
 
             if (test == default)
             {
