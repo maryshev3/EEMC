@@ -206,9 +206,9 @@ namespace EEMC.ViewModels
                             {
                                 Test test = TestService.Load(Environment.CurrentDirectory + currentFileConverted.NameWithPath);
 
-                                window = new TestView();
+                                window = new TestView(test);
 
-                                await _messageBus.SendTo<TestViewVM>(new TestMessage(test));
+                                //await _messageBus.SendTo<TestViewVM>(new TestMessage(test));
                             }
                             else
                             {

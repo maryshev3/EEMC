@@ -17,10 +17,19 @@ namespace EEMC.ViewModels
 {
     public class TestViewVM : ViewModelBase
     {
-        private readonly MessageBus _messageBus;
-        private Test? _test;
+        public MessageBus _messageBus;
+        public Test? _test;
 
-        public IOrderedEnumerable<Question> Questions { get => _test?.Questions?.OrderBy(x => x.QuestionNumber); }
+        private IEnumerable<Question> _questions;
+        public IEnumerable<Question> Questions 
+        {
+            get => _questions;
+            set
+            {
+                _questions = value;
+                RaisePropertyChanged(() => Questions);
+            }
+        }
 
         private Question _selectedQuestion;
         public Question SelectedQuestion
@@ -33,20 +42,10 @@ namespace EEMC.ViewModels
             }
         }
 
-
         private Timer _timer;
         public TestViewVM(MessageBus messageBus) 
         {
             _messageBus = messageBus;
-
-            _messageBus.Receive<TestMessage>(this, async (message) =>
-            {
-                _test = message.Test;
-                SelectedQuestion = _test.Questions.First();
-
-                RaisePropertyChanged(() => Questions);
-            }
-            );
 
             this._timer = new Timer(
             new TimerCallback((s) => RaisePropertyChanged(() => StopwatchString)),

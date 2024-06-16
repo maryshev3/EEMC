@@ -139,7 +139,7 @@
                                                 Height="20"
                                                 Source="{Binding Path=ResultImage}"
                                                 Visibility="{Binding ElementName=QuestionsList, Path=DataContext.ResultingVisibility}"/>
-                                            <Label Content="{Binding Path=DisplayedShortQuestionText}"/>
+                                            <Label Content="{Binding Path=ShortQuestionText}"/>
                                         </StackPanel>
                                     </Button>
                                 </DataTemplate>
