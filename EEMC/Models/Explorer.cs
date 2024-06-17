@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.VisualBasic.ApplicationServices;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -145,6 +146,31 @@ namespace EEMC.Models
             Theme upper = allThemes.Where(x => x.CourseName == theme.CourseName).First(x => x.ThemeNumber == theme.ThemeNumber + 1);
             Theme thisTheme = allThemes.Where(x => x.CourseName == theme.CourseName && x.ThemeName == theme.ThemeName).First();
 
+            //В upper могли быть итоговые тесты, которые опирались на thisTheme. Надо удалить из итоговых тестов привязки к тестам thisTheme
+            if (upper.Files != null && upper.Files.Any())
+            {
+                var files = upper.Files.Where(x => x.IsTotalTest());
+
+                foreach (var file in files)
+                {
+                    //Перезаписываем файл с итоговым тестом
+                    string filePath = Environment.CurrentDirectory + file.NameWithPath;
+
+                    string json = File.ReadAllText(filePath);
+
+                    var tests = JsonConvert.DeserializeObject<TotalTestItem[]>(json);
+
+                    var filteredTests = tests.Where(x => x.ThemeName != thisTheme.ThemeName);
+
+                    if (filteredTests.Count() == tests.Count())
+                        continue;
+
+                    string result = JsonConvert.SerializeObject(filteredTests);
+
+                    File.WriteAllText(filePath, result);
+                }
+            }
+
             upper.ThemeNumber--;
             thisTheme.ThemeNumber++;
 
@@ -163,6 +189,31 @@ namespace EEMC.Models
 
             Theme downer = allThemes.Where(x => x.CourseName == theme.CourseName).First(x => x.ThemeNumber == theme.ThemeNumber - 1);
             Theme thisTheme = allThemes.Where(x => x.CourseName == theme.CourseName && x.ThemeName == theme.ThemeName).First();
+
+            //В thisTheme могли быть итоговые тесты, которые опирались на downer. Надо удалить из итоговых тестов привязки к тестам downer
+            if (thisTheme.Files != null && thisTheme.Files.Any())
+            {
+                var files = thisTheme.Files.Where(x => x.IsTotalTest());
+
+                foreach (var file in files)
+                {
+                    //Перезаписываем файл с итоговым тестом
+                    string filePath = Environment.CurrentDirectory + file.NameWithPath;
+
+                    string json = File.ReadAllText(filePath);
+
+                    var tests = JsonConvert.DeserializeObject<TotalTestItem[]>(json);
+
+                    var filteredTests = tests.Where(x => x.ThemeName != downer.ThemeName);
+
+                    if (filteredTests.Count() == tests.Count())
+                        continue;
+
+                    string result = JsonConvert.SerializeObject(filteredTests);
+
+                    File.WriteAllText(filePath, result);
+                }
+            }
 
             downer.ThemeNumber++;
             thisTheme.ThemeNumber--;

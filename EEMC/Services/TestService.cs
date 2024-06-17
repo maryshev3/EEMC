@@ -127,7 +127,7 @@ namespace EEMC.Services
             return list;
         }
 
-        public static Test TestFromTotalTest(TotalTestItem[] items)
+        public static Test TestFromTotalTest(TotalTestItem[] items, string originFileName)
         {
             var test = new Test 
             {
@@ -152,6 +152,30 @@ namespace EEMC.Services
                 )
                 .Where(x => x.Tests.Any())
                 .ToArray();
+
+            //Возможно в items QuestionsCount не соотносится с актуальным максимальным количеством вопросов по теме
+            //Надо их переписать, если это так
+            bool isNeedOverrite = false;
+
+            foreach (var item in items)
+            {
+                var groupedTest = groupedTests.First(x => x.Theme.ThemeName == item.ThemeName);
+
+                if (item.QuestionsCount > groupedTest.QuestionsCount)
+                {
+                    item.QuestionsCount = groupedTest.QuestionsCount;
+
+                    isNeedOverrite = true;
+                }
+            }
+
+            if (isNeedOverrite)
+            {
+                //Перезаписываем исходный файл
+                string json = JsonConvert.SerializeObject(items);
+
+                File.WriteAllText(originFileName, json);
+            }
 
             //Формируем тест
             var countMap = items.ToDictionary(x => x.ThemeName, x => x.QuestionsCount);

@@ -178,6 +178,47 @@ namespace EEMC.Models
             Theme.RewriteAllThemes(allThemes);
 
             File.Delete(Environment.CurrentDirectory + NameWithPath);
+
+            if (IsTest()) 
+            {
+                var upperThemes = allThemes.Where(x => x.ThemeNumber >= thisTheme.ThemeNumber);
+
+                //Это мог быть последний тест в теме
+                var thisTests = thisTheme.Files.Where(x => x.IsTest());
+
+                if (!thisTests.Any())
+                {
+                    //Удаляем эту тему из всех итоговых тестов
+                    foreach (var upperTheme in upperThemes)
+                    {
+                        if (upperTheme.Files == null || !upperTheme.Files.Any())
+                            continue;
+
+                        var files = upperTheme.Files.Where(x => x.IsTotalTest());
+
+                        foreach (var file in files)
+                        {
+                            //Перезаписываем файл с итоговым тестом
+                            string filePath = Environment.CurrentDirectory + file.NameWithPath;
+
+                            string json = File.ReadAllText(filePath);
+
+                            var tests = JsonConvert.DeserializeObject<TotalTestItem[]>(json);
+
+                            var filteredTests = tests.Where(x => x.ThemeName != thisTheme.ThemeName);
+
+                            if (filteredTests.Count() == tests.Count())
+                                continue;
+
+                            string result = JsonConvert.SerializeObject(filteredTests);
+
+                            File.WriteAllText(filePath, result);
+                        }
+                    }
+
+                    return;
+                }
+            }
         }
     }
 }
