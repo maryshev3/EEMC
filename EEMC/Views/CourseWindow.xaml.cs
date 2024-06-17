@@ -1,5 +1,6 @@
 ﻿using EEMC.Models;
 using EEMC.ViewBases;
+using EEMC.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +21,7 @@ namespace EEMC.Views
     /// <summary>
     /// Логика взаимодействия для CourseWindow.xaml
     /// </summary>
-    public partial class CourseWindow : Page, ITextHover
+    public partial class CourseWindow : Page, ITextHover, IInitWebView2
     {
         public CourseWindow()
         {
@@ -60,6 +61,13 @@ namespace EEMC.Views
             Rename_Button.IsEnabled = !isFile;
             AddFolder_Button.IsEnabled = !isFile;
             AddFile_Button.IsEnabled = !isFile;
+
+            //Устанавливаем Source у WebView2
+            var dc = this.DataContext as CourseWindowVM;
+
+            dc.ShowFile_Click.Execute(item);
+
+            webView.Source = dc.PdfPath;
         }
 
         public Button _oldHoveredButton { get; set; }
@@ -127,6 +135,14 @@ namespace EEMC.Views
         private void AddGroup_Button_MouseLeave(object sender, MouseEventArgs e)
         {
             Remove_Button_MouseLeave(sender, e);
+        }
+
+        private async void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            await (this as IInitWebView2).InitializeWebView2(webView);
+
+            //Устанавливаем Source у WebView2
+            webView.Source = (this.DataContext as CourseWindowVM).PdfPath;
         }
     }
 }
