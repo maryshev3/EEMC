@@ -56,6 +56,12 @@ namespace EEMC.ViewModels
 
                     return;
                 }
+
+                string filePath = TestService.SaveTotalTest(ThemeToTests, _testName);
+
+                _chosenTheme.AddFile(filePath);
+
+                _window.Close();
             }
             );
         }

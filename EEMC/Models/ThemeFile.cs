@@ -78,7 +78,16 @@ namespace EEMC.Models
         public string NameWithPath { get; set; }
         public string ImagePath
         {
-            get => IsTest() ? "/Resources/test_icon.png" : "/Resources/document_icon.png";
+            get
+            {
+                if (IsTest())
+                    return "/Resources/test_icon.png";
+
+                if (IsTotalTest())
+                    return "/Resources/total_test_icon.png";
+
+                return "/Resources/document_icon.png";
+            }
         }
 
         public bool IsSupportedExtension()

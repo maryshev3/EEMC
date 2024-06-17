@@ -68,7 +68,7 @@
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" Margin="10, 0, 0, 0">
                                     <Label Content="В итоговом тесте будет " FontSize="14"/>
-                                    <TextBox Text="{Binding Path=CountString}" FontSize="14" MinWidth="20" IsEnabled="{Binding Path=IsChosenTheme}"/>
+                                    <TextBox Text="{Binding Path=CountString}" FontSize="14" MinWidth="30" IsEnabled="{Binding Path=IsChosenTheme}"/>
                                     <Label Content=" вопросов из" FontSize="14"/>
                                     <Label Content="{Binding Path=QuestionsCount}" FontSize="14"/>
                                 </StackPanel>

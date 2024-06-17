@@ -12,6 +12,8 @@ using System.Windows.Input;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using Microsoft.Win32;
+using Newtonsoft.Json;
+using System.IO;
 
 namespace EEMC.ViewModels
 {
@@ -258,9 +260,24 @@ namespace EEMC.ViewModels
                             }
                             else
                             {
-                                window = new DocumentView();
+                                if (currentFileConverted.IsTotalTest())
+                                {
+                                    string json = File.ReadAllText(Environment.CurrentDirectory + currentFileConverted.NameWithPath);
 
-                                await _messageBus.SendTo<DocumentViewVM>(new ThemeFileMessage(currentFileConverted));
+                                    var tests = JsonConvert.DeserializeObject<TotalTestItem[]>(json);
+
+                                    Test test = TestService.TestFromTotalTest(tests);
+
+                                    window = new TestView(test);
+                                }
+                                else
+                                {
+                                    window = new DocumentView();
+
+                                    await _messageBus.SendTo<DocumentViewVM>(new ThemeFileMessage(currentFileConverted));
+                                }
+
+                                
                             }
                         }
                     }
