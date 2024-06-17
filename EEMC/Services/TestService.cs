@@ -160,6 +160,9 @@ namespace EEMC.Services
 
             foreach (var groupedTest in groupedTests)
             {
+                if (!countMap.ContainsKey(groupedTest.Theme.ThemeName))
+                    continue;
+
                 var thisCount = countMap[groupedTest.Theme.ThemeName];
                 var flatList = groupedTest.Tests.SelectMany(x => x.Questions).ToList();
 

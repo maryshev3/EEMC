@@ -151,13 +151,13 @@ namespace EEMC.Views
                 openItem.Command = dc.ShowFile_Click;
                 openItem.CommandParameter = file;
 
-                MenuItem downloadItem = new();
-                downloadItem.Header = "Изменить тест";
-                downloadItem.Command = dc.DownloadFile_Click;
-                downloadItem.CommandParameter = file;
+                MenuItem editItem = new();
+                editItem.Header = "Изменить тест";
+                editItem.Command = dc.EditTotalTest_Click;
+                editItem.CommandParameter = file;
 
                 cm.Items.Add(openItem);
-                cm.Items.Add(downloadItem);
+                cm.Items.Add(editItem);
 
                 cm.IsOpen = true;
 

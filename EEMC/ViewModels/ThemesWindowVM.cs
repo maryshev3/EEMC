@@ -218,6 +218,63 @@ namespace EEMC.ViewModels
             );
         }
 
+        public ICommand EditTotalTest_Click
+        {
+            get => new Commands.DelegateCommand(async (currentFile) =>
+            {
+                ThemeFile currentFileConverted = currentFile as ThemeFile;
+
+                Theme theme = CurrentCourse.Themes.First(x => x.Files != null && x.Files.Contains(currentFileConverted));
+
+                //Найдём тесты со всех предыдущих тем
+                var lastThemes = CurrentCourse.Themes.Where(x => x.ThemeNumber <= theme.ThemeNumber);
+                var groupedTests = lastThemes
+                    .Where(x => x.Files != null)
+                    .Select(
+                        x => new ThemeToTests
+                        {
+                            Theme = x,
+                            Tests = x.Files
+                                .Where(y => y.IsTest())
+                                .Select(y => TestService.Load(Environment.CurrentDirectory + y.NameWithPath))
+                                .ToArray()
+                        }
+                    )
+                    .Where(x => x.Tests.Any())
+                    .ToArray();
+
+                if (!groupedTests.Any())
+                {
+                    MessageBox.Show("Отсутствует банк заданий для изменения состава итогового теста");
+
+                    return;
+                }
+
+                //Заполняем GroupedTests существующими параметрами
+                string json = File.ReadAllText(Environment.CurrentDirectory + currentFileConverted.NameWithPath);
+
+                var tests = JsonConvert.DeserializeObject<TotalTestItem[]>(json);
+
+                foreach (var test in tests)
+                {
+                    var thisTest = groupedTests.FirstOrDefault(x => x.Theme.ThemeName == test.ThemeName);
+
+                    if (thisTest == default)
+                        continue;
+
+                    thisTest.IsChosenTheme = true;
+                    thisTest.CountString = test.QuestionsCount.ToString();
+                }
+
+                Window window = new EditTotalTest();
+
+                await _messageBus.SendTo<EditTotalTestVM>(new ThemeToTestsWindowThemeAndFileMessage(groupedTests, theme, window, currentFileConverted));
+
+                window.ShowDialog();
+            }
+            );
+        }
+
         public ICommand ShowFile_Click
         {
             get => new Commands.DelegateCommand(async (currentFile) =>
