@@ -141,6 +141,29 @@ namespace EEMC.Views
                 return;
             }
 
+            if (file.IsTotalTest())
+            {
+                //Формируем контекстное меню для итогового теста
+                ContextMenu cm = new();
+
+                MenuItem openItem = new();
+                openItem.Header = "Пройти тест";
+                openItem.Command = dc.ShowFile_Click;
+                openItem.CommandParameter = file;
+
+                MenuItem editItem = new();
+                editItem.Header = "Изменить тест";
+                editItem.Command = dc.EditTotalTest_Click;
+                editItem.CommandParameter = file;
+
+                cm.Items.Add(openItem);
+                cm.Items.Add(editItem);
+
+                cm.IsOpen = true;
+
+                return;
+            }
+
             if (file.IsSupportedExtension())
             {
                 //Формируем контекстное меню для файла

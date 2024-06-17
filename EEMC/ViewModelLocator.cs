@@ -39,6 +39,9 @@ namespace EEMC
         public CreateTestVM CreateTestVM => _provider.GetRequiredService<CreateTestVM>();
         public EnterTestNameVM EnterTestNameVM => _provider.GetRequiredService<EnterTestNameVM>();
         public TestViewVM TestViewVM => _provider.GetRequiredService<TestViewVM>();
+        public EnterTotalTestNameVM EnterTotalTestNameVM => _provider.GetRequiredService<EnterTotalTestNameVM>();
+        public AddTotalTestVM AddTotalTestVM => _provider.GetRequiredService<AddTotalTestVM>();
+        public EditTotalTestVM EditTotalTestVM => _provider.GetRequiredService<EditTotalTestVM>();
 
         public static void AddVMs(ServiceCollection services)
         {
@@ -64,6 +67,9 @@ namespace EEMC
             services.AddTransient<CreateTestVM>();
             services.AddTransient<EnterTestNameVM>();
             services.AddTransient<TestViewVM>();
+            services.AddTransient<EnterTotalTestNameVM>();
+            services.AddTransient<AddTotalTestVM>();
+            services.AddTransient<EditTotalTestVM>();
         }
 
         public static void AddTemplates(ServiceCollection services)

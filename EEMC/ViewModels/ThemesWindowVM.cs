@@ -12,6 +12,8 @@ using System.Windows.Input;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using Microsoft.Win32;
+using Newtonsoft.Json;
+using System.IO;
 
 namespace EEMC.ViewModels
 {
@@ -170,6 +172,109 @@ namespace EEMC.ViewModels
             );
         }
 
+        public ICommand CreateTotalTest_Click
+        {
+            get => new Commands.DelegateCommand(async (currentTheme) =>
+            {
+                Theme currentThemeConverted = currentTheme as Theme;
+
+                //Найдём тесты со всех предыдущих тем
+                var lastThemes = CurrentCourse.Themes.Where(x => x.ThemeNumber <= currentThemeConverted.ThemeNumber);
+                var groupedTests = lastThemes
+                    .Where(x => x.Files != null)
+                    .Select(
+                        x => new ThemeToTests {
+                            Theme = x,
+                            Tests = x.Files
+                                .Where(y => y.IsTest())
+                                .Select(y => TestService.Load(Environment.CurrentDirectory + y.NameWithPath))
+                                .ToArray() 
+                        }
+                    )
+                    .Where(x => x.Tests.Any())
+                    .ToArray();
+
+                if (!groupedTests.Any())
+                {
+                    MessageBox.Show("В этой теме или более ранних отсутствуют тесты для создания итогового контроля");
+
+                    return;
+                }
+
+                Window window = new Window
+                {
+                    Icon = _icon,
+                    WindowStartupLocation = WindowStartupLocation.CenterScreen,
+                    SizeToContent = SizeToContent.WidthAndHeight,
+                    ResizeMode = ResizeMode.NoResize,
+                    Title = "Создание итогового теста",
+                    Content = new EnterTotalTestName()
+                };
+
+                await _messageBus.SendTo<EnterTotalTestNameVM>(new ThemeToTestsWindowThemeMessage(groupedTests, currentThemeConverted, window));
+
+                window.ShowDialog();
+            }
+            );
+        }
+
+        public ICommand EditTotalTest_Click
+        {
+            get => new Commands.DelegateCommand(async (currentFile) =>
+            {
+                ThemeFile currentFileConverted = currentFile as ThemeFile;
+
+                Theme theme = CurrentCourse.Themes.First(x => x.Files != null && x.Files.Contains(currentFileConverted));
+
+                //Найдём тесты со всех предыдущих тем
+                var lastThemes = CurrentCourse.Themes.Where(x => x.ThemeNumber <= theme.ThemeNumber);
+                var groupedTests = lastThemes
+                    .Where(x => x.Files != null)
+                    .Select(
+                        x => new ThemeToTests
+                        {
+                            Theme = x,
+                            Tests = x.Files
+                                .Where(y => y.IsTest())
+                                .Select(y => TestService.Load(Environment.CurrentDirectory + y.NameWithPath))
+                                .ToArray()
+                        }
+                    )
+                    .Where(x => x.Tests.Any())
+                    .ToArray();
+
+                if (!groupedTests.Any())
+                {
+                    MessageBox.Show("Отсутствует банк заданий для изменения состава итогового теста");
+
+                    return;
+                }
+
+                //Заполняем GroupedTests существующими параметрами
+                string json = File.ReadAllText(Environment.CurrentDirectory + currentFileConverted.NameWithPath);
+
+                var tests = JsonConvert.DeserializeObject<TotalTestItem[]>(json);
+
+                foreach (var test in tests)
+                {
+                    var thisTest = groupedTests.FirstOrDefault(x => x.Theme.ThemeName == test.ThemeName);
+
+                    if (thisTest == default)
+                        continue;
+
+                    thisTest.IsChosenTheme = true;
+                    thisTest.CountString = test.QuestionsCount.ToString();
+                }
+
+                Window window = new EditTotalTest();
+
+                await _messageBus.SendTo<EditTotalTestVM>(new ThemeToTestsWindowThemeAndFileMessage(groupedTests, theme, window, currentFileConverted));
+
+                window.ShowDialog();
+            }
+            );
+        }
+
         public ICommand ShowFile_Click
         {
             get => new Commands.DelegateCommand(async (currentFile) =>
@@ -206,15 +311,39 @@ namespace EEMC.ViewModels
                             {
                                 Test test = TestService.Load(Environment.CurrentDirectory + currentFileConverted.NameWithPath);
 
-                                window = new TestView();
+                                window = new TestView(test);
 
-                                await _messageBus.SendTo<TestViewVM>(new TestMessage(test));
+                                //await _messageBus.SendTo<TestViewVM>(new TestMessage(test));
                             }
                             else
                             {
-                                window = new DocumentView();
+                                if (currentFileConverted.IsTotalTest())
+                                {
+                                    string originFileName = Environment.CurrentDirectory + currentFileConverted.NameWithPath;
 
-                                await _messageBus.SendTo<DocumentViewVM>(new ThemeFileMessage(currentFileConverted));
+                                    string json = File.ReadAllText(originFileName);
+
+                                    var tests = JsonConvert.DeserializeObject<TotalTestItem[]>(json);
+
+                                    if (!tests.Any())
+                                    {
+                                        MessageBox.Show("Для итогового теста отсутствует список тем");
+
+                                        return;
+                                    }
+
+                                    Test test = TestService.TestFromTotalTest(tests, originFileName);
+
+                                    window = new TestView(test);
+                                }
+                                else
+                                {
+                                    window = new DocumentView();
+
+                                    await _messageBus.SendTo<DocumentViewVM>(new ThemeFileMessage(currentFileConverted));
+                                }
+
+                                
                             }
                         }
                     }

@@ -36,7 +36,8 @@ namespace EEMC.Models
             ".gif",
             ".icon",
             ".pdf",
-            ".ctt"
+            ".ctt",
+            ".ttt"
         };
 
         [JsonIgnore]
@@ -65,7 +66,8 @@ namespace EEMC.Models
             { ".gif", "GIF file | *.gif" },
             { ".icon", "Image ICON file | *.icon" },
             { ".pdf", "PDF file | *.pdf" },
-            { ".ctt", "Course theme test file | *.ctt" }
+            { ".ctt", "Course theme test file | *.ctt" },
+            { ".ttt", "Total theme test file | *.ttt" }
         };
 
         public string Name { get; set; }
@@ -76,7 +78,16 @@ namespace EEMC.Models
         public string NameWithPath { get; set; }
         public string ImagePath
         {
-            get => IsTest() ? "/Resources/test_icon.png" : "/Resources/document_icon.png";
+            get
+            {
+                if (IsTest())
+                    return "/Resources/test_icon.png";
+
+                if (IsTotalTest())
+                    return "/Resources/total_test_icon.png";
+
+                return "/Resources/document_icon.png";
+            }
         }
 
         public bool IsSupportedExtension()
@@ -113,6 +124,13 @@ namespace EEMC.Models
             string extension = Path.GetExtension(Name).ToLower();
 
             return extension is ".bmp" or ".jpeg" or ".jpg" or ".png" or ".tiff" or ".gif" or ".icon";
+        }
+
+        public bool IsTotalTest()
+        {
+            string extension = Path.GetExtension(Name).ToLower();
+
+            return extension == ".ttt";
         }
 
         public bool IsTest()
@@ -160,6 +178,47 @@ namespace EEMC.Models
             Theme.RewriteAllThemes(allThemes);
 
             File.Delete(Environment.CurrentDirectory + NameWithPath);
+
+            if (IsTest()) 
+            {
+                var upperThemes = allThemes.Where(x => x.ThemeNumber >= thisTheme.ThemeNumber);
+
+                //Это мог быть последний тест в теме
+                var thisTests = thisTheme.Files.Where(x => x.IsTest());
+
+                if (!thisTests.Any())
+                {
+                    //Удаляем эту тему из всех итоговых тестов
+                    foreach (var upperTheme in upperThemes)
+                    {
+                        if (upperTheme.Files == null || !upperTheme.Files.Any())
+                            continue;
+
+                        var files = upperTheme.Files.Where(x => x.IsTotalTest());
+
+                        foreach (var file in files)
+                        {
+                            //Перезаписываем файл с итоговым тестом
+                            string filePath = Environment.CurrentDirectory + file.NameWithPath;
+
+                            string json = File.ReadAllText(filePath);
+
+                            var tests = JsonConvert.DeserializeObject<TotalTestItem[]>(json);
+
+                            var filteredTests = tests.Where(x => x.ThemeName != thisTheme.ThemeName);
+
+                            if (filteredTests.Count() == tests.Count())
+                                continue;
+
+                            string result = JsonConvert.SerializeObject(filteredTests);
+
+                            File.WriteAllText(filePath, result);
+                        }
+                    }
+
+                    return;
+                }
+            }
         }
     }
 }

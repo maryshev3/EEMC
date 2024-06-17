@@ -88,9 +88,38 @@ namespace EEMC.Models
             var allThemes = Theme.ReadAllThemes();
 
             var allThemesFiltered = allThemes.Where(x => x.ThemeName != ThemeName || x.CourseName != CourseName).ToArray();
-            var couresTheme = allThemesFiltered.Where(x => x.CourseName == CourseName && x.ThemeNumber > ThemeNumber);
+            var courseThemes = allThemesFiltered.Where(x => x.CourseName == CourseName && x.ThemeNumber > ThemeNumber);
 
-            foreach (var theme in couresTheme)
+            //Удаляем эту тему из всех итоговых тестов
+            foreach (var courseTheme in courseThemes )
+            {
+                if (courseTheme.Files == null || !courseTheme.Files.Any())
+                    continue;
+
+                var files = courseTheme.Files.Where(x => x.IsTotalTest());
+
+                foreach (var file in files)
+                {
+                    //Перезаписываем файл с итоговым тестом
+                    string filePath = Environment.CurrentDirectory + file.NameWithPath;
+
+                    string json = File.ReadAllText(filePath);
+
+                    var tests = JsonConvert.DeserializeObject<TotalTestItem[]>(json);
+
+                    var filteredTests = tests.Where(x => x.ThemeName != ThemeName);
+
+                    if (filteredTests.Count() == tests.Count())
+                        continue;
+
+                    string result = JsonConvert.SerializeObject(filteredTests);
+
+                    File.WriteAllText(filePath, result);
+                }
+            }
+
+            //Уменьшаем номера
+            foreach (var theme in courseThemes)
             {
                 theme.ThemeNumber--;
             }

@@ -44,6 +44,7 @@
     <None Remove="Resources\test_icon.png" />
     <None Remove="Resources\three_points.png" />
     <None Remove="Resources\three_points_hovered.png" />
+    <None Remove="Resources\total_test_icon.png" />
     <None Remove="Resources\up_icon.png" />
     <None Remove="Resources\up_icon_hovered.png" />
     <None Remove="Resources\viewer.zip" />
@@ -130,6 +131,7 @@
     <Resource Include="Resources\test_icon.png" />
     <Resource Include="Resources\three_points.png" />
     <Resource Include="Resources\three_points_hovered.png" />
+    <Resource Include="Resources\total_test_icon.png" />
     <Resource Include="Resources\up_icon.png" />
     <Resource Include="Resources\up_icon_hovered.png" />
     <Resource Include="Resources\wait_answer_icon.png" />
