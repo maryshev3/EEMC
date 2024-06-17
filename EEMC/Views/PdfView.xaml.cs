@@ -1,4 +1,5 @@
-﻿using EEMC.ViewModels;
+﻿using EEMC.ViewBases;
+using EEMC.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,15 +19,17 @@ namespace EEMC.Views
     /// <summary>
     /// Interaction logic for PdfView.xaml
     /// </summary>
-    public partial class PdfView : Window
+    public partial class PdfView : Window, IInitWebView2
     {
         public PdfView()
         {
-            InitializeComponent();
+            InitializeComponent(); 
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            await (this as IInitWebView2).InitializeWebView2(webView);
+
             var dc = this.DataContext as PdfViewVM;
 
             Uri uri = new Uri(Environment.CurrentDirectory + dc.ThemeFile.NameWithPath);

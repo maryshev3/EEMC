@@ -10,6 +10,7 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="CourseWindow"
       DataContext="{Binding CourseWindowVM, Source={StaticResource ViewModelLocator}}"
+      Loaded="Page_Loaded"
       KeyDown="Page_KeyDown">
 
     <Page.Style>
@@ -158,9 +159,6 @@
                     BorderThickness="0"
                     Background="#f9f9f9">
                         <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="SelectedItemChanged">
-                                <i:InvokeCommandAction Command="{Binding ShowFile_Click}" CommandParameter="{Binding ElementName=CourseTreeView, Path=SelectedItem}"/>
-                            </i:EventTrigger>
                         </i:Interaction.Triggers>
                         <TreeView.ItemTemplate>
                             <HierarchicalDataTemplate ItemsSource="{Binding Content}">
@@ -174,7 +172,7 @@
             HorizontalAlignment="Center" VerticalAlignment="Stretch" />
             <Grid Grid.Column="2" Grid.Row="1" Margin="0, 1, 0, 0">
                 <DocumentViewer Visibility="{Binding XpsViewVisibility}" Document="{Binding Document}"/>
-                <wv2:WebView2 Name="webView" Visibility="{Binding PdfViewVisibility}" Source="{Binding PdfPath}"/>
+                <wv2:WebView2 Name="webView" Visibility="{Binding PdfViewVisibility}"/>
             </Grid>
         </Grid>
     </Border>
