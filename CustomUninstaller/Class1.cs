@@ -25,8 +25,11 @@ namespace CustomUninstaller
 
             // Сейчас находимся в директории установленной программы. Необходимо удалить все файлы, созданные не инсталлером.
             // В их число входят xps файлы в каталоге с программой. Также всё содержимое папки "Курсы". Саму папку "Курсы" удалять не надо.
-            // Upd: необходимо удалять ещё папку EEMC.exe.WebView2
-            var filesToDelete = files.Where(x => Path.GetExtension(x) == ".xps");
+            var filesToDelete = files.Where(
+                x => Path.GetExtension(x) == ".xps"
+                    || Path.GetExtension(x) == ".ctt"
+                    || Path.GetExtension(x) == ".ttt"
+            );
 
             var coursesPath = Path.Combine(programPath, "Курсы");
 
@@ -38,8 +41,18 @@ namespace CustomUninstaller
             foreach (var file in filesToDelete)
                 File.Delete(file);
 
-            var webViewPath = Path.Combine(programPath, "EEMC.exe.WebView2");
-            Directory.Delete(webViewPath, true);
+            //Удаляем файлы тем, курсов и конвертированные
+            var themesPath = Path.Combine(programPath, "Файлы тем");
+            if (Directory.Exists(themesPath))
+                Directory.Delete(themesPath, true);
+
+            var themesConvertedPath = Path.Combine(programPath, "Файлы тем конвертированные");
+            if (Directory.Exists(themesConvertedPath))
+                Directory.Delete(themesConvertedPath, true);
+
+            var coursesConvertedPath = Path.Combine(programPath, "Курсы конвертированные");
+            if (Directory.Exists(coursesConvertedPath))
+                Directory.Delete(coursesConvertedPath, true);
         }
     }
 }
