@@ -21,6 +21,9 @@ namespace EEMC.ViewBases
             if (String.IsNullOrEmpty(tempPath))
             {
                 tempPath = "C:\\Temp";
+
+                if (!Directory.Exists(tempPath)) 
+                    Directory.CreateDirectory(tempPath);
             }
 
             string dirForWebView2 = Path.Combine(tempPath, "EEMC");
