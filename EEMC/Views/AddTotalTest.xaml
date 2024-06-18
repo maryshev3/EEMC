@@ -9,7 +9,7 @@
         Icon="/Resources/app_icon.png"
         WindowStartupLocation="CenterScreen"
         MinWidth="450"
-        MaxWidth="600"
+        MaxWidth="500"
         MinHeight="500"
         MaxHeight="600"
         DataContext="{Binding AddTotalTestVM, Source={StaticResource ViewModelLocator}}">
@@ -61,18 +61,26 @@
                     Height = "auto">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <StackPanel Orientation="Vertical" Margin="7">
-                                <StackPanel Orientation="Horizontal" Margin="0, 0, 0, 3">
-                                    <CheckBox IsChecked="{Binding Path=IsChosenTheme}" Margin="0, 10, 10, 0"/>
-                                    <Label Content="{Binding Path=Theme.ThemeName}" FontSize="16" FontWeight="Bold"/>
+                            <Grid Margin="7">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <CheckBox IsChecked="{Binding Path=IsChosenTheme}" Margin="0, 0, 10, 0" Grid.RowSpan="2" Grid.Column="0" VerticalAlignment="Center"/>
+                                <Label Content="{Binding Path=Theme.ThemeName}" FontSize="18" FontWeight="Bold" Grid.Row="0" Grid.Column="1"/>
+                                <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0, 0, 0, 0" Grid.Column="1">
+                                    <Label Content="Включить " FontSize="16"/>
+                                    <TextBox Text="{Binding Path=CountString}" FontSize="16" MinWidth="30" IsEnabled="{Binding Path=IsChosenTheme}" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" BorderThickness="0, 0, 0, 2"/>
+                                    <Label Content=" вопроса(-ов) из" FontSize="16"/>
+                                    <Label Content="{Binding Path=QuestionsCount}" FontSize="16"/>
                                 </StackPanel>
-                                <StackPanel Orientation="Horizontal" Margin="10, 0, 0, 0">
-                                    <Label Content="В итоговом тесте будет " FontSize="14"/>
-                                    <TextBox Text="{Binding Path=CountString}" FontSize="14" MinWidth="30" IsEnabled="{Binding Path=IsChosenTheme}"/>
-                                    <Label Content=" вопросов из" FontSize="14"/>
-                                    <Label Content="{Binding Path=QuestionsCount}" FontSize="14"/>
-                                </StackPanel>
-                            </StackPanel>
+                                <Line Stretch="Fill" Stroke="#a4b3ca" X2="1" Grid.Row="2" Grid.ColumnSpan="2" Margin="0, 10, 0, 0"/>
+                            </Grid>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
